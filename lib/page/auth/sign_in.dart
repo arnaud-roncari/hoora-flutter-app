@@ -1,0 +1,183 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hoora/bloc/auth/auth_bloc.dart';
+import 'package:hoora/common/decoration.dart';
+import 'package:hoora/common/validator.dart';
+import 'package:hoora/widget/button.dart';
+
+class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
+
+  @override
+  State<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  final TextEditingController emailController = TextEditingController(text: "arnaud.roncaripro@gmail.com");
+  final TextEditingController passwordController = TextEditingController(text: "333333333");
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: kSecondary,
+      body: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is SignInSuccess) {
+            if (state.isNewUser) {
+              Navigator.pushNamed(context, "/auth/sign_up_gift_gems");
+            } else {
+              Navigator.pushNamed(context, "/home");
+            }
+          }
+        },
+        builder: (context, state) {
+          return SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Center(
+                child: LayoutBuilder(builder: (context, constraints) {
+                  return Padding(
+                    padding: const EdgeInsets.all(kPadding20),
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          SizedBox(height: MediaQuery.of(context).padding.top),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(
+                                CupertinoIcons.arrow_left,
+                                size: 32,
+                                color: kPrimary,
+                              ),
+                            ),
+                          ),
+                          const Text(
+                            "Se connecter",
+                            style: kBoldARPDisplay25,
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: constraints.maxHeight * 0.10),
+                          const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Email",
+                              style: kRegularBalooPaaji14,
+                            ),
+                          ),
+                          const SizedBox(height: kPadding5),
+                          TextFormField(
+                            style: kRegularBalooPaaji18,
+                            decoration: kTextFieldStyle.copyWith(prefixIcon: const Icon(CupertinoIcons.mail)),
+                            controller: emailController,
+                            validator: Validator.email,
+                          ),
+                          const SizedBox(height: kPadding10),
+                          const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Mot de passe",
+                              style: kRegularBalooPaaji14,
+                            ),
+                          ),
+                          const SizedBox(height: kPadding5),
+                          TextFormField(
+                            obscureText: true,
+                            style: kRegularBalooPaaji18,
+                            decoration: kTextFieldStyle.copyWith(
+                                prefixIcon: const Icon(CupertinoIcons.lock), hintText: "Mot de passe"),
+                            controller: passwordController,
+                            validator: Validator.password,
+                          ),
+                          const SizedBox(height: kPadding20),
+                          Button(
+                              isLoading: state is SignInLoading,
+                              text: "Se connecter",
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  context.read<AuthBloc>().add(SignIn(
+                                        email: emailController.text,
+                                        password: passwordController.text,
+                                      ));
+                                }
+                              }),
+                          const SizedBox(height: kPadding20),
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(width: kPadding20),
+                              Expanded(
+                                child: Divider(
+                                  thickness: 1,
+                                  color: kPrimary,
+                                ),
+                              ),
+                              SizedBox(width: kPadding10),
+                              Text("Ou", style: kRegularBalooPaaji14),
+                              SizedBox(width: kPadding10),
+                              Expanded(
+                                child: Divider(
+                                  thickness: 1,
+                                  color: kPrimary,
+                                ),
+                              ),
+                              SizedBox(width: kPadding20),
+                            ],
+                          ),
+                          const SizedBox(height: kPadding20),
+                          Button(
+                              isLoading: state is SignUpWithGoogleLoading,
+                              text: "Continuer avec Google",
+                              onPressed: () {
+                                context.read<AuthBloc>().add(SignInWithGoogle());
+                              }),
+                          if (Platform.isIOS)
+                            Column(
+                              children: [
+                                const SizedBox(height: kPadding10),
+                                Button(
+                                    isLoading: state is SignUpWithAppleLoading,
+                                    text: "Continuer avec Apple",
+                                    onPressed: () {
+                                      context.read<AuthBloc>().add(SignInWithApple());
+                                    }),
+                              ],
+                            ),
+                          const SizedBox(height: kPadding10),
+                          SizedBox(
+                            height: 20,
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              onPressed: () {
+                                Navigator.pushNamed(context, "/auth/forgot_password");
+                              },
+                              child: const Text(
+                                "Mot de passe oublié ?",
+                                style: kRegularBalooPaaji14,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

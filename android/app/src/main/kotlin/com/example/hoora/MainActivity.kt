@@ -1,4 +1,4 @@
-package com.example.hoora
+package app.hoora
 
 import io.flutter.embedding.android.FlutterActivity
 
