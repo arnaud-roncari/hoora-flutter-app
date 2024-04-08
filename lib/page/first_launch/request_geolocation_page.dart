@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoora/bloc/first_launch/first_launch_bloc.dart';
 import 'package:hoora/common/decoration.dart';

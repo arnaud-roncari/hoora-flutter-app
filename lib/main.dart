@@ -66,8 +66,8 @@ class HooraApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: kTheme,
             title: 'Hoora',
-            initialRoute: initialRoute,
             // initialRoute: '/first_launch/welcome',
+            initialRoute: initialRoute,
             routes: {
               '/first_launch/welcome': (context) => const WelcomePage(),
               '/first_launch/request_geolocation': (context) => const RequestGeolocationPage(),

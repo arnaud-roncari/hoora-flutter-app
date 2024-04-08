@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoora/bloc/auth/auth_bloc.dart';
 import 'package:hoora/common/alert.dart';
@@ -25,6 +24,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       backgroundColor: kSecondary,
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
+          if (state is ForgotPasswordFailed) {
+            Alert.showError(context, state.exception.message);
+          }
+
           if (state is ForgotPasswordSuccess) {
             Alert.showSuccess(context, "Un email de réinitialisation a été envoyé.");
             Navigator.pop(context);

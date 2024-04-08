@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoora/bloc/auth/auth_bloc.dart';
+import 'package:hoora/common/alert.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/common/validator.dart';
 import 'package:hoora/widget/button.dart';
@@ -16,8 +17,8 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  final TextEditingController emailController = TextEditingController(text: "arnaud.roncaripro@gmail.com");
-  final TextEditingController passwordController = TextEditingController(text: "333333333");
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -26,6 +27,10 @@ class _SignInPageState extends State<SignInPage> {
       backgroundColor: kSecondary,
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
+          if (state is SignInFailed) {
+            Alert.showError(context, state.exception.message);
+          }
+
           if (state is SignInSuccess) {
             if (state.isNewUser) {
               Navigator.pushNamed(context, "/auth/sign_up_gift_gems");

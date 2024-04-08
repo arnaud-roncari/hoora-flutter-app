@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoora/bloc/auth/auth_bloc.dart';
+import 'package:hoora/common/alert.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/common/validator.dart';
 import 'package:hoora/widget/button.dart';
@@ -18,9 +19,9 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final TextEditingController emailController = TextEditingController(text: "arnaud.roncaripro@gmail.com");
-  final TextEditingController passwordController = TextEditingController(text: "333333333");
-  final TextEditingController confirmPasswordController = TextEditingController(text: "333333333");
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -29,6 +30,10 @@ class _SignUpPageState extends State<SignUpPage> {
       backgroundColor: kSecondary,
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
+          if (state is SignInFailed) {
+            Alert.showError(context, state.exception.message);
+          }
+
           if (state is SignUpSuccess) {
             if (state.isNewUser) {
               Navigator.pushNamed(context, "/auth/sign_up_gift_gems");

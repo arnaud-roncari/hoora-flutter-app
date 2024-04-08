@@ -59,14 +59,14 @@ class _ExplanationPageState extends State<ExplanationPage> {
                               ),
                               SizedBox(height: constraints.maxHeight * 0.15),
                               const Text(
-                                "Découvrez",
+                                "Exploration",
                                 style: kBoldARPDisplay25,
                               ),
                               const SizedBox(height: kPadding5),
                               const FractionallySizedBox(
                                 widthFactor: 0.9,
                                 child: Text(
-                                  "Découvrez des  attraction touristiques autour de vous !",
+                                  "Découvrez des attractions touristiques en explorant notre carte interactive.",
                                   style: kRegularBalooPaaji20,
                                   textAlign: TextAlign.center,
                                 ),
@@ -93,14 +93,14 @@ class _ExplanationPageState extends State<ExplanationPage> {
                                 ),
                                 SizedBox(height: constraints.maxHeight * 0.15),
                                 const Text(
-                                  "Choisissez",
+                                  "Planification",
                                   style: kBoldARPDisplay25,
                                 ),
                                 const SizedBox(height: kPadding5),
                                 const FractionallySizedBox(
                                   widthFactor: 0.9,
                                   child: Text(
-                                    " Choisissez le moment idéal pour vos visites. En optant pour les heures creuses, vous aidez à la répartition des flux et profitez pleinement des sites touristiques.",
+                                    "Choisissez le meilleur moment pour visiter grâce à nos prévisions d'affluence et planifiez votre journée pour éviter les foules.",
                                     style: kRegularBalooPaaji20,
                                     textAlign: TextAlign.center,
                                   ),
@@ -127,14 +127,14 @@ class _ExplanationPageState extends State<ExplanationPage> {
                               ),
                               SizedBox(height: constraints.maxHeight * 0.15),
                               const Text(
-                                "Validez",
+                                "Validation",
                                 style: kBoldARPDisplay25,
                               ),
                               const SizedBox(height: kPadding5),
                               const FractionallySizedBox(
                                 widthFactor: 0.9,
                                 child: Text(
-                                  "Validez votre visite grâce à votre position GPS ou en prenant en photo votre ticket d'entrée. Si votre visite est en heure creuse, vous gagnez des points !",
+                                  "Validez votre visite en heure creuse ou signalez une affluence et gagnez des points !",
                                   style: kRegularBalooPaaji20,
                                   textAlign: TextAlign.center,
                                 ),
@@ -157,14 +157,14 @@ class _ExplanationPageState extends State<ExplanationPage> {
                               ),
                               SizedBox(height: constraints.maxHeight * 0.15),
                               const Text(
-                                "Echangez",
+                                "Récompenses",
                                 style: kBoldARPDisplay25,
                               ),
                               const SizedBox(height: kPadding5),
                               const FractionallySizedBox(
                                 widthFactor: 0.9,
                                 child: Text(
-                                  "Echangez vos points contre des avantages exclusifs. Votre contribution à un tourisme responsable est ainsi récompensée.",
+                                  "Échangez vos points contre des avantages exclusifs ! Votre contribution à un tourisme responsable est récompensée !",
                                   style: kRegularBalooPaaji20,
                                   textAlign: TextAlign.center,
                                 ),

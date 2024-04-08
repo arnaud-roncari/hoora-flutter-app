@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:lottie/lottie.dart';
 

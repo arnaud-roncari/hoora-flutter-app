@@ -16,7 +16,11 @@ class SignUpSuccess extends AuthState {
   SignUpSuccess({required this.isNewUser});
 }
 
-class SignUpFailed extends AuthState {}
+class SignUpFailed extends AuthState {
+  final AlertException exception;
+
+  SignUpFailed({required this.exception});
+}
 
 class SignInLoading extends AuthState {}
 
@@ -30,10 +34,18 @@ class SignInSuccess extends AuthState {
   SignInSuccess({required this.isNewUser});
 }
 
-class SignInFailed extends AuthState {}
+class SignInFailed extends AuthState {
+  final AlertException exception;
+
+  SignInFailed({required this.exception});
+}
 
 class ForgotPasswordLoading extends AuthState {}
 
 class ForgotPasswordSuccess extends AuthState {}
 
-class ForgotPasswordFailed extends AuthState {}
+class ForgotPasswordFailed extends AuthState {
+  final AlertException exception;
+
+  ForgotPasswordFailed({required this.exception});
+}
