@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "1041066486499-b54gielu4ohtba4nlkk1h7lm9deb8i5s.apps.googleusercontent.com",
+          "client_id": "1041066486499-13v6pv5gpkcjbm711tjp0sd5r3mk0tkl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "app.hoora",
-            "certificate_hash": "246ea3b3ee67d234de74a216d84f0f0437447b5f"
+            "certificate_hash": "cc89fc7e2d69b368e33edfd11829002b5e91fff5"
           }
         },
         {

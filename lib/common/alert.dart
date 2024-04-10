@@ -41,6 +41,9 @@ class AlertException {
         case "email-already-exists":
           message = "L'email fourni est déjà utilisée par un autre utilisateur.";
           break;
+        case "email-already-in-use":
+          message = "L'email fourni est déjà utilisée par un autre utilisateur.";
+          break;
         case "invalid-email":
           message = "L'email fourni ne peut pas être utilisé.";
           break;

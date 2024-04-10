@@ -2,7 +2,7 @@ name: hoora
 description: "A new Flutter project."
 publish_to: 'none'
 
-version: 1.1.0+2
+version: 1.2.1+4
 
 environment:
   sdk: '>=3.3.3 <4.0.0'
@@ -24,6 +24,8 @@ dependencies:
   sign_in_with_apple: ^6.0.0
   flutter_svg: ^2.0.10+1
   flutter_native_splash: ^2.4.0
+  firebase_crashlytics: ^3.5.0
+  firebase_analytics: ^10.10.0
     
 dev_dependencies:
   flutter_test:

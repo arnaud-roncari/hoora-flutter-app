@@ -44,3 +44,5 @@ app.*.map.json
 
 /lib/firebase_options.dart
 /lib/ios/Runner/GoogleService-Info.plist
+/lib/android/key.properties
+/lib/android/app/upload-keystore.jks

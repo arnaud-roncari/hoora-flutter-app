@@ -30,7 +30,7 @@ class _SignUpPageState extends State<SignUpPage> {
       backgroundColor: kSecondary,
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is SignInFailed) {
+          if (state is SignUpFailed) {
             Alert.showError(context, state.exception.message);
           }
 

@@ -2,11 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-/// TODO Should not return firebase auth object.
 class AuthRepository {
-  final FirebaseAuth _firebase = FirebaseAuth.instance;
+  final FirebaseAuth _instance = FirebaseAuth.instance;
 
-  Future<UserCredential> signInWithApple() async {
+  Future<bool> signInWithApple() async {
     AuthorizationCredentialAppleID appleCredential = await SignInWithApple.getAppleIDCredential(
       scopes: [
         AppleIDAuthorizationScopes.email,
@@ -20,11 +19,11 @@ class AuthRepository {
       accessToken: appleCredential.authorizationCode,
     );
 
-    UserCredential user = await _firebase.signInWithCredential(oAuthCredential);
-    return user;
+    UserCredential user = await _instance.signInWithCredential(oAuthCredential);
+    return user.additionalUserInfo!.isNewUser;
   }
 
-  Future<UserCredential> signInWithGoogle() async {
+  Future<bool> signInWithGoogle() async {
     final GoogleSignInAccount? account = await GoogleSignIn().signIn();
 
     final GoogleSignInAuthentication googleCredential = await account!.authentication;
@@ -34,24 +33,24 @@ class AuthRepository {
       idToken: googleCredential.idToken,
     );
 
-    UserCredential user = await _firebase.signInWithCredential(oAuthCredential);
-    return user;
+    UserCredential user = await _instance.signInWithCredential(oAuthCredential);
+    return user.additionalUserInfo!.isNewUser;
   }
 
-  Future<UserCredential> signIn(String email, String password) async {
-    UserCredential userCredential = await _firebase.signInWithEmailAndPassword(email: email, password: password);
-    return userCredential;
+  Future<bool> signIn(String email, String password) async {
+    UserCredential user = await _instance.signInWithEmailAndPassword(email: email, password: password);
+    return user.additionalUserInfo!.isNewUser;
   }
 
   Future<void> signUp(String email, String password) async {
-    await _firebase.createUserWithEmailAndPassword(email: email, password: password);
+    await _instance.createUserWithEmailAndPassword(email: email, password: password);
   }
 
   Future<void> signOut() async {
-    await _firebase.signOut();
+    await _instance.signOut();
   }
 
   Future<void> forgotPassword(String email) async {
-    await _firebase.sendPasswordResetEmail(email: email);
+    await _instance.sendPasswordResetEmail(email: email);
   }
 }
