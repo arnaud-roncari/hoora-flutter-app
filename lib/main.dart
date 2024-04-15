@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -7,20 +6,28 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hoora/bloc/auth/auth_bloc.dart';
+import 'package:hoora/bloc/explore/explore_bloc.dart';
 import 'package:hoora/bloc/first_launch/first_launch_bloc.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/common/globals.dart';
-import 'package:hoora/page/auth/forgot_password.dart';
-import 'package:hoora/page/auth/sign_in.dart';
-import 'package:hoora/page/auth/sign_up.dart';
-import 'package:hoora/page/auth/sign_up_gift_gems.dart';
-import 'package:hoora/page/first_launch/explanation_page.dart';
-import 'package:hoora/page/first_launch/welcome_page.dart';
-import 'package:hoora/page/first_launch/request_geolocation_page.dart';
+import 'package:hoora/ui/page/auth/forgot_password.dart';
+import 'package:hoora/ui/page/auth/sign_in.dart';
+import 'package:hoora/ui/page/auth/sign_up.dart';
+import 'package:hoora/ui/page/auth/sign_up_gift_gems.dart';
+import 'package:hoora/ui/page/explore/city_page.dart';
+import 'package:hoora/ui/page/explore/date_page.dart';
+import 'package:hoora/ui/page/first_launch/explanation_page.dart';
+import 'package:hoora/ui/page/first_launch/welcome_page.dart';
+import 'package:hoora/ui/page/first_launch/request_geolocation_page.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:hoora/page/home_page.dart';
+import 'package:hoora/ui/page/home_page.dart';
+import 'package:hoora/ui/page/my_gift_page.dart';
 import 'package:hoora/repository/auth_repository.dart';
+import 'package:hoora/repository/category_repository.dart';
+import 'package:hoora/repository/city_repository.dart';
 import 'package:hoora/repository/crash_repository.dart';
+import 'package:hoora/repository/spot_repository.dart';
+import 'package:hoora/repository/user_repository.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -33,16 +40,6 @@ void main() async {
   ]);
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  if (kDebugMode) {
-    try {
-      FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-      await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-    } catch (e) {
-      // ignore: avoid_print
-      print(e);
-    }
-  }
 
   /// Pass all uncaught "fatal" errors from the framework to Crashlytics
   FlutterError.onError = (errorDetails) {
@@ -77,6 +74,10 @@ class HooraApp extends StatelessWidget {
       providers: [
         RepositoryProvider<AuthRepository>(create: (context) => AuthRepository()),
         RepositoryProvider<CrashRepository>(create: (context) => CrashRepository()),
+        RepositoryProvider<UserRepository>(create: (context) => UserRepository()),
+        RepositoryProvider<SpotRepository>(create: (context) => SpotRepository()),
+        RepositoryProvider<CityRepository>(create: (context) => CityRepository()),
+        RepositoryProvider<CategoryRepository>(create: (context) => CategoryRepository()),
       ],
       child: Builder(builder: (context) {
         return MultiBlocProvider(
@@ -87,6 +88,15 @@ class HooraApp extends StatelessWidget {
             BlocProvider(
               create: (_) => AuthBloc(
                 authRepository: context.read<AuthRepository>(),
+                crashRepository: context.read<CrashRepository>(),
+              ),
+            ),
+            BlocProvider(
+              create: (_) => ExploreBloc(
+                cityRepository: context.read<CityRepository>(),
+                userRepository: context.read<UserRepository>(),
+                categoryRepository: context.read<CategoryRepository>(),
+                spotRepository: context.read<SpotRepository>(),
                 crashRepository: context.read<CrashRepository>(),
               ),
             ),
@@ -106,6 +116,9 @@ class HooraApp extends StatelessWidget {
               '/auth/sign_up_gift_gems': (context) => const SignUpGiftGemsPage(),
               '/auth/forgot_password': (context) => const ForgotPasswordPage(),
               '/home': (context) => const HomePage(),
+              '/home/my_gift': (context) => const MyGiftPage(),
+              '/home/city': (context) => const CityPage(),
+              '/home/date': (context) => const DatePage(),
             },
           ),
         );

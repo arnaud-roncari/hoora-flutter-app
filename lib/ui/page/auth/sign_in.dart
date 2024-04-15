@@ -7,7 +7,6 @@ import 'package:hoora/bloc/auth/auth_bloc.dart';
 import 'package:hoora/common/alert.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/common/validator.dart';
-import 'package:hoora/widget/button.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -103,17 +102,32 @@ class _SignInPageState extends State<SignInPage> {
                             validator: Validator.password,
                           ),
                           const SizedBox(height: kPadding20),
-                          Button(
-                              isLoading: state is SignInLoading,
-                              text: "Se connecter",
-                              onPressed: () {
-                                if (formKey.currentState!.validate()) {
-                                  context.read<AuthBloc>().add(SignIn(
-                                        email: emailController.text,
-                                        password: passwordController.text,
-                                      ));
-                                }
-                              }),
+                          SizedBox(
+                            height: 50,
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: kButtonStyle,
+                              onPressed: state is ForgotPasswordLoading
+                                  ? null
+                                  : () {
+                                      if (formKey.currentState!.validate()) {
+                                        context.read<AuthBloc>().add(ForgotPassword(email: emailController.text));
+                                      }
+                                    },
+                              child: state is ForgotPasswordLoading
+                                  ? const SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(color: Colors.white),
+                                    )
+                                  : Text(
+                                      "Réinitialiser",
+                                      style: kBoldBalooPaaji16.copyWith(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                            ),
+                          ),
                           const SizedBox(height: kPadding20),
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -138,22 +152,58 @@ class _SignInPageState extends State<SignInPage> {
                             ],
                           ),
                           const SizedBox(height: kPadding20),
-                          Button(
-                              isLoading: state is SignUpWithGoogleLoading,
-                              text: "Continuer avec Google",
-                              onPressed: () {
-                                context.read<AuthBloc>().add(SignInWithGoogle());
-                              }),
+                          SizedBox(
+                            height: 50,
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: kButtonStyle,
+                              onPressed: state is SignUpWithGoogleLoading
+                                  ? null
+                                  : () {
+                                      context.read<AuthBloc>().add(SignInWithGoogle());
+                                    },
+                              child: state is SignUpWithGoogleLoading
+                                  ? const SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(color: Colors.white),
+                                    )
+                                  : Text(
+                                      "Continuer avec Google",
+                                      style: kBoldBalooPaaji16.copyWith(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                            ),
+                          ),
                           if (Platform.isIOS)
                             Column(
                               children: [
                                 const SizedBox(height: kPadding10),
-                                Button(
-                                    isLoading: state is SignUpWithAppleLoading,
-                                    text: "Continuer avec Apple",
-                                    onPressed: () {
-                                      context.read<AuthBloc>().add(SignInWithApple());
-                                    }),
+                                SizedBox(
+                                  height: 50,
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    style: kButtonStyle,
+                                    onPressed: state is SignUpWithAppleLoading
+                                        ? null
+                                        : () {
+                                            context.read<AuthBloc>().add(SignInWithApple());
+                                          },
+                                    child: state is SignUpWithAppleLoading
+                                        ? const SizedBox(
+                                            height: 20,
+                                            width: 20,
+                                            child: CircularProgressIndicator(color: Colors.white),
+                                          )
+                                        : Text(
+                                            "Continuer avec Apple",
+                                            style: kBoldBalooPaaji16.copyWith(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                  ),
+                                ),
                               ],
                             ),
                           const SizedBox(height: kPadding10),

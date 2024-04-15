@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hoora/common/decoration.dart';
-import 'package:hoora/widget/button_rounded.dart';
 import 'package:lottie/lottie.dart';
 
 class SignUpGiftGemsPage extends StatelessWidget {
@@ -76,11 +75,22 @@ class SignUpGiftGemsPage extends StatelessWidget {
                 const Spacer(
                   flex: 2,
                 ),
-                ButtonRounded(
-                    text: "C'est partiiiii !",
+                SizedBox(
+                  height: 50,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: kButtonRoundedStyle,
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, "/home");
-                    })
+                    },
+                    child: Text(
+                      "C'est partiiiii !",
+                      style: kBoldBalooPaaji16.copyWith(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           );

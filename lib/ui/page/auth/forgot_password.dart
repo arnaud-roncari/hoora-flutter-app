@@ -5,7 +5,6 @@ import 'package:hoora/bloc/auth/auth_bloc.dart';
 import 'package:hoora/common/alert.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/common/validator.dart';
-import 'package:hoora/widget/button.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -86,16 +85,31 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             validator: Validator.email,
                           ),
                           const SizedBox(height: kPadding20),
-                          Button(
-                              isLoading: state is ForgotPasswordLoading,
-                              text: "Réinitialiser",
+
+                          SizedBox(
+                            height: 50,
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: kButtonStyle,
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
-                                  context.read<AuthBloc>().add(
-                                        ForgotPassword(email: emailController.text),
-                                      );
+                                  context.read<AuthBloc>().add(ForgotPassword(email: emailController.text));
                                 }
-                              }),
+                              },
+                              child: state is ForgotPasswordLoading
+                                  ? const SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(color: Colors.white),
+                                    )
+                                  : Text(
+                                      "Réinitialiser",
+                                      style: kBoldBalooPaaji16.copyWith(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

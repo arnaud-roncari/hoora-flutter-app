@@ -8,7 +8,6 @@ import 'package:hoora/bloc/auth/auth_bloc.dart';
 import 'package:hoora/common/alert.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/common/validator.dart';
-import 'package:hoora/widget/button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -118,19 +117,37 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                             ),
                             const SizedBox(height: kPadding20),
-                            Button(
-                                isLoading: state is SignUpLoading,
-                                text: "Créer mon compte",
-                                onPressed: () {
-                                  if (formKey.currentState!.validate()) {
-                                    context.read<AuthBloc>().add(
-                                          SignUp(
-                                            email: emailController.text,
-                                            password: passwordController.text,
-                                          ),
-                                        );
-                                  }
-                                }),
+                            SizedBox(
+                              height: 50,
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                style: kButtonStyle,
+                                onPressed: state is SignUpLoading
+                                    ? null
+                                    : () {
+                                        if (formKey.currentState!.validate()) {
+                                          context.read<AuthBloc>().add(
+                                                SignUp(
+                                                  email: emailController.text,
+                                                  password: passwordController.text,
+                                                ),
+                                              );
+                                        }
+                                      },
+                                child: state is SignUpLoading
+                                    ? const SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(color: Colors.white),
+                                      )
+                                    : Text(
+                                        "Créer mon compte",
+                                        style: kBoldBalooPaaji16.copyWith(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                              ),
+                            ),
                             const SizedBox(height: kPadding20),
                             const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -155,22 +172,58 @@ class _SignUpPageState extends State<SignUpPage> {
                               ],
                             ),
                             const SizedBox(height: kPadding20),
-                            Button(
-                                isLoading: state is SignUpWithGoogleLoading,
-                                text: "Continuer avec Google",
-                                onPressed: () {
-                                  context.read<AuthBloc>().add(SignUpWithGoogle());
-                                }),
+                            SizedBox(
+                              height: 50,
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                style: kButtonStyle,
+                                onPressed: state is SignUpWithGoogleLoading
+                                    ? null
+                                    : () {
+                                        context.read<AuthBloc>().add(SignUpWithGoogle());
+                                      },
+                                child: state is SignUpWithGoogleLoading
+                                    ? const SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(color: Colors.white),
+                                      )
+                                    : Text(
+                                        "Continuer avec Google",
+                                        style: kBoldBalooPaaji16.copyWith(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                              ),
+                            ),
                             if (Platform.isIOS)
                               Column(
                                 children: [
                                   const SizedBox(height: kPadding10),
-                                  Button(
-                                      isLoading: state is SignUpWithAppleLoading,
-                                      text: "Continuer avec Apple",
-                                      onPressed: () {
-                                        context.read<AuthBloc>().add(SignUpWithApple());
-                                      }),
+                                  SizedBox(
+                                    height: 50,
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      style: kButtonStyle,
+                                      onPressed: state is SignUpWithAppleLoading
+                                          ? null
+                                          : () {
+                                              context.read<AuthBloc>().add(SignUpWithApple());
+                                            },
+                                      child: state is SignUpWithAppleLoading
+                                          ? const SizedBox(
+                                              height: 20,
+                                              width: 20,
+                                              child: CircularProgressIndicator(color: Colors.white),
+                                            )
+                                          : Text(
+                                              "Continuer avec Apple",
+                                              style: kBoldBalooPaaji16.copyWith(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             const SizedBox(height: kPadding10),
