@@ -7,6 +7,7 @@ import 'package:hoora/common/alert.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/common/extension/weekday_extension.dart';
 import 'package:hoora/model/category_model.dart';
+import 'package:hoora/model/spot_model.dart';
 import 'package:hoora/ui/widget/hour_slider.dart';
 import 'package:hoora/ui/widget/spot_card.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -18,7 +19,7 @@ class ExplorePage extends StatefulWidget {
   State<ExplorePage> createState() => _ExplorePageState();
 }
 
-class _ExplorePageState extends State<ExplorePage> {
+class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -27,6 +28,7 @@ class _ExplorePageState extends State<ExplorePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocConsumer<ExploreBloc, ExploreState>(
       listener: (context, state) {
         if (state is InitFailed) {
@@ -93,7 +95,6 @@ class _ExplorePageState extends State<ExplorePage> {
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(kPadding10),
-                        // TODO Replace with data
                         child: Text(
                           context.read<ExploreBloc>().selectedDate.getDisplayedWeekday(),
                           style: kBoldBalooPaaji16.copyWith(color: Colors.white),
@@ -110,6 +111,7 @@ class _ExplorePageState extends State<ExplorePage> {
             /// Should be reworked with a paint class.
             HourSlider(onChanged: (hour) {
               /// TODO Filter with hour (du plsu grand nombre de gem au plus faible, en fonction de l'heure)
+              context.read<ExploreBloc>().add(HourSelected(hour: hour));
             }),
             const SizedBox(height: kPadding20),
             buildCategories(),
@@ -141,7 +143,7 @@ class _ExplorePageState extends State<ExplorePage> {
             children: [
               const Spacer(),
 
-              /// TODO Replace with data from DB
+              /// TODO Replace with data from DB (user)
               Text(
                 "15",
                 style: kBoldARPDisplay13.copyWith(color: Colors.white),
@@ -258,32 +260,42 @@ class _ExplorePageState extends State<ExplorePage> {
     );
   }
 
+  /// TODO should be a singlescroll view, with 10 element max display. load more when the bootm is reached
   Widget buildSpotCards() {
+    List<Spot> spots = context.read<ExploreBloc>().spots;
+
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: kPadding20),
         child: ListView.builder(
-            itemCount: 10,
+            itemCount: spots.length,
             itemBuilder: (context, index) {
               EdgeInsetsGeometry padding = const EdgeInsets.only(bottom: 10);
+              Spot spot = spots[index];
+              DateTime selectedDate = context.read<ExploreBloc>().selectedDate;
+              int selectedHour = context.read<ExploreBloc>().selectedHour;
+
+              if (spot.isClosedAt(selectedDate, selectedHour) || spot.getGemsAt(selectedDate, selectedHour) <= 0) {
+                return Container();
+              }
 
               if (index == 0) {
                 padding = const EdgeInsets.only(top: 20, bottom: 10);
               }
 
-              // /// TODO replace with list length of categories
-              if (index == 9) {
+              if (index == spots.length - 1 && spots.length > 1) {
                 padding = const EdgeInsets.only(bottom: 20);
               }
 
               return Padding(
                 padding: padding,
-
-                /// TODO Should take a spot model
-                child: const SpotCard(),
+                child: SpotCard(spot: spot),
               );
             }),
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

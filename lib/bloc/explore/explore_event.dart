@@ -10,6 +10,8 @@ final class CategorySelected extends ExploreEvent {
   CategorySelected({required this.category});
 }
 
+final class GetSpots extends ExploreEvent {}
+
 final class CitySelected extends ExploreEvent {
   final City city;
 
@@ -20,4 +22,10 @@ final class DateSelected extends ExploreEvent {
   final DateTime date;
 
   DateSelected({required this.date});
+}
+
+final class HourSelected extends ExploreEvent {
+  final int hour;
+
+  HourSelected({required this.hour});
 }

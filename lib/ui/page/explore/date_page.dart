@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoora/bloc/explore/explore_bloc.dart';
 import 'package:hoora/common/extension/weekday_extension.dart';
-import 'package:hoora/model/city_model.dart';
 import 'package:hoora/common/decoration.dart';
-import 'package:intl/intl.dart';
 
 class DatePage extends StatelessWidget {
   const DatePage({super.key});

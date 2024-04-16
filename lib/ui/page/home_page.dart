@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int currentIndex = 0;
+  PageController controller = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
@@ -26,29 +26,24 @@ class _HomePageState extends State<HomePage> {
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 60),
-            child: Builder(builder: (_) {
-              switch (currentIndex) {
-                case 0:
-                  return const ExplorePage();
-                case 1:
-                  return const MapPage();
-                case 2:
-                  return const ValidationPage();
-                case 3:
-                  return const GiftPage();
-                case 4:
-                  return const ChallengePage();
-                default:
-                  return const ExplorePage();
-              }
-            }),
+            child: PageView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: controller,
+              children: const [
+                ExplorePage(),
+                MapPage(),
+                ValidationPage(),
+                GiftPage(),
+                ChallengePage(),
+              ],
+            ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Navigation(
-              onChanged: (index) {
+              onChanged: (page) {
                 setState(() {
-                  currentIndex = index;
+                  controller.jumpToPage(page);
                 });
               },
             ),
@@ -58,11 +53,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-
-//  Button(
-//           onPressed: () {
-//             context.read<AuthBloc>().add(SignOut());
-//           },
-//           text: "Signout",
-//         ),

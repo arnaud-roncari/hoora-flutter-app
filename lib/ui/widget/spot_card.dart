@@ -1,23 +1,23 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hoora/bloc/explore/explore_bloc.dart';
 import 'package:hoora/common/decoration.dart';
+import 'package:hoora/model/spot_model.dart';
 
+/// TODO retirer le reload du backend et faire le trie lors du changement de catégorie
+/// TODO intéger du délai front pendant le sliding (si ça lag)
 class SpotCard extends StatelessWidget {
-  const SpotCard({super.key});
-
-  bool isCrowded() {
-    /// Check if there is a crowed element declared.
-    /// Also check if it's in the same range time and day (2H range).
-    return true;
-  }
-
-  bool isSponsored() {
-    /// TODO update with data
-    return true;
-  }
+  final Spot spot;
+  const SpotCard({super.key, required this.spot});
 
   @override
   Widget build(BuildContext context) {
+    DateTime selectedDate = context.read<ExploreBloc>().selectedDate;
+    int selectedHour = context.read<ExploreBloc>().selectedHour;
+
     return Container(
       height: 120,
       width: double.infinity,
@@ -29,22 +29,38 @@ class SpotCard extends StatelessWidget {
         padding: const EdgeInsets.all(kPadding10),
         child: Row(
           children: [
-            Container(
-              height: 100,
-              width: 100,
-              decoration: BoxDecoration(
-                color: kSecondary,
-                borderRadius: BorderRadius.circular(kRadius10),
-              ),
-              child: Container(
-                height: 100,
-                width: 100,
-                decoration: BoxDecoration(
-                  color: kSecondary,
-                  borderRadius: BorderRadius.circular(kRadius10),
-                ),
-              ),
-            ),
+            FutureBuilder<String>(
+                future: FirebaseStorage.instance.ref().child("spot/${spot.imageCardPath}").getDownloadURL(),
+                builder: (_, snapshot) {
+                  if (snapshot.hasData) {
+                    return CachedNetworkImage(
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.fitHeight,
+                      imageUrl: snapshot.data!,
+                      placeholder: (context, url) => const SizedBox(
+                        height: 100,
+                        width: 100,
+                      ),
+                      errorWidget: (context, url, error) => const SizedBox(
+                        height: 100,
+                        width: 100,
+                      ),
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(kRadius10),
+                          image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                        ),
+                      ),
+                    );
+                  }
+                  return const SizedBox(
+                    height: 100,
+                    width: 100,
+                  );
+                }),
             const SizedBox(width: kPadding10),
             Expanded(
               child: Padding(
@@ -53,18 +69,18 @@ class SpotCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Jardin Albert 1er",
+                      spot.name,
                       style: kBoldARPDisplay14.copyWith(color: Colors.white),
                     ),
                     const SizedBox(height: kPadding5),
                     Text(
-                      "Nice",
+                      spot.city.name,
                       style: kRegularBalooPaaji16.copyWith(color: Colors.white),
                     ),
                     const Spacer(),
                     Row(
                       children: [
-                        if (isCrowded())
+                        if (spot.isCrowdedAt(selectedDate, selectedHour))
                           Row(
                             children: [
                               Padding(
@@ -97,9 +113,9 @@ class SpotCard extends StatelessWidget {
                           height: 30,
                           width: 70,
                           decoration: BoxDecoration(
-                            color: isSponsored() ? kSecondary : kGemsIndicator,
+                            color: spot.isSponsoredAt(selectedDate) ? kSecondary : kGemsIndicator,
                             borderRadius: BorderRadius.circular(kRadius100),
-                            gradient: isSponsored()
+                            gradient: spot.isSponsoredAt(selectedDate)
                                 ? const LinearGradient(
                                     colors: [
                                       Color.fromRGBO(87, 177, 123, 1),
@@ -116,14 +132,36 @@ class SpotCard extends StatelessWidget {
                           ),
                           child: Row(
                             children: [
-                              const Spacer(),
-                              const Text(
-                                "20",
-                                style: kBoldARPDisplay13,
+                              SizedBox(
+                                width: 35,
+                                height: 30,
+                                child: Center(
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      spot
+                                          .getGemsAt(
+                                            selectedDate,
+                                            selectedHour,
+                                          )
+                                          .toString(),
+                                      style: kBoldARPDisplay13,
+                                    ),
+                                  ),
+                                ),
                               ),
-                              const SizedBox(width: kPadding5),
-                              SvgPicture.asset("assets/svg/gem.svg"),
-                              const Spacer(),
+                              SizedBox(
+                                height: 30,
+                                width: 35,
+                                child: Center(
+                                    child: Padding(
+                                  padding: const EdgeInsets.only(right: kPadding5),
+                                  child: SvgPicture.asset(
+                                    "assets/svg/gem.svg",
+                                    height: 15,
+                                  ),
+                                )),
+                              ),
                             ],
                           ),
                         ),
