@@ -21,35 +21,40 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackground,
-      body: SafeArea(
-          child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 60),
-            child: PageView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: controller,
-              children: const [
-                ExplorePage(),
-                MapPage(),
-                ValidationPage(),
-                GiftPage(),
-                ChallengePage(),
-              ],
+      body: Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 60),
+              child: PageView(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: controller,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                    child: const ExplorePage(),
+                  ),
+                  const MapPage(),
+                  const ValidationPage(),
+                  const GiftPage(),
+                  const ChallengePage(),
+                ],
+              ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Navigation(
-              onChanged: (page) {
-                setState(() {
-                  controller.jumpToPage(page);
-                });
-              },
-            ),
-          )
-        ],
-      )),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Navigation(
+                onChanged: (page) {
+                  setState(() {
+                    controller.jumpToPage(page);
+                  });
+                },
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

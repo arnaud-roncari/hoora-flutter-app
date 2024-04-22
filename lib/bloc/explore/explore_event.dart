@@ -5,7 +5,7 @@ sealed class ExploreEvent {}
 final class Initialize extends ExploreEvent {}
 
 final class CategorySelected extends ExploreEvent {
-  final Category category;
+  final Category? category;
 
   CategorySelected({required this.category});
 }

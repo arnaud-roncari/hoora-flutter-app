@@ -33,6 +33,8 @@ class Alert {
 class AlertException {
   final String message;
 
+  AlertException({required this.message});
+
   factory AlertException.fromException(Object exception) {
     String message = "Oups... Une erreur est survenue.";
 
@@ -64,6 +66,4 @@ class AlertException {
 
     return AlertException(message: message);
   }
-
-  AlertException({required this.message});
 }

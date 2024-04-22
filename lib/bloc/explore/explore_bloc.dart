@@ -3,6 +3,7 @@ import 'package:hoora/model/city_model.dart';
 import 'package:hoora/common/alert.dart';
 import 'package:hoora/model/category_model.dart';
 import 'package:hoora/model/spot_model.dart';
+import 'package:hoora/model/user_model.dart';
 import 'package:hoora/repository/category_repository.dart';
 import 'package:hoora/repository/city_repository.dart';
 import 'package:hoora/repository/crash_repository.dart';
@@ -20,7 +21,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
   final CrashRepository crashRepository;
 
   late List<Category> categories;
-  late Category selectedCategory;
+  Category? selectedCategory;
 
   late List<City> cities;
   late City selectedCity;
@@ -29,7 +30,12 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
 
   late int selectedHour;
 
-  late List<Spot> spots;
+  late User user;
+
+  /// All spots fetched from the db.
+  /// Spots are filtered by category, closed hours and gems.
+  late List<Spot> _spots;
+  late List<Spot> filteredSpots;
 
   ExploreBloc({
     required this.categoryRepository,
@@ -52,24 +58,31 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       List future = await Future.wait([
         categoryRepository.getCategories(),
         cityRepository.getAllCities(),
+        userRepository.getUser(),
       ]);
 
-      /// Default selected category
       categories = future[0];
-      selectedCategory = categories.first;
 
       /// Default selected city
       cities = future[1];
       selectedCity = cities[0];
 
+      /// Default user
+      user = future[2];
+
       /// Default selected day
       selectedDate = DateTime.now();
 
       /// Default selected hour;
-      selectedHour = 7;
+      selectedHour = DateTime.now().hour;
+      if (selectedHour < 7 || selectedHour > 21) {
+        selectedHour = 7;
+      }
 
       /// Then fetch spots
-      spots = await spotRepository.getSpots(selectedCity, selectedCategory);
+      _spots = await spotRepository.getSpots(selectedCity);
+      _filterAllSpots();
+
       emit(InitSuccess());
     } catch (exception, stack) {
       /// Report crash to Crashlytics
@@ -83,7 +96,8 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
 
   void categorySelected(CategorySelected event, Emitter<ExploreState> emit) async {
     selectedCategory = event.category;
-    add(GetSpots());
+    _filterAllSpots();
+    emit(InitSuccess());
   }
 
   void citySelected(CitySelected event, Emitter<ExploreState> emit) async {
@@ -93,25 +107,21 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
 
   void dateSelected(DateSelected event, Emitter<ExploreState> emit) async {
     selectedDate = event.date;
-
-    /// TODO filtrer les spots du jour (remove emit)
+    _filterAllSpots();
     emit(InitSuccess());
   }
 
   void hourSelected(HourSelected event, Emitter<ExploreState> emit) async {
     selectedHour = event.hour;
-
-    /// TODO filtrer les spots du jour (remove emit)
+    _filterAllSpots();
     emit(InitSuccess());
   }
 
   void getSpots(GetSpots event, Emitter<ExploreState> emit) async {
     try {
       emit(GetSpotsLoading());
-      spots = await spotRepository.getSpots(selectedCity, selectedCategory);
-
-      /// TODO remove me
-      await Future.delayed(const Duration(seconds: 1));
+      _spots = await spotRepository.getSpots(selectedCity);
+      _filterAllSpots();
       emit(GetSpotsSuccess());
     } catch (exception, stack) {
       /// Report crash to Crashlytics
@@ -121,5 +131,33 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       AlertException alertException = AlertException.fromException(exception);
       emit(GetSpotsFailed(exception: alertException));
     }
+  }
+
+  /// Filter and sort all spots.
+  void _filterAllSpots() {
+    List<Spot> filteredSpots = [];
+
+    for (Spot spot in _spots) {
+      if (!spot.isClosedAt(selectedDate, selectedHour) && spot.hasCategory(selectedCategory)) {
+        filteredSpots.add(spot);
+      }
+    }
+
+    /// Descending order
+    filteredSpots.sort((a, b) {
+      return b
+          .getGemsAt(
+            selectedDate,
+            selectedHour,
+          )
+          .compareTo(
+            a.getGemsAt(
+              selectedDate,
+              selectedHour,
+            ),
+          );
+    });
+
+    this.filteredSpots = filteredSpots;
   }
 }

@@ -3,7 +3,75 @@ import 'package:hoora/model/category_model.dart';
 import 'package:hoora/model/city_model.dart';
 import 'package:hoora/model/crowd_report_model.dart';
 
-/// TODO comment améliorer le chargment des photos ? (gestion du cache)
+class ExceptionalOpenHours {
+  final DateTime date;
+  final Map<String, bool> openHours;
+
+  factory ExceptionalOpenHours.fromJson(Map<String, dynamic> json) {
+    return ExceptionalOpenHours(
+      date: (json["date"] as Timestamp).toDate(),
+      openHours: Map<String, bool>.from(json["openHours"]),
+    );
+  }
+
+  static List<ExceptionalOpenHours> fromJsons(List<dynamic> jsons) {
+    final List<ExceptionalOpenHours> hour = [];
+    for (Map<String, dynamic> json in jsons) {
+      hour.add(ExceptionalOpenHours.fromJson(json));
+    }
+    return hour;
+  }
+
+  ExceptionalOpenHours({required this.date, required this.openHours});
+}
+
+class BalancePremium {
+  final DateTime from;
+  final DateTime to;
+  final int gem;
+
+  BalancePremium({required this.from, required this.to, required this.gem});
+
+  factory BalancePremium.fromSnapshot(QueryDocumentSnapshot doc) {
+    return BalancePremium(
+      from: (doc["from"] as Timestamp).toDate(),
+      to: (doc["to"] as Timestamp).toDate(),
+      gem: doc['gem'],
+    );
+  }
+  factory BalancePremium.fromJson(Map<String, dynamic> json) {
+    return BalancePremium(
+      from: (json["from"] as Timestamp).toDate(),
+      to: (json["to"] as Timestamp).toDate(),
+      gem: json['gem'],
+    );
+  }
+}
+
+class PulsePremium {
+  final DateTime from;
+  final DateTime to;
+  final int gem;
+
+  PulsePremium({required this.from, required this.to, required this.gem});
+
+  factory PulsePremium.fromSnapshot(QueryDocumentSnapshot doc) {
+    return PulsePremium(
+      from: (doc["from"] as Timestamp).toDate(),
+      to: (doc["to"] as Timestamp).toDate(),
+      gem: doc['gem'],
+    );
+  }
+
+  factory PulsePremium.fromJson(Map<String, dynamic> json) {
+    return PulsePremium(
+      from: (json["from"] as Timestamp).toDate(),
+      to: (json["to"] as Timestamp).toDate(),
+      gem: json['gem'],
+    );
+  }
+}
+
 class Spot {
   final String id;
   final String name;
@@ -11,12 +79,12 @@ class Spot {
   final GeoPoint coordinates;
   final City city;
   final List<Category> categories;
-  final List<List<Map<int, int>>> gemsPerHours;
-  final List<Map<int, bool>> openHours;
-  final Map<DateTime, Map<int, bool>> exceptionalOpenHours;
+  final List<Map<String, int>> gemsPerDays;
+  final List<Map<String, bool>> openHours;
+  final List<ExceptionalOpenHours> exceptionalOpenHours;
   final List<CrowdReport> crowdReports;
-  final DateTime? balanceExpireAt;
-  final DateTime? pulseExpireAt;
+  final BalancePremium? balancePremium;
+  final PulsePremium? pulsePremium;
   final double rating;
 
   Spot({
@@ -26,22 +94,56 @@ class Spot {
     required this.coordinates,
     required this.city,
     required this.categories,
-    required this.gemsPerHours,
+    required this.gemsPerDays,
     required this.openHours,
     required this.exceptionalOpenHours,
     required this.crowdReports,
     required this.rating,
-    this.balanceExpireAt,
-    this.pulseExpireAt,
+    this.balancePremium,
+    this.pulsePremium,
   });
 
+  factory Spot.fromSnapshot(QueryDocumentSnapshot doc) {
+    return Spot(
+      id: doc.id,
+      name: doc['name'],
+      imageCardPath: doc['imageCardPath'],
+      coordinates: doc['coordinates'],
+      city: City.fromJson(doc['city']),
+      categories: Category.fromJsons(doc['categories']),
+      gemsPerDays: List<Map<String, int>>.from(doc["gemsPerDays"].map((from) {
+        Map<String, int> to = Map<String, int>.from(from);
+        return to;
+      })),
+      openHours: List<Map<String, bool>>.from(doc["openHours"].map((from) {
+        Map<String, bool> to = Map<String, bool>.from(from);
+        return to;
+      })),
+      exceptionalOpenHours: ExceptionalOpenHours.fromJsons(doc["exceptionalOpenHours"]),
+      crowdReports: CrowdReport.fromJsons(doc["crowdReports"]),
+      rating: doc["rating"] is int ? (doc["rating"] as int).toDouble() : doc["rating"],
+      balancePremium: doc["balancePremium"] == null ? null : BalancePremium.fromJson(doc["balancePremium"]),
+      pulsePremium: doc["pulsePremium"] == null ? null : PulsePremium.fromJson(doc["pulsePremium"]),
+    );
+  }
+
+  static List<Spot> fromSnapshots(List<QueryDocumentSnapshot> docs) {
+    final List<Spot> list = [];
+    for (QueryDocumentSnapshot doc in docs) {
+      list.add(Spot.fromSnapshot(doc));
+    }
+    return list;
+  }
+
   bool isClosedAt(DateTime date, int hour) {
-    for (DateTime key in exceptionalOpenHours.keys) {
-      if (date.month == key.month && date.day == key.day) {
-        return !exceptionalOpenHours[key]![hour]!;
+    for (ExceptionalOpenHours exceptionalOpenHours in exceptionalOpenHours) {
+      DateTime day = exceptionalOpenHours.date;
+
+      if (date.month == day.month && date.day == day.day) {
+        return !exceptionalOpenHours.openHours[hour.toString()]!;
       }
     }
-    return !openHours[date.weekday - 1][hour]!;
+    return !openHours[date.weekday - 1][hour.toString()]!;
   }
 
   bool isCrowdedAt(DateTime date, int selectedHour) {
@@ -50,7 +152,7 @@ class Spot {
     }
 
     DateTime from = crowdReports.last.createdAt;
-    DateTime to = from.add(Duration(hours: crowdReports.last.duration));
+    DateTime to = from.add(const Duration(hours: 2));
 
     if (date.year == from.year && date.month == from.month && date.day == from.day) {
       if (selectedHour >= from.hour && selectedHour <= to.hour) {
@@ -60,29 +162,55 @@ class Spot {
     return false;
   }
 
-  bool isSponsoredAt(DateTime date) {
-    if (isBalanceSponsoredAt(date) || isPulseSponsoredAt(date)) {
+  String getCrowdedAwaitingTime() {
+    if (crowdReports.isEmpty) {
+      return '0\'';
+    }
+
+    int hour = crowdReports.last.hour;
+    int minute = crowdReports.last.minute;
+
+    if (hour < 1) {
+      return '$minute\'';
+    }
+
+    if (minute < 15) {
+      return '${hour}h';
+    }
+
+    return '${hour}h$minute';
+  }
+
+  bool isSponsoredAt(DateTime date, int hour) {
+    if (isBalanceSponsoredAt(date, hour) || isPulseSponsoredAt(date)) {
       return true;
     }
     return false;
   }
 
   bool isPulseSponsoredAt(DateTime date) {
-    if (pulseExpireAt != null) {
-      final Duration difference = pulseExpireAt!.difference(date);
-      if (difference.inDays > 0) {
-        return true;
-      }
+    if (pulsePremium == null) {
+      return false;
+    }
+
+    if (date.isAfter(pulsePremium!.from) && date.isBefore(pulsePremium!.to)) {
+      return true;
     }
     return false;
   }
 
-  bool isBalanceSponsoredAt(DateTime date) {
-    if (balanceExpireAt != null) {
-      final Duration difference = balanceExpireAt!.difference(date);
-      if (difference.inDays > 0) {
-        return true;
+  bool isBalanceSponsoredAt(DateTime date, int hour) {
+    if (balancePremium == null) {
+      return false;
+    }
+
+    if (date.isAfter(balancePremium!.from) && date.isBefore(balancePremium!.to)) {
+      int gems = gemsPerDays[date.weekday - 1][hour.toString()]!;
+      if (gems <= 0) {
+        return false;
       }
+
+      return true;
     }
     return false;
   }
@@ -91,16 +219,28 @@ class Spot {
     return rating > 4.5;
   }
 
-  int getGemsAt(DateTime date, int hour) {
-    int gems = gemsPerHours.last[date.weekday - 1][hour]!;
+  bool hasCategory(Category? category) {
+    if (category == null) {
+      return true;
+    }
 
-    /// TODO ma couleur sponsorié doit petre affiché malgrés le fait qu'il y est pas de points ? (le cas étant inférieur à 10)
-    if (gems >= 10 && isBalanceSponsoredAt(date)) {
-      gems += 10;
+    for (Category cat in categories) {
+      if (cat.id == category.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  int getGemsAt(DateTime date, int hour) {
+    int gems = gemsPerDays[date.weekday - 1][hour.toString()]!;
+
+    if (gems > 0 && isBalanceSponsoredAt(date, hour)) {
+      gems += balancePremium!.gem;
     }
 
     if (isPulseSponsoredAt(date)) {
-      gems += 5;
+      gems += pulsePremium!.gem;
     }
 
     if (hasDiscoveryPoints()) {
@@ -109,27 +249,4 @@ class Spot {
 
     return gems;
   }
-
-  // factory Spot.fromJson(Map<String, dynamic> json) {
-  //   return Spot(
-  //     id: json['id'],
-  //     name: json['name'],
-  //     coordinates: List<double>.from(json['coordinates']),
-  //     city: City.fromJson(json['city']),
-  //     categories: Category.fromJsons(json['categories']),
-  //     gemsPerHours: gemsPerHours.fromJson(json['gemsPerHours']),
-  //     openHours: OpenHours.fromJson(json['openHours']),
-  //     crowdReports: CrowdReport.fromJsons(json['crowdReports']),
-  //     balanceExpireAt: DateTime.parse(json["balanceExpireAt"]),
-  //     pulseExpireAt: DateTime.parse(json["pulseExpireAt"]),
-  //   );
-  // }
-
-  // static Future<List<Spot>> fromJsons(List<dynamic> jsons) async {
-  //   final List<Spot> list = [];
-  //   for (Map<String, dynamic> json in jsons) {
-  //     list.add(Spot.fromJson(json));
-  //   }
-  //   return list;
-  // }
 }

@@ -6,6 +6,7 @@
         android:label="Hoora"
         android:name="${applicationName}"
         android:enableOnBackInvokedCallback="true"
+        android:allowBackup="false"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"

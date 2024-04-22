@@ -28,6 +28,7 @@ import 'package:hoora/repository/city_repository.dart';
 import 'package:hoora/repository/crash_repository.dart';
 import 'package:hoora/repository/spot_repository.dart';
 import 'package:hoora/repository/user_repository.dart';
+import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -51,6 +52,9 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+
+  MapboxOptions.setAccessToken(mapBoxApiKey);
+  MapboxMapsOptions.setLanguage("FR");
 
   /// Null if first time lauching.
   String? isFirstLaunch = await const FlutterSecureStorage().read(key: kSSKeyFirstLaunch);

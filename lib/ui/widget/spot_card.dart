@@ -7,8 +7,7 @@ import 'package:hoora/bloc/explore/explore_bloc.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/model/spot_model.dart';
 
-/// TODO retirer le reload du backend et faire le trie lors du changement de catégorie
-/// TODO intéger du délai front pendant le sliding (si ça lag)
+///
 class SpotCard extends StatelessWidget {
   final Spot spot;
   const SpotCard({super.key, required this.spot});
@@ -98,7 +97,7 @@ class SpotCard extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(top: 2.5),
                                 child: Text(
-                                  "3h",
+                                  spot.getCrowdedAwaitingTime(),
                                   style: kRegularBalooPaaji12.copyWith(
                                     color: Colors.white,
                                   ),
@@ -113,9 +112,9 @@ class SpotCard extends StatelessWidget {
                           height: 30,
                           width: 70,
                           decoration: BoxDecoration(
-                            color: spot.isSponsoredAt(selectedDate) ? kSecondary : kGemsIndicator,
+                            color: spot.isSponsoredAt(selectedDate, selectedHour) ? kSecondary : kGemsIndicator,
                             borderRadius: BorderRadius.circular(kRadius100),
-                            gradient: spot.isSponsoredAt(selectedDate)
+                            gradient: spot.isSponsoredAt(selectedDate, selectedHour)
                                 ? const LinearGradient(
                                     colors: [
                                       Color.fromRGBO(87, 177, 123, 1),

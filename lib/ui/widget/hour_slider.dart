@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hoora/bloc/explore/explore_bloc.dart';
 import 'package:hoora/common/decoration.dart';
 
 class HourSlider extends StatefulWidget {
-  final void Function(int) onChanged;
-  const HourSlider({super.key, required this.onChanged});
+  final void Function(int) onChangedEnd;
+  const HourSlider({super.key, required this.onChangedEnd});
 
   @override
   State<HourSlider> createState() => _HourSliderState();
 }
 
 class _HourSliderState extends State<HourSlider> {
-  int hour = 7;
+  late int hour;
+
+  @override
+  void initState() {
+    super.initState();
+    hour = context.read<ExploreBloc>().selectedHour;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,14 +62,17 @@ class _HourSliderState extends State<HourSlider> {
               child: Slider(
                 min: 7,
                 max: 21,
+                divisions: 14,
                 value: hour.toDouble(),
                 onChanged: (newHour) {
                   setState(() {
                     /// Make the slider more smooth
-                    newHour = newHour + 0.5;
+                    // newHour = newHour + 0.5;
                     hour = newHour.toInt();
                   });
-                  widget.onChanged(newHour.toInt());
+                },
+                onChangeEnd: (hour) {
+                  widget.onChangedEnd(hour.toInt());
                 },
               ),
             ),

@@ -8,6 +8,7 @@ import 'package:hoora/common/decoration.dart';
 import 'package:hoora/common/extension/weekday_extension.dart';
 import 'package:hoora/model/category_model.dart';
 import 'package:hoora/model/spot_model.dart';
+import 'package:hoora/model/user_model.dart';
 import 'package:hoora/ui/widget/hour_slider.dart';
 import 'package:hoora/ui/widget/spot_card.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -109,8 +110,7 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
 
             /// Paddding is set in the widget, due to the Slider.
             /// Should be reworked with a paint class.
-            HourSlider(onChanged: (hour) {
-              /// TODO Filter with hour (du plsu grand nombre de gem au plus faible, en fonction de l'heure)
+            HourSlider(onChangedEnd: (hour) {
               context.read<ExploreBloc>().add(HourSelected(hour: hour));
             }),
             const SizedBox(height: kPadding20),
@@ -129,6 +129,7 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
   }
 
   Widget buildGemButton() {
+    User user = context.read<ExploreBloc>().user;
     return Align(
       alignment: Alignment.topRight,
       child: SizedBox(
@@ -142,10 +143,8 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
           child: Row(
             children: [
               const Spacer(),
-
-              /// TODO Replace with data from DB (user)
               Text(
-                "15",
+                user.gem.toString(),
                 style: kBoldARPDisplay13.copyWith(color: Colors.white),
               ),
               const SizedBox(width: kPadding5),
@@ -160,7 +159,7 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
 
   Widget buildCategories() {
     List<Category> categories = context.read<ExploreBloc>().categories;
-    Category selectedCategory = context.read<ExploreBloc>().selectedCategory;
+    Category? selectedCategory = context.read<ExploreBloc>().selectedCategory;
 
     List<Widget> children = [];
     for (int i = 0; i < categories.length; i++) {
@@ -186,7 +185,7 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
               height: 50,
               width: 50,
               decoration: BoxDecoration(
-                color: category.id == selectedCategory.id ? kSecondary : kUnselected,
+                color: selectedCategory != null && category.id == selectedCategory.id ? kSecondary : kUnselected,
                 border: Border.all(color: Colors.white, width: 2),
                 borderRadius: BorderRadius.circular(kPadding10),
                 boxShadow: [
@@ -203,7 +202,9 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
                 child: InkWell(
                   borderRadius: BorderRadius.circular(kRadius10),
                   onTap: () {
-                    if (category.id != selectedCategory.id) {
+                    if (selectedCategory != null && category.id == selectedCategory.id) {
+                      context.read<ExploreBloc>().add(CategorySelected(category: null));
+                    } else {
                       context.read<ExploreBloc>().add(CategorySelected(category: category));
                     }
                   },
@@ -260,30 +261,24 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
     );
   }
 
-  /// TODO should be a singlescroll view, with 10 element max display. load more when the bootm is reached
   Widget buildSpotCards() {
-    List<Spot> spots = context.read<ExploreBloc>().spots;
+    /// All the spots
+    List<Spot> filteredSpots = context.read<ExploreBloc>().filteredSpots;
 
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: kPadding20),
         child: ListView.builder(
-            itemCount: spots.length,
+            itemCount: filteredSpots.length,
             itemBuilder: (context, index) {
               EdgeInsetsGeometry padding = const EdgeInsets.only(bottom: 10);
-              Spot spot = spots[index];
-              DateTime selectedDate = context.read<ExploreBloc>().selectedDate;
-              int selectedHour = context.read<ExploreBloc>().selectedHour;
-
-              if (spot.isClosedAt(selectedDate, selectedHour) || spot.getGemsAt(selectedDate, selectedHour) <= 0) {
-                return Container();
-              }
+              Spot spot = filteredSpots[index];
 
               if (index == 0) {
                 padding = const EdgeInsets.only(top: 20, bottom: 10);
               }
 
-              if (index == spots.length - 1 && spots.length > 1) {
+              if (index == filteredSpots.length - 1 && filteredSpots.length > 1) {
                 padding = const EdgeInsets.only(bottom: 20);
               }
 

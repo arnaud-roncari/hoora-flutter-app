@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoora/common/alert.dart';
 import 'package:hoora/repository/auth_repository.dart';
@@ -41,7 +42,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(ForgotPasswordSuccess());
     } catch (exception, stack) {
       /// Report crash to Crashlytics
-      crashRepository.report(exception, stack);
+      if (exception is! FirebaseAuthException) {
+        crashRepository.report(exception, stack);
+      }
 
       /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);
@@ -56,7 +59,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(SignInSuccess(isNewUser: false));
     } catch (exception, stack) {
       /// Report crash to Crashlytics
-      crashRepository.report(exception, stack);
+      if (exception is! FirebaseAuthException) {
+        crashRepository.report(exception, stack);
+      }
 
       /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);
@@ -131,7 +136,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(SignUpSuccess(isNewUser: true));
     } catch (exception, stack) {
       /// Report crash to Crashlytics
-      crashRepository.report(exception, stack);
+      if (exception is! FirebaseAuthException) {
+        crashRepository.report(exception, stack);
+      }
 
       /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);

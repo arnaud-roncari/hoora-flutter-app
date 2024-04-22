@@ -898,6 +898,16 @@ PODS:
     - GTMSessionFetcher/Core (< 4.0, >= 1.5)
   - GTMSessionFetcher/Core (3.3.1)
   - leveldb-library (1.22.4)
+  - mapbox_maps_flutter (1.1.0):
+    - Flutter
+    - MapboxMaps (~> 11.3.0)
+  - MapboxCommon (24.3.1)
+  - MapboxCoreMaps (11.3.0):
+    - MapboxCommon (~> 24.3)
+  - MapboxMaps (11.3.0):
+    - MapboxCommon (= 24.3.1)
+    - MapboxCoreMaps (= 11.3.0)
+    - Turf (= 2.8.0)
   - nanopb (2.30909.1):
     - nanopb/decode (= 2.30909.1)
     - nanopb/encode (= 2.30909.1)
@@ -915,6 +925,7 @@ PODS:
   - sqflite (0.0.3):
     - Flutter
     - FlutterMacOS
+  - Turf (2.8.0)
   - url_launcher_ios (0.0.1):
     - Flutter
 
@@ -930,6 +941,7 @@ DEPENDENCIES:
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
+  - mapbox_maps_flutter (from `.symlinks/plugins/mapbox_maps_flutter/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/darwin`)
@@ -964,10 +976,14 @@ SPEC REPOS:
     - GTMAppAuth
     - GTMSessionFetcher
     - leveldb-library
+    - MapboxCommon
+    - MapboxCoreMaps
+    - MapboxMaps
     - nanopb
     - PromisesObjC
     - PromisesSwift
     - RecaptchaInterop
+    - Turf
 
 EXTERNAL SOURCES:
   cloud_firestore:
@@ -992,6 +1008,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/darwin"
+  mapbox_maps_flutter:
+    :path: ".symlinks/plugins/mapbox_maps_flutter/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   sign_in_with_apple:
@@ -1040,6 +1058,10 @@ SPEC CHECKSUMS:
   GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
   GTMSessionFetcher: 8a1b34ad97ebe6f909fb8b9b77fba99943007556
   leveldb-library: 06a69cc7582d64b29424a63e085e683cc188230a
+  mapbox_maps_flutter: 0425c56f1f51fe8c46069a9e03f1027e3ade35d7
+  MapboxCommon: e6d0d15f1e34278e21bae28bdc548d378757b51e
+  MapboxCoreMaps: 0e3eab0bd5787e833d48261fa1d01f356d6c4ad8
+  MapboxMaps: 5aba2ba70a85d08e0ea00ad011ca3d2965e69a59
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
@@ -1047,6 +1069,7 @@ SPEC CHECKSUMS:
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
   sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
+  Turf: aa2ede4298009639d10db36aba1a7ebaad072a5e
   url_launcher_ios: 6116280ddcfe98ab8820085d8d76ae7449447586
 
 PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796

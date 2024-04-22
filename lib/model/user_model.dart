@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class User {
   final String id;
+  final String userId;
   final int gem;
   final int experience;
   final int level;
@@ -15,6 +18,7 @@ class User {
 
   User({
     required this.id,
+    required this.userId,
     required this.gem,
     required this.experience,
     required this.level,
@@ -29,29 +33,56 @@ class User {
     required this.phoneNumber,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
+  factory User.fromSnapshot(QueryDocumentSnapshot doc) {
     return User(
-      id: json['id'],
-      gem: json['gem'],
-      experience: json['experience'],
-      level: json['level'],
-      firstname: json['firstname'],
-      lastname: json['lastname'],
-      nickname: json['nickname'],
-      city: json['city'],
-      country: json['country'],
-      language: json['language'],
-      gender: json['gender'],
-      birthday: json['birthday'],
-      phoneNumber: json['phoneNumber'],
+      id: doc.id,
+      userId: doc["userId"],
+      gem: doc['gem'],
+      experience: doc['experience'],
+      level: doc['level'],
+      firstname: doc['firstname'],
+      lastname: doc['lastname'],
+      nickname: doc['nickname'],
+      city: doc['city'],
+      country: doc['country'],
+      language: doc['language'],
+      gender: doc['gender'],
+      birthday: doc['birthday'],
+      phoneNumber: doc['phoneNumber'],
     );
   }
 
-  static Future<List<User>> fromJsons(List<dynamic> jsons) async {
+  static List<User> fromSnapshots(List<QueryDocumentSnapshot> docs) {
     final List<User> list = [];
-    for (Map<String, dynamic> json in jsons) {
-      list.add(User.fromJson(json));
+    for (QueryDocumentSnapshot doc in docs) {
+      list.add(User.fromSnapshot(doc));
     }
     return list;
   }
+
+  // factory User.fromJson(Map<String, dynamic> json) {
+  //   return User(
+  //     id: json['id'],
+  //     gem: json['gem'],
+  //     experience: json['experience'],
+  //     level: json['level'],
+  //     firstname: json['firstname'],
+  //     lastname: json['lastname'],
+  //     nickname: json['nickname'],
+  //     city: json['city'],
+  //     country: json['country'],
+  //     language: json['language'],
+  //     gender: json['gender'],
+  //     birthday: json['birthday'],
+  //     phoneNumber: json['phoneNumber'],
+  //   );
+  // }
+
+  // static Future<List<User>> fromJsons(List<dynamic> jsons) async {
+  //   final List<User> list = [];
+  //   for (Map<String, dynamic> json in jsons) {
+  //     list.add(User.fromJson(json));
+  //   }
+  //   return list;
+  // }
 }
