@@ -1,10 +1,10 @@
 import * as v1 from "firebase-functions/v1";
 import * as v2 from "firebase-functions/v2";
 import * as admin from "firebase-admin";
-import {UserEntity} from "./entity/user.entity";
 import {CreateSpotsDto} from "./dto/create_spots.dto";
+import {FieldValue} from "firebase-admin/firestore";
 
-// / TODO: Upgrade body validation
+// TODO: Upgrade body validation
 admin.initializeApp();
 
 export const createUser = v1.auth.user().onCreate( async (user) => {
@@ -22,7 +22,7 @@ export const createUser = v1.auth.user().onCreate( async (user) => {
     gender: "",
     birthday: "",
     phoneNumber: "",
-  } as UserEntity);
+  });
 });
 
 export const createSpots = v2.https.onRequest(async (request, response) => {
@@ -34,6 +34,33 @@ export const createSpots = v2.https.onRequest(async (request, response) => {
 
     response.json({status: "OK"});
   } catch (e) {
+    console.log(e);
     response.json({status: "KO", error: e});
   }
 });
+
+exports.incrementSpotQuantity = v2.firestore.onDocumentCreated("spot/{docId}",
+  async (event) => {
+    const snapshot = event.data?.data();
+    if (snapshot == null) {
+      return;
+    }
+
+    const areaRef = admin.firestore().collection("area").doc(snapshot.areaId);
+    await areaRef.update({
+      spotQuantity: FieldValue.increment(1),
+    });
+  });
+
+exports.decreaseSpotQuantity = v2.firestore.onDocumentDeleted("spot/{docId}",
+  async (event) => {
+    const snapshot = event.data?.data();
+    if (snapshot == null) {
+      return;
+    }
+
+    const areaRef = admin.firestore().collection("area").doc(snapshot.areaId);
+    await areaRef.update({
+      spotQuantity: FieldValue.increment(-1),
+    });
+  });
