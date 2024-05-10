@@ -75,7 +75,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       selectedDate = DateTime.now().copyWith(hour: DateTime.now().getFormattedHour());
 
       /// Then fetch spots
-      spots = await spotRepository.getSpots(selectedRegion, selectedCity);
+      spots = await spotRepository.getSpotsByRegion(selectedRegion, selectedCity);
       _filterSpots();
 
       emit(InitSuccess());
@@ -118,7 +118,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
   void getSpots(GetSpots event, Emitter<ExploreState> emit) async {
     try {
       emit(GetSpotsLoading());
-      spots = await spotRepository.getSpots(selectedRegion, selectedCity);
+      spots = await spotRepository.getSpotsByRegion(selectedRegion, selectedCity);
       _filterSpots();
       emit(GetSpotsSuccess());
     } catch (exception, stack) {

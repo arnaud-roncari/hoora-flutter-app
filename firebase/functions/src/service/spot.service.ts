@@ -13,20 +13,20 @@ export class SpotService {
   ];
 
   static _getTrafficPoint(density: number, popularTime : number, average: number) : number {
-    if (popularTime === 0) {
+    const difference: number = average - popularTime;
+
+    if (difference <= 0) {
       return 0;
     }
 
-    const difference: number = average - popularTime;
-
-    if (difference < 10) {
+    if (difference <= 10) {
       return this.trafficPoints[density - 1][0];
     }
 
-    if (difference < 20) {
+    if (difference <= 20) {
       return this.trafficPoints[density - 1][1];
     }
-    if (difference < 30) {
+    if (difference <= 30) {
       return this.trafficPoints[density - 1][2];
     }
     return this.trafficPoints[density - 1][3];

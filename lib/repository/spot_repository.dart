@@ -9,7 +9,7 @@ class SpotRepository {
   FirebaseFirestore instance = FirebaseFirestore.instance;
   final FirebaseAuth authInstance = FirebaseAuth.instance;
 
-  Future<List<Spot>> getSpots(Region region, City? city) async {
+  Future<List<Spot>> getSpotsByRegion(Region region, City? city) async {
     if (city == null) {
       QuerySnapshot snapshot = await instance.collection("spot").where("regionId", isEqualTo: region.id).get();
       return Spot.fromSnapshots(snapshot.docs);
@@ -20,6 +20,11 @@ class SpotRepository {
         .where("regionId", isEqualTo: region.id)
         .where("cityId", isEqualTo: city.id)
         .get();
+    return Spot.fromSnapshots(snapshot.docs);
+  }
+
+  Future<List<Spot>> getAllSpots() async {
+    QuerySnapshot snapshot = await instance.collection("spot").get();
     return Spot.fromSnapshots(snapshot.docs);
   }
 

@@ -77,7 +77,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       actualDate = DateTime.now().copyWith(hour: DateTime.now().getFormattedHour());
 
       /// Then fetch spots
-      spots = await spotRepository.getSpots(selectedRegion, selectedCity);
+      spots = await spotRepository.getAllSpots();
       _filterSpots();
 
       emit(InitSuccess());
@@ -107,7 +107,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   void getSpots(GetSpots event, Emitter<MapState> emit) async {
     try {
       emit(GetSpotsLoading());
-      spots = await spotRepository.getSpots(selectedRegion, selectedCity);
+      spots = await spotRepository.getAllSpots();
       _filterSpots();
       emit(GetSpotsSuccess());
     } catch (exception, stack) {
@@ -136,7 +136,6 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       for (int i = 0; i < spots.length; i++) {
         Spot spot = spots[i];
 
-        /// TODO : Hoora Clients might want to display closed spots
         if (!spot.isClosedAt(actualDate)) {
           filteredSpots.add(spot);
         }

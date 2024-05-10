@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hoora/bloc/explore/explore_bloc.dart';
+import 'package:hoora/common/crowd_report_sentences.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/model/spot_model.dart';
 import 'package:hoora/ui/page/spot_page.dart';
@@ -74,104 +75,131 @@ class SpotCard extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: kPadding5),
+
+                  /// ------
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         spot.name,
                         style: kBoldARPDisplay11.copyWith(color: Colors.white),
+                        overflow: TextOverflow.clip,
                         maxLines: 2,
                       ),
                       const SizedBox(height: kPadding5),
                       Text(
                         spot.cityName,
+                        overflow: TextOverflow.clip,
+                        maxLines: 1,
                         style: kRegularBalooPaaji14.copyWith(color: Colors.white),
                       ),
                       const Spacer(),
-                      Row(
-                        children: [
-                          if (spot.hasCrowdReportAt(selectedDate))
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 2.5),
-                                  child: Text(
-                                    "foule",
-                                    style: kRegularBalooPaaji12.copyWith(
-                                      color: Colors.white,
-                                    ),
+
+                      /// ------
+                      LayoutBuilder(builder: (context, constraint) {
+                        return SizedBox(
+                          height: 30,
+                          width: constraint.maxWidth,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              /// ---
+                              if (spot.hasCrowdReportAt(selectedDate))
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        "assets/svg/smiley_${spot.lastCrowdReport!.intensity}.svg",
+                                        height: 18,
+                                      ),
+                                      const SizedBox(width: kPadding5),
+                                      Expanded(
+                                        child: Text(
+                                          crowdReportSentences[spot.lastCrowdReport!.intensity - 1],
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                          style: kRegularBalooPaaji12.copyWith(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: kPadding5),
+                                    ],
                                   ),
                                 ),
-                                const SizedBox(width: kPadding5),
-                                SvgPicture.asset("assets/svg/crowd.svg"),
-                                const SizedBox(width: kPadding10),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 2.5),
-                                  child: Text(
-                                    getCrowdReportAwaitingTime(),
-                                    style: kRegularBalooPaaji12.copyWith(
-                                      color: Colors.white,
+
+                              if (spot.hasCrowdReportAt(selectedDate) && spot.isAwaitingTimeAt(selectedDate))
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      "assets/svg/hour_glass.svg",
+                                      height: 18,
                                     ),
-                                  ),
-                                ),
-                                const SizedBox(width: kPadding5),
-                                SvgPicture.asset("assets/svg/waiting.svg"),
-                              ],
-                            ),
-                          const Spacer(),
-                          Container(
-                            height: 30,
-                            width: 70,
-                            decoration: BoxDecoration(
-                              color: spot.isSponsoredAt(selectedDate) ? null : kGemsIndicator,
-                              borderRadius: BorderRadius.circular(kRadius100),
-                              gradient: spot.isSponsoredAt(selectedDate)
-                                  ? const LinearGradient(
-                                      colors: [
-                                        Color.fromRGBO(187, 177, 123, 1),
-                                        Color.fromRGBO(255, 244, 188, 1),
-                                      ],
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                      stops: [
-                                        0,
-                                        0.7,
-                                      ],
-                                    )
-                                  : null,
-                            ),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 35,
-                                  height: 30,
-                                  child: Center(
-                                    child: Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Text(
-                                        spot.getGemsAt(selectedDate).toString(),
-                                        style: kBoldARPDisplay13,
+                                    const SizedBox(width: kPadding5),
+                                    Text(
+                                      getCrowdReportAwaitingTime(),
+                                      style: kRegularBalooPaaji12.copyWith(
+                                        color: Colors.white,
                                       ),
                                     ),
-                                  ),
+                                    const SizedBox(width: kPadding5),
+                                  ],
                                 ),
-                                SizedBox(
-                                  height: 30,
-                                  width: 35,
-                                  child: Center(
-                                      child: Padding(
-                                    padding: const EdgeInsets.only(right: kPadding5),
-                                    child: SvgPicture.asset(
-                                      "assets/svg/gem.svg",
-                                      height: 15,
+                              Container(
+                                height: 30,
+                                width: 70,
+                                decoration: BoxDecoration(
+                                  color: spot.isSponsoredAt(selectedDate) ? null : kGemsIndicator,
+                                  borderRadius: BorderRadius.circular(kRadius100),
+                                  gradient: spot.isSponsoredAt(selectedDate)
+                                      ? const LinearGradient(
+                                          colors: [
+                                            Color.fromRGBO(187, 177, 123, 1),
+                                            Color.fromRGBO(255, 244, 188, 1),
+                                          ],
+                                          begin: Alignment.centerLeft,
+                                          end: Alignment.centerRight,
+                                          stops: [
+                                            0,
+                                            0.7,
+                                          ],
+                                        )
+                                      : null,
+                                ),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 35,
+                                      height: 30,
+                                      child: Center(
+                                        child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Text(
+                                            spot.getGemsAt(selectedDate).toString(),
+                                            style: kBoldARPDisplay13,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  )),
+                                    SizedBox(
+                                      height: 30,
+                                      width: 35,
+                                      child: Center(
+                                          child: Padding(
+                                        padding: const EdgeInsets.only(right: kPadding5),
+                                        child: SvgPicture.asset(
+                                          "assets/svg/gem.svg",
+                                          height: 15,
+                                        ),
+                                      )),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      )
+                        );
+                      })
                     ],
                   ),
                 ),
