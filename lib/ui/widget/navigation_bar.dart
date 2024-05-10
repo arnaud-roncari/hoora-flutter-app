@@ -51,7 +51,7 @@ class _NavigationState extends State<Navigation> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           _buildButton("explore.svg", 0),
-          _buildButton("map.svg", 1),
+          _buildButton("gift.svg", 1),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -91,14 +91,10 @@ class _NavigationState extends State<Navigation> {
                 ),
               ),
               const SizedBox(height: 5),
-              const Text(
-                "Je suis sur place",
-                style: kBoldBalooPaaji10,
-              ),
             ],
           ),
-          _buildButton("gift.svg", 3),
-          _buildButton("challenge.svg", 4),
+          _buildButton("challenge.svg", 3),
+          _buildButton("ranking.svg", 4),
         ],
       ),
     );

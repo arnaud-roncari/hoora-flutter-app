@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:hoora/common/decoration.dart';
 
 class PageIndicator extends StatelessWidget {
   final int length;
   final int currentIndex;
-  const PageIndicator({super.key, required this.length, required this.currentIndex});
+  final Color selectedColor;
+  final Color unselectedColor;
+  const PageIndicator({
+    super.key,
+    required this.length,
+    required this.currentIndex,
+    required this.selectedColor,
+    required this.unselectedColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +24,7 @@ class PageIndicator extends StatelessWidget {
             width: 43,
             height: 8,
             decoration: BoxDecoration(
-              color: currentIndex == i ? kPrimary : kPrimary.withOpacity(0.30),
+              color: currentIndex == i ? selectedColor : unselectedColor,
               borderRadius: BorderRadius.circular(100),
             ),
           ),

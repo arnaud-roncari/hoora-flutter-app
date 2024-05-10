@@ -28,6 +28,11 @@ module.exports = {
     "quotes": ["error", "double"],
     "import/no-unresolved": 0,
     "require-jsdoc": 0,
+    "valid-jsdoc": 0,
+    "max-len": 0,
+
+    "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/no-non-null-assertion": 0,
     "indent": ["error", 2],
   },
 };

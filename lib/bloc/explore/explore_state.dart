@@ -6,6 +6,8 @@ final class InitLoading extends ExploreState {}
 
 final class InitSuccess extends ExploreState {}
 
+final class CitySelectedUpdated extends ExploreState {}
+
 final class InitFailed extends ExploreState {
   final AlertException exception;
 

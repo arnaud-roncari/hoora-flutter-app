@@ -18,7 +18,7 @@ class ExplanationPage extends StatefulWidget {
 }
 
 class _ExplanationPageState extends State<ExplanationPage> {
-  late PageController controller = PageController();
+  PageController controller = PageController();
   int currentIndex = 0;
 
   @override
@@ -179,7 +179,12 @@ class _ExplanationPageState extends State<ExplanationPage> {
                 ),
                 Column(
                   children: [
-                    PageIndicator(length: 4, currentIndex: currentIndex),
+                    PageIndicator(
+                      length: 4,
+                      currentIndex: currentIndex,
+                      selectedColor: kPrimary,
+                      unselectedColor: kPrimary.withOpacity(0.30),
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(kPadding20),
                       child: Align(

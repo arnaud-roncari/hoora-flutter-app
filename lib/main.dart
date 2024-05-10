@@ -6,16 +6,21 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hoora/bloc/auth/auth_bloc.dart';
+import 'package:hoora/bloc/create_crowd_report/create_crowd_report_bloc.dart';
 import 'package:hoora/bloc/explore/explore_bloc.dart';
 import 'package:hoora/bloc/first_launch/first_launch_bloc.dart';
+import 'package:hoora/bloc/map/map_bloc.dart';
+import 'package:hoora/bloc/user/user_bloc.dart';
+import 'package:hoora/bloc/validate_spot/validate_spot_bloc.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/common/globals.dart';
+import 'package:hoora/repository/crowd_report_repository.dart';
+import 'package:hoora/repository/region_repository.dart';
+import 'package:hoora/repository/playlist_repository.dart';
 import 'package:hoora/ui/page/auth/forgot_password.dart';
 import 'package:hoora/ui/page/auth/sign_in.dart';
 import 'package:hoora/ui/page/auth/sign_up.dart';
 import 'package:hoora/ui/page/auth/sign_up_gift_gems.dart';
-import 'package:hoora/ui/page/explore/city_page.dart';
-import 'package:hoora/ui/page/explore/date_page.dart';
 import 'package:hoora/ui/page/first_launch/explanation_page.dart';
 import 'package:hoora/ui/page/first_launch/welcome_page.dart';
 import 'package:hoora/ui/page/first_launch/request_geolocation_page.dart';
@@ -23,12 +28,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:hoora/ui/page/home_page.dart';
 import 'package:hoora/ui/page/my_gift_page.dart';
 import 'package:hoora/repository/auth_repository.dart';
-import 'package:hoora/repository/category_repository.dart';
-import 'package:hoora/repository/city_repository.dart';
 import 'package:hoora/repository/crash_repository.dart';
 import 'package:hoora/repository/spot_repository.dart';
 import 'package:hoora/repository/user_repository.dart';
-import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
+import 'package:hoora/ui/page/user/earnings.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -40,7 +43,15 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
+  /// Set status bar to dark.
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // if (true) {
+  //   FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+  //   FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: false, sslEnabled: false);
+  //   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  // }
 
   /// Pass all uncaught "fatal" errors from the framework to Crashlytics
   FlutterError.onError = (errorDetails) {
@@ -53,13 +64,11 @@ void main() async {
     return true;
   };
 
-  MapboxOptions.setAccessToken(mapBoxApiKey);
-  MapboxMapsOptions.setLanguage("FR");
-
   /// Null if first time lauching.
   String? isFirstLaunch = await const FlutterSecureStorage().read(key: kSSKeyFirstLaunch);
 
   User? user = FirebaseAuth.instance.currentUser;
+
   String initialRoute = user != null ? "/home" : "/auth/sign_up";
   if (isFirstLaunch == null) {
     initialRoute = "/first_launch/welcome";
@@ -80,8 +89,9 @@ class HooraApp extends StatelessWidget {
         RepositoryProvider<CrashRepository>(create: (context) => CrashRepository()),
         RepositoryProvider<UserRepository>(create: (context) => UserRepository()),
         RepositoryProvider<SpotRepository>(create: (context) => SpotRepository()),
-        RepositoryProvider<CityRepository>(create: (context) => CityRepository()),
-        RepositoryProvider<CategoryRepository>(create: (context) => CategoryRepository()),
+        RepositoryProvider<RegionRepository>(create: (context) => RegionRepository()),
+        RepositoryProvider<PlaylistRepository>(create: (context) => PlaylistRepository()),
+        RepositoryProvider<CrowdReportRepository>(create: (context) => CrowdReportRepository()),
       ],
       child: Builder(builder: (context) {
         return MultiBlocProvider(
@@ -96,12 +106,39 @@ class HooraApp extends StatelessWidget {
               ),
             ),
             BlocProvider(
-              create: (_) => ExploreBloc(
-                cityRepository: context.read<CityRepository>(),
+              create: (_) => UserBloc(
                 userRepository: context.read<UserRepository>(),
-                categoryRepository: context.read<CategoryRepository>(),
+                crashRepository: context.read<CrashRepository>(),
+              ),
+            ),
+            BlocProvider(
+              create: (_) => ValidateSpotBloc(
                 spotRepository: context.read<SpotRepository>(),
                 crashRepository: context.read<CrashRepository>(),
+              ),
+            ),
+            BlocProvider(
+              create: (_) => CreateCrowdReportBloc(
+                crowdReportRepository: context.read<CrowdReportRepository>(),
+                crashRepository: context.read<CrashRepository>(),
+              ),
+            ),
+            BlocProvider(
+              create: (_) => ExploreBloc(
+                areaRepository: context.read<RegionRepository>(),
+                playlistRepository: context.read<PlaylistRepository>(),
+                spotRepository: context.read<SpotRepository>(),
+                crashRepository: context.read<CrashRepository>(),
+                crowdReportRepository: context.read<CrowdReportRepository>(),
+              ),
+            ),
+            BlocProvider(
+              create: (_) => MapBloc(
+                areaRepository: context.read<RegionRepository>(),
+                playlistRepository: context.read<PlaylistRepository>(),
+                spotRepository: context.read<SpotRepository>(),
+                crashRepository: context.read<CrashRepository>(),
+                crowdReportRepository: context.read<CrowdReportRepository>(),
               ),
             ),
           ],
@@ -109,7 +146,8 @@ class HooraApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: kTheme,
             title: 'Hoora',
-            // initialRoute: '/first_launch/welcome',
+            // initialRoute: "/first_launch/welcome",
+            // initialRoute: '/auth/sign_up',
             initialRoute: initialRoute,
             routes: {
               '/first_launch/welcome': (context) => const WelcomePage(),
@@ -121,8 +159,7 @@ class HooraApp extends StatelessWidget {
               '/auth/forgot_password': (context) => const ForgotPasswordPage(),
               '/home': (context) => const HomePage(),
               '/home/my_gift': (context) => const MyGiftPage(),
-              '/home/city': (context) => const CityPage(),
-              '/home/date': (context) => const DatePage(),
+              '/home/earnings': (context) => const EarningsPage(),
             },
           ),
         );

@@ -2,20 +2,21 @@ part of 'explore_bloc.dart';
 
 sealed class ExploreEvent {}
 
-final class Initialize extends ExploreEvent {}
+final class Init extends ExploreEvent {}
 
-final class CategorySelected extends ExploreEvent {
-  final Category? category;
+final class PlaylistSelected extends ExploreEvent {
+  final Playlist? playlist;
 
-  CategorySelected({required this.category});
+  PlaylistSelected({required this.playlist});
 }
 
 final class GetSpots extends ExploreEvent {}
 
-final class CitySelected extends ExploreEvent {
-  final City city;
+final class RegionSelected extends ExploreEvent {
+  final Region region;
+  final City? city;
 
-  CitySelected({required this.city});
+  RegionSelected({required this.region, this.city});
 }
 
 final class DateSelected extends ExploreEvent {

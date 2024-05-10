@@ -1,18 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
-import 'package:latlong2/latlong.dart' as latLng;
+import 'package:latlong2/latlong.dart';
 
 class City {
   final String id;
   final String name;
+  final int spotQuantity;
   final GeoPoint coordinates;
 
-  City({required this.id, required this.name, required this.coordinates});
+  City({required this.id, required this.name, required this.coordinates, required this.spotQuantity});
 
   factory City.fromSnapshot(QueryDocumentSnapshot doc) {
     return City(
       id: doc.id,
       name: doc['name'],
+      spotQuantity: doc['spotQuantity'],
       coordinates: doc['coordinates'],
     );
   }
@@ -21,16 +23,25 @@ class City {
     return City(
       id: json["id"],
       name: json['name'],
+      spotQuantity: json['spotQuantity'],
       coordinates: json['coordinates'],
     );
   }
 
   static List<City> fromSnapshots(List<QueryDocumentSnapshot> docs) {
-    final List<City> cities = [];
+    final List<City> list = [];
     for (QueryDocumentSnapshot doc in docs) {
-      cities.add(City.fromSnapshot(doc));
+      list.add(City.fromSnapshot(doc));
     }
-    return cities;
+    return list;
+  }
+
+  static List<City> fromJsons(List<dynamic> jsons) {
+    final List<City> list = [];
+    for (Map<String, dynamic> json in jsons) {
+      list.add(City.fromJson(json));
+    }
+    return list;
   }
 
   double getLatitude() {
@@ -45,7 +56,7 @@ class City {
     return Position(coordinates.longitude, coordinates.latitude);
   }
 
-  latLng.LatLng getLatLng() {
-    return latLng.LatLng(coordinates.latitude, coordinates.longitude);
+  LatLng getLatLng() {
+    return LatLng(coordinates.latitude, coordinates.longitude);
   }
 }

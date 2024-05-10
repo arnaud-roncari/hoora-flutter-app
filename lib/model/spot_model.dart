@@ -1,88 +1,46 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hoora/model/category_model.dart';
-import 'package:hoora/model/city_model.dart';
-import 'package:hoora/model/crowd_report_model.dart';
-
-class ExceptionalOpenHours {
-  final DateTime date;
-  final Map<String, bool> openHours;
-
-  factory ExceptionalOpenHours.fromJson(Map<String, dynamic> json) {
-    return ExceptionalOpenHours(
-      date: (json["date"] as Timestamp).toDate(),
-      openHours: Map<String, bool>.from(json["openHours"]),
-    );
-  }
-
-  static List<ExceptionalOpenHours> fromJsons(List<dynamic> jsons) {
-    final List<ExceptionalOpenHours> hour = [];
-    for (Map<String, dynamic> json in jsons) {
-      hour.add(ExceptionalOpenHours.fromJson(json));
-    }
-    return hour;
-  }
-
-  ExceptionalOpenHours({required this.date, required this.openHours});
-}
-
-class BalancePremium {
-  final DateTime from;
-  final DateTime to;
-  final int gem;
-
-  BalancePremium({required this.from, required this.to, required this.gem});
-
-  factory BalancePremium.fromSnapshot(QueryDocumentSnapshot doc) {
-    return BalancePremium(
-      from: (doc["from"] as Timestamp).toDate(),
-      to: (doc["to"] as Timestamp).toDate(),
-      gem: doc['gem'],
-    );
-  }
-  factory BalancePremium.fromJson(Map<String, dynamic> json) {
-    return BalancePremium(
-      from: (json["from"] as Timestamp).toDate(),
-      to: (json["to"] as Timestamp).toDate(),
-      gem: json['gem'],
-    );
-  }
-}
-
-class PulsePremium {
-  final DateTime from;
-  final DateTime to;
-  final int gem;
-
-  PulsePremium({required this.from, required this.to, required this.gem});
-
-  factory PulsePremium.fromSnapshot(QueryDocumentSnapshot doc) {
-    return PulsePremium(
-      from: (doc["from"] as Timestamp).toDate(),
-      to: (doc["to"] as Timestamp).toDate(),
-      gem: doc['gem'],
-    );
-  }
-
-  factory PulsePremium.fromJson(Map<String, dynamic> json) {
-    return PulsePremium(
-      from: (json["from"] as Timestamp).toDate(),
-      to: (json["to"] as Timestamp).toDate(),
-      gem: json['gem'],
-    );
-  }
-}
+import 'package:geolocator/geolocator.dart';
+import 'package:hoora/common/extension/hour_extension.dart';
+import 'package:hoora/model/exceptional_open_hours_model.dart';
+import 'package:hoora/model/hours_model.dart';
+import 'package:hoora/model/open_hours_model.dart';
+import 'package:hoora/model/playlist_model.dart';
+import 'package:hoora/model/last_crowd_report_model.dart';
+import 'package:hoora/model/premium_model.dart';
+import 'package:hoora/model/region_model.dart';
+import 'package:hoora/model/tarification_model.dart';
+import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
 
 class Spot {
   final String id;
   final String name;
+  final int score;
   final String imageCardPath;
+  final String imageIsoPath;
+  final TarificationModel? fullPrice;
+  final TarificationModel? reducedPrice;
+  final TarificationModel? freePrice;
+  final List<String> imageGalleryPaths;
+  final List<String> tips;
+  final List<String> highlights;
+  final String description;
+  final String visitDuration;
+  final String website;
+  final String type;
   final GeoPoint coordinates;
-  final City city;
-  final List<Category> categories;
-  final List<Map<String, int>> gemsPerDays;
-  final List<Map<String, bool>> openHours;
+  final String cityId;
+  final String regionId;
+  final String cityName;
+  final String regionName;
+  final List<String> playlistIds;
+  final List<Map<String, int>> trafficPoints;
+  final List<Map<String, int>> popularTimes;
+  final List<int> density;
+  final double circleRadius;
+  final List<OpenHours> openHours;
   final List<ExceptionalOpenHours> exceptionalOpenHours;
-  final List<CrowdReport> crowdReports;
+  final LastCrowdReport? lastCrowdReport;
   final BalancePremium? balancePremium;
   final PulsePremium? pulsePremium;
   final double rating;
@@ -90,14 +48,32 @@ class Spot {
   Spot({
     required this.id,
     required this.name,
+    required this.fullPrice,
+    required this.reducedPrice,
+    required this.score,
+    required this.freePrice,
     required this.imageCardPath,
+    required this.imageIsoPath,
     required this.coordinates,
-    required this.city,
-    required this.categories,
-    required this.gemsPerDays,
+    required this.imageGalleryPaths,
+    required this.tips,
+    required this.highlights,
+    required this.description,
+    required this.visitDuration,
+    required this.website,
+    required this.type,
+    required this.cityId,
+    required this.circleRadius,
+    required this.density,
+    required this.popularTimes,
+    required this.regionId,
+    required this.cityName,
+    required this.regionName,
+    required this.playlistIds,
+    required this.trafficPoints,
     required this.openHours,
     required this.exceptionalOpenHours,
-    required this.crowdReports,
+    required this.lastCrowdReport,
     required this.rating,
     this.balancePremium,
     this.pulsePremium,
@@ -106,22 +82,40 @@ class Spot {
   factory Spot.fromSnapshot(QueryDocumentSnapshot doc) {
     return Spot(
       id: doc.id,
+      fullPrice: TarificationModel.fromJson(doc["fullPrice"]),
+      reducedPrice: TarificationModel.fromJson(doc["reducedPrice"]),
+      freePrice: TarificationModel.fromJson(doc["freePrice"]),
       name: doc['name'],
+      score: doc['score'],
       imageCardPath: doc['imageCardPath'],
+      imageGalleryPaths: List<String>.from(doc['imageGalleryPaths']),
+      tips: List<String>.from(doc['tips']),
+      highlights: List<String>.from(doc['highlights']),
+      website: doc['website'],
+      description: doc['description'],
+      type: doc['type'],
+      visitDuration: doc['visitDuration'],
+      imageIsoPath: doc['imageIsoPath'],
       coordinates: doc['coordinates'],
-      city: City.fromJson(doc['city']),
-      categories: Category.fromJsons(doc['categories']),
-      gemsPerDays: List<Map<String, int>>.from(doc["gemsPerDays"].map((from) {
+      cityId: doc['cityId'],
+      regionId: doc['regionId'],
+      cityName: Region.getCityNameFromId(doc["regionId"], doc["cityId"]),
+      regionName: Region.getRegionNameFromId(doc["regionId"]),
+      playlistIds: List<String>.from(doc['playlistIds']),
+      density: List<int>.from(doc['density']),
+      trafficPoints: List<Map<String, int>>.from(doc["trafficPoints"].map((from) {
         Map<String, int> to = Map<String, int>.from(from);
         return to;
       })),
-      openHours: List<Map<String, bool>>.from(doc["openHours"].map((from) {
-        Map<String, bool> to = Map<String, bool>.from(from);
+      popularTimes: List<Map<String, int>>.from(doc["popularTimes"].map((from) {
+        Map<String, int> to = Map<String, int>.from(from);
         return to;
       })),
+      openHours: OpenHours.fromJsons(doc["openHours"]),
       exceptionalOpenHours: ExceptionalOpenHours.fromJsons(doc["exceptionalOpenHours"]),
-      crowdReports: CrowdReport.fromJsons(doc["crowdReports"]),
+      lastCrowdReport: doc["lastCrowdReport"] == null ? null : LastCrowdReport.fromJson(doc["lastCrowdReport"]),
       rating: doc["rating"] is int ? (doc["rating"] as int).toDouble() : doc["rating"],
+      circleRadius: doc["circleRadius"] is int ? (doc["circleRadius"] as int).toDouble() : doc["circleRadius"],
       balancePremium: doc["balancePremium"] == null ? null : BalancePremium.fromJson(doc["balancePremium"]),
       pulsePremium: doc["pulsePremium"] == null ? null : PulsePremium.fromJson(doc["pulsePremium"]),
     );
@@ -135,54 +129,93 @@ class Spot {
     return list;
   }
 
-  bool isClosedAt(DateTime date, int hour) {
+  bool isClosedAt(DateTime date) {
+    DateFormat format = DateFormat("HH:mm");
+
     for (ExceptionalOpenHours exceptionalOpenHours in exceptionalOpenHours) {
       DateTime day = exceptionalOpenHours.date;
 
       if (date.month == day.month && date.day == day.day) {
-        return !exceptionalOpenHours.openHours[hour.toString()]!;
+        for (Hours hours in exceptionalOpenHours.hours) {
+          DateTime start = format.parse(hours.start);
+          DateTime end = format.parse(hours.end);
+          DateTime selected = format.parse("${date.hour}:00");
+          if ((selected.isAtSameMomentAs(start) || selected.isAfter(start)) && selected.isBefore(end)) {
+            return false;
+          }
+        }
+        return true;
       }
     }
-    return !openHours[date.weekday - 1][hour.toString()]!;
+
+    for (Hours hours in openHours[date.weekday - 1].hours) {
+      DateTime start = format.parse(hours.start);
+      DateTime end = format.parse(hours.end);
+      DateTime selected = format.parse("${date.hour}:00");
+      if ((selected.isAtSameMomentAs(start) || selected.isAfter(start)) && selected.isBefore(end)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
-  bool isCrowdedAt(DateTime date, int selectedHour) {
-    if (crowdReports.isEmpty) {
+  bool isAwaitingTimeNow() {
+    if (lastCrowdReport == null) {
+      return false;
+    }
+    DateTime date = DateTime.now();
+    return isAwaitingTimeAt(date);
+  }
+
+  bool isAwaitingTimeAt(DateTime date) {
+    if (lastCrowdReport == null) {
       return false;
     }
 
-    DateTime from = crowdReports.last.createdAt;
+    DateTime from = lastCrowdReport!.createdAt;
     DateTime to = from.add(const Duration(hours: 2));
 
     if (date.year == from.year && date.month == from.month && date.day == from.day) {
-      if (selectedHour >= from.hour && selectedHour <= to.hour) {
-        return crowdReports.last.intensity > 4;
+      if (date.hour >= from.hour && date.hour < to.hour) {
+        int hour = int.parse(lastCrowdReport!.duration.split(":")[0]);
+        int minute = int.parse(lastCrowdReport!.duration.split(":")[1]);
+        if (hour == 0 && minute == 00) {
+          return false;
+        }
+
+        return true;
       }
     }
     return false;
   }
 
-  String getCrowdedAwaitingTime() {
-    if (crowdReports.isEmpty) {
-      return '0\'';
-    }
-
-    int hour = crowdReports.last.hour;
-    int minute = crowdReports.last.minute;
-
-    if (hour < 1) {
-      return '$minute\'';
-    }
-
-    if (minute < 15) {
-      return '${hour}h';
-    }
-
-    return '${hour}h$minute';
+  bool hasCrowdReportNow() {
+    DateTime actualDay = DateTime.now();
+    return hasCrowdReportAt(actualDay);
   }
 
-  bool isSponsoredAt(DateTime date, int hour) {
-    if (isBalanceSponsoredAt(date, hour) || isPulseSponsoredAt(date)) {
+  bool hasCrowdReportAt(DateTime date) {
+    if (lastCrowdReport == null) {
+      return false;
+    }
+
+    DateTime from = lastCrowdReport!.createdAt;
+    DateTime to = from.add(const Duration(hours: 2));
+
+    if ((date.isAtSameMomentAs(from) || date.isAfter(from)) && date.isBefore(to)) {
+      return true;
+    }
+    return false;
+  }
+
+  bool isSponsoredNow() {
+    DateTime date = DateTime.now().copyWith(hour: DateTime.now().getFormattedHour(), minute: 00);
+    return isBalanceSponsoredAt(date);
+  }
+
+  bool isSponsoredAt(DateTime date) {
+    if (isBalanceSponsoredAt(date) || isPulseSponsoredAt(date)) {
       return true;
     }
     return false;
@@ -199,13 +232,13 @@ class Spot {
     return false;
   }
 
-  bool isBalanceSponsoredAt(DateTime date, int hour) {
+  bool isBalanceSponsoredAt(DateTime date) {
     if (balancePremium == null) {
       return false;
     }
 
     if (date.isAfter(balancePremium!.from) && date.isBefore(balancePremium!.to)) {
-      int gems = gemsPerDays[date.weekday - 1][hour.toString()]!;
+      int gems = trafficPoints[date.weekday - 1][date.hour.toString()]!;
       if (gems <= 0) {
         return false;
       }
@@ -215,27 +248,34 @@ class Spot {
     return false;
   }
 
-  bool hasDiscoveryPoints() {
-    return rating > 4.5;
+  bool hasDiscoveryPoints(DateTime date) {
+    int density = getDensityAt(date);
+
+    return density < 3 && rating >= 4.5;
   }
 
-  bool hasCategory(Category? category) {
-    if (category == null) {
+  bool hasPlaylist(Playlist? playlist) {
+    if (playlist == null) {
       return true;
     }
 
-    for (Category cat in categories) {
-      if (cat.id == category.id) {
+    for (String playlistId in playlistIds) {
+      if (playlistId == playlist.id) {
         return true;
       }
     }
     return false;
   }
 
-  int getGemsAt(DateTime date, int hour) {
-    int gems = gemsPerDays[date.weekday - 1][hour.toString()]!;
+  int getGemsNow() {
+    DateTime date = DateTime.now().copyWith(hour: DateTime.now().getFormattedHour(), minute: 00);
+    return getGemsAt(date);
+  }
 
-    if (gems > 0 && isBalanceSponsoredAt(date, hour)) {
+  int getGemsAt(DateTime date) {
+    int gems = trafficPoints[date.weekday - 1][date.hour.toString()]!;
+
+    if (gems > 0 && isBalanceSponsoredAt(date)) {
       gems += balancePremium!.gem;
     }
 
@@ -243,10 +283,48 @@ class Spot {
       gems += pulsePremium!.gem;
     }
 
-    if (hasDiscoveryPoints()) {
+    if (hasDiscoveryPoints(date)) {
       gems += 5;
     }
-
     return gems;
+  }
+
+  LatLng getLatLng() {
+    return LatLng(coordinates.latitude, coordinates.longitude);
+  }
+
+  bool isInCircleRadius(LatLng position) {
+    double startLatitude = coordinates.latitude;
+    double startLongitude = coordinates.longitude;
+    double endLatitude = position.latitude;
+    double endLongitude = position.longitude;
+
+    /// In meters
+    double distance = Geolocator.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude);
+
+    return distance <= circleRadius;
+  }
+
+  int getPopularTimeNow() {
+    DateTime date = DateTime.now().copyWith(hour: DateTime.now().getFormattedHour(), minute: 00);
+    return getPopularTimeAt(date);
+  }
+
+  int getPopularTimeAt(DateTime date) {
+    return popularTimes[date.weekday - 1][date.hour.toString()]!;
+  }
+
+  int getDensityNow() {
+    DateTime date = DateTime.now();
+    return getDensityAt(date);
+  }
+
+  int getDensityAt(DateTime date) {
+    int month = date.month;
+    return density[month - 1];
+  }
+
+  bool hasOpenHoursAt(int weekday) {
+    return openHours[weekday - 1].hours.isEmpty;
   }
 }

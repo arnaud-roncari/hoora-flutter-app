@@ -107,26 +107,49 @@ class _SignInPageState extends State<SignInPage> {
                             width: double.infinity,
                             child: ElevatedButton(
                               style: kButtonStyle,
-                              onPressed: state is ForgotPasswordLoading
+                              onPressed: state is SignInLoading
                                   ? null
                                   : () {
                                       if (formKey.currentState!.validate()) {
-                                        context.read<AuthBloc>().add(ForgotPassword(email: emailController.text));
+                                        context.read<AuthBloc>().add(
+                                            SignIn(email: emailController.text, password: passwordController.text));
                                       }
                                     },
-                              child: state is ForgotPasswordLoading
+                              child: state is SignInLoading
                                   ? const SizedBox(
                                       height: 20,
                                       width: 20,
                                       child: CircularProgressIndicator(color: Colors.white),
                                     )
                                   : Text(
-                                      "Réinitialiser",
+                                      "Se connecter",
                                       style: kBoldBalooPaaji16.copyWith(
                                         color: Colors.white,
                                       ),
                                     ),
                             ),
+                            // child: ElevatedButton(
+                            //   style: kButtonStyle,
+                            //   onPressed: state is ForgotPasswordLoading
+                            //       ? null
+                            //       : () {
+                            //           if (formKey.currentState!.validate()) {
+                            //             context.read<AuthBloc>().add(ForgotPassword(email: emailController.text));
+                            //           }
+                            //         },
+                            //   child: state is ForgotPasswordLoading
+                            //       ? const SizedBox(
+                            //           height: 20,
+                            //           width: 20,
+                            //           child: CircularProgressIndicator(color: Colors.white),
+                            //         )
+                            //       : Text(
+                            //           "Réinitialiser",
+                            //           style: kBoldBalooPaaji16.copyWith(
+                            //             color: Colors.white,
+                            //           ),
+                            //         ),
+                            // ),
                           ),
                           const SizedBox(height: kPadding20),
                           const Row(

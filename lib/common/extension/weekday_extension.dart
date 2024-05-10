@@ -18,14 +18,4 @@ extension WeekdayExtension on DateTime {
     }
     return "NA";
   }
-
-  String getDisplayedWeekday() {
-    DateTime today = DateTime.now();
-    if (day == today.day) {
-      return "Aujourd'hui";
-    } else if (day == today.day + 1) {
-      return "Demain";
-    }
-    return getWeekday();
-  }
 }

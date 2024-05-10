@@ -1,314 +1,55 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hoora/model/city_model.dart';
+import 'package:hoora/model/region_model.dart';
 import 'package:hoora/model/spot_model.dart';
+import 'package:http/http.dart' as http;
 
 class SpotRepository {
   FirebaseFirestore instance = FirebaseFirestore.instance;
-  Future<List<Spot>> getSpots(City city) async {
-    QuerySnapshot snapshot = await instance.collection("spot").where("city.id", isEqualTo: city.id).get();
+  final FirebaseAuth authInstance = FirebaseAuth.instance;
+
+  Future<List<Spot>> getSpots(Region region, City? city) async {
+    if (city == null) {
+      QuerySnapshot snapshot = await instance.collection("spot").where("regionId", isEqualTo: region.id).get();
+      return Spot.fromSnapshots(snapshot.docs);
+    }
+
+    QuerySnapshot snapshot = await instance
+        .collection("spot")
+        .where("regionId", isEqualTo: region.id)
+        .where("cityId", isEqualTo: city.id)
+        .get();
     return Spot.fromSnapshots(snapshot.docs);
+  }
 
-    // List<Spot> spots = [
-    //   Spot(
-    //     id: "1",
-    //     name: "Une",
-    //     imageCardPath: "67b9e67b-62b8-4a99-8bdb-b809e85e24c3.png",
-    //     coordinates: const GeoPoint(43.711337, 7.258416),
-    //     city: City(
-    //       id: "EdVUX9tm8HPL0m6R1AEB",
-    //       name: "Nice",
-    //     ),
-    //     categories: [
-    //       Category(
-    //         id: "22UHgV3Mjwc0GHZ4vmSD",
-    //         name: "1",
-    //         imagePath: "",
-    //       ),
-    //     ],
-    //     exceptionalOpenHours: {
-    //       DateTime.now().add(const Duration(days: 1)): {
-    //         7: false,
-    //         8: false,
-    //         9: false,
-    //         10: false,
-    //         11: false,
-    //         12: false,
-    //         13: false,
-    //         14: false,
-    //         15: false,
-    //         16: false,
-    //         17: false,
-    //         18: false,
-    //         19: false,
-    //         20: false,
-    //         21: false,
-    //       }
-    //     },
-    //     openHours: [
-    //       {
-    //         7: true,
-    //         8: true,
-    //         9: true,
-    //         10: true,
-    //         11: true,
-    //         12: true,
-    //         13: true,
-    //         14: true,
-    //         15: true,
-    //         16: true,
-    //         17: true,
-    //         18: true,
-    //         19: true,
-    //         20: true,
-    //         21: true,
-    //       },
-    //       {
-    //         7: true,
-    //         8: true,
-    //         9: true,
-    //         10: true,
-    //         11: true,
-    //         12: true,
-    //         13: true,
-    //         14: true,
-    //         15: true,
-    //         16: true,
-    //         17: true,
-    //         18: true,
-    //         19: true,
-    //         20: true,
-    //         21: false,
-    //       },
-    //       {
-    //         7: true,
-    //         8: true,
-    //         9: true,
-    //         10: true,
-    //         11: true,
-    //         12: true,
-    //         13: true,
-    //         14: true,
-    //         15: true,
-    //         16: true,
-    //         17: true,
-    //         18: true,
-    //         19: true,
-    //         20: true,
-    //         21: true,
-    //       },
-    //       {
-    //         7: true,
-    //         8: true,
-    //         9: true,
-    //         10: true,
-    //         11: true,
-    //         12: true,
-    //         13: true,
-    //         14: true,
-    //         15: true,
-    //         16: true,
-    //         17: true,
-    //         18: true,
-    //         19: true,
-    //         20: true,
-    //         21: true,
-    //       },
-    //       {
-    //         7: true,
-    //         8: true,
-    //         9: true,
-    //         10: true,
-    //         11: true,
-    //         12: true,
-    //         13: true,
-    //         14: true,
-    //         15: true,
-    //         16: true,
-    //         17: true,
-    //         18: true,
-    //         19: true,
-    //         20: true,
-    //         21: true,
-    //       },
-    //       {
-    //         7: true,
-    //         8: true,
-    //         9: true,
-    //         10: true,
-    //         11: true,
-    //         12: true,
-    //         13: true,
-    //         14: true,
-    //         15: true,
-    //         16: true,
-    //         17: true,
-    //         18: true,
-    //         19: true,
-    //         20: true,
-    //         21: true,
-    //       },
-    //       {
-    //         7: true,
-    //         8: true,
-    //         9: true,
-    //         10: true,
-    //         11: true,
-    //         12: true,
-    //         13: true,
-    //         14: true,
-    //         15: true,
-    //         16: true,
-    //         17: true,
-    //         18: true,
-    //         19: true,
-    //         20: true,
-    //         21: true,
-    //       },
-    //     ],
-    //     gemsPerDays: [
-    //       {
-    //         7: 5,
-    //         8: 10,
-    //         9: 10,
-    //         10: 10,
-    //         11: 10,
-    //         12: 10,
-    //         13: 10,
-    //         14: 10,
-    //         15: 10,
-    //         16: 10,
-    //         17: 10,
-    //         18: 10,
-    //         19: 10,
-    //         20: 10,
-    //         21: 10,
-    //       },
-    //       {
-    //         7: 5,
-    //         8: 0,
-    //         9: 12,
-    //         10: 13,
-    //         11: 14,
-    //         12: 15,
-    //         13: 10,
-    //         14: 10,
-    //         15: 10,
-    //         16: 10,
-    //         17: 10,
-    //         18: 10,
-    //         19: 10,
-    //         20: 10,
-    //         21: 10,
-    //       },
-    //       {
-    //         7: 50,
-    //         8: 9,
-    //         9: 9,
-    //         10: 99,
-    //         11: 10,
-    //         12: 10,
-    //         13: 10,
-    //         14: 10,
-    //         15: 10,
-    //         16: 10,
-    //         17: 10,
-    //         18: 10,
-    //         19: 10,
-    //         20: 10,
-    //         21: 10,
-    //       },
-    //       {
-    //         7: 5,
-    //         8: 25,
-    //         9: 10,
-    //         10: 0,
-    //         11: 0,
-    //         12: 10,
-    //         13: 10,
-    //         14: 10,
-    //         15: 10,
-    //         16: 10,
-    //         17: 10,
-    //         18: 10,
-    //         19: 10,
-    //         20: 10,
-    //         21: 10,
-    //       },
-    //       {
-    //         7: 10,
-    //         8: 10,
-    //         9: 10,
-    //         10: 10,
-    //         11: 10,
-    //         12: 10,
-    //         13: 10,
-    //         14: 10,
-    //         15: 10,
-    //         16: 10,
-    //         17: 10,
-    //         18: 10,
-    //         19: 10,
-    //         20: 10,
-    //         21: 10,
-    //       },
-    //       {
-    //         7: 10,
-    //         8: 10,
-    //         9: 10,
-    //         10: 10,
-    //         11: 10,
-    //         12: 10,
-    //         13: 10,
-    //         14: 10,
-    //         15: 10,
-    //         16: 10,
-    //         17: 10,
-    //         18: 10,
-    //         19: 10,
-    //         20: 10,
-    //         21: 10,
-    //       },
-    //       {
-    //         7: 10,
-    //         8: 10,
-    //         9: 10,
-    //         10: 10,
-    //         11: 10,
-    //         12: 10,
-    //         13: 10,
-    //         14: 10,
-    //         15: 10,
-    //         16: 10,
-    //         17: 10,
-    //         18: 10,
-    //         19: 10,
-    //         20: 10,
-    //         21: 10,
-    //       },
-    //     ],
-    //     crowdReports: [
-    //       CrowdReport(
-    //         createdAt: DateTime.now().add(const Duration()),
-    //         userId: "1",
-    //         hour: 1,
-    //         minute: 15,
-    //         intensity: 5,
-    //       ),
-    //     ],
-    //     balancePremium: BalancePremium(
-    //       from: DateTime.now().subtract(
-    //         const Duration(days: 7),
-    //       ),
-    //       to: DateTime.now().add(
-    //         const Duration(days: 7),
-    //       ),
-    //       gem: 10,
-    //     ),
-    //     pulsePremium: null,
-    //     rating: 4,
-    //   ),
-    // ];
+  Future<bool> spotAlreadyValidated(Spot spot) async {
+    QuerySnapshot snapshot = await instance
+        .collection("spotValidation")
+        .where("spotId", isEqualTo: spot.id)
+        .where("userId", isEqualTo: authInstance.currentUser!.uid)
+        .orderBy("createdAt", descending: true)
+        .limit(1)
+        .get();
 
-    // return spots;
+    if (snapshot.docs.isEmpty) {
+      return false;
+    }
+
+    DateTime createdAt = (snapshot.docs[0]["createdAt"] as Timestamp).toDate();
+    DateTime end = DateTime.now().subtract(const Duration(hours: 24));
+
+    return !createdAt.isBefore(end);
+  }
+
+  Future<void> validateSpot(Spot spot) async {
+    final url = Uri.parse('https://validatespot-nmciz2db3a-uc.a.run.app');
+    await http.post(
+      url,
+      body: {'spotId': spot.id},
+      headers: {
+        "authorization": "Bearer ${await authInstance.currentUser!.getIdToken()}",
+      },
+    );
   }
 }

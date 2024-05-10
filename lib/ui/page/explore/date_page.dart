@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hoora/bloc/explore/explore_bloc.dart';
 import 'package:hoora/common/extension/weekday_extension.dart';
 import 'package:hoora/common/decoration.dart';
 
 class DatePage extends StatelessWidget {
-  const DatePage({super.key});
+  final DateTime selectedDate;
+  final void Function(DateTime) onSelected;
+  const DatePage({super.key, required this.selectedDate, required this.onSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +46,6 @@ class DatePage extends StatelessWidget {
                 widthFactor: 0.5,
                 child: Builder(builder: (_) {
                   List<Widget> children = [];
-                  DateTime selectedDate = context.read<ExploreBloc>().selectedDate;
-
                   DateTime today = DateTime.now();
 
                   for (int i = 0; i < 7; i++) {
@@ -74,7 +72,7 @@ class DatePage extends StatelessWidget {
                           onPressed: () {
                             if (displayedDate.day != selectedDate.day) {
                               Navigator.pop(context);
-                              context.read<ExploreBloc>().add(DateSelected(date: displayedDate));
+                              onSelected(displayedDate);
                             }
                           },
                           child: Text(

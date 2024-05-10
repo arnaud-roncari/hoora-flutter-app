@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class User {
   final String id;
   final String userId;
-  final int gem;
+  int gem;
   final int experience;
   final int level;
   final String firstname;

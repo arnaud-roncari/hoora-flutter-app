@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 final ThemeData kTheme = ThemeData(inputDecorationTheme: const InputDecorationTheme(errorMaxLines: 10));
 
-const Color kPrimary = Color.fromRGBO(12, 10, 41, 1);
+const Color kPrimary = Color.fromRGBO(14, 22, 38, 1);
+const Color kPrimary3 = Color.fromRGBO(206, 202, 255, 1);
 const Color kSecondary = Color.fromRGBO(197, 248, 220, 1);
 const Color kBackground = Color.fromRGBO(249, 250, 251, 1);
 const Color kNavigationIconSelected = Color.fromRGBO(161, 154, 255, 1);
@@ -15,7 +16,16 @@ const double kPadding10 = 10;
 const double kPadding5 = 5;
 
 const double kRadius10 = 10;
+const double kRadius20 = 20;
 const double kRadius100 = 100;
+
+const TextStyle kBoldARPDisplay32 = TextStyle(
+  fontFamily: "ARPDisplay",
+  fontSize: 32,
+  fontWeight: FontWeight.w900,
+  color: kPrimary,
+  height: 1,
+);
 
 const TextStyle kBoldARPDisplay25 = TextStyle(
   fontFamily: "ARPDisplay",
@@ -41,6 +51,14 @@ const TextStyle kBoldARPDisplay14 = TextStyle(
   height: 1,
 );
 
+const TextStyle kBoldARPDisplay18 = TextStyle(
+  fontFamily: "ARPDisplay",
+  fontSize: 18,
+  fontWeight: FontWeight.w900,
+  color: kPrimary,
+  height: 1,
+);
+
 const TextStyle kBoldARPDisplay16 = TextStyle(
   fontFamily: "ARPDisplay",
   fontSize: 16,
@@ -52,6 +70,14 @@ const TextStyle kBoldARPDisplay16 = TextStyle(
 const TextStyle kBoldARPDisplay13 = TextStyle(
   fontFamily: "ARPDisplay",
   fontSize: 13,
+  fontWeight: FontWeight.w900,
+  color: kPrimary,
+  height: 1,
+);
+
+const TextStyle kBoldARPDisplay11 = TextStyle(
+  fontFamily: "ARPDisplay",
+  fontSize: 11,
   fontWeight: FontWeight.w900,
   color: kPrimary,
   height: 1,
@@ -128,9 +154,25 @@ const TextStyle kBoldBalooPaaji14 = TextStyle(
   height: 1,
 );
 
+const TextStyle kBoldBalooPaaji12 = TextStyle(
+  fontFamily: "BalooPaaji",
+  fontSize: 12,
+  fontWeight: FontWeight.w900,
+  color: kPrimary,
+  height: 1,
+);
+
 const TextStyle kRegularBalooPaaji18 = TextStyle(
   fontFamily: "BalooPaaji",
   fontSize: 18,
+  fontWeight: FontWeight.w400,
+  color: kPrimary,
+  height: 1,
+);
+
+const TextStyle kRegularBalooPaaji32 = TextStyle(
+  fontFamily: "BalooPaaji",
+  fontSize: 32,
   fontWeight: FontWeight.w400,
   color: kPrimary,
   height: 1,
@@ -165,6 +207,14 @@ ButtonStyle kButtonStyle = ElevatedButton.styleFrom(
 
 ButtonStyle kButtonRoundedStyle = ElevatedButton.styleFrom(
   backgroundColor: kPrimary,
+  shape: const StadiumBorder(),
+  disabledBackgroundColor: kPrimary,
+  padding: EdgeInsets.zero,
+  minimumSize: Size.zero,
+);
+
+ButtonStyle kButtonRoundedLightStyle = ElevatedButton.styleFrom(
+  backgroundColor: Colors.white,
   shape: const StadiumBorder(),
   disabledBackgroundColor: kPrimary,
   padding: EdgeInsets.zero,
