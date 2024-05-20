@@ -10,4 +10,40 @@ class UserRepository {
     QuerySnapshot snapshot = await instance.collection("user").where("userId", isEqualTo: userId).get();
     return User.fromSnapshot(snapshot.docs[0]);
   }
+
+  Future<List<User>> getAllUsers() async {
+    QuerySnapshot snapshot = await instance.collection("user").get();
+    List<User> users = User.fromSnapshots(snapshot.docs);
+    return users;
+  }
+
+  Future<void> setNickname(String nickname) async {
+    User user = await getUser();
+    await instance.collection("user").doc(user.id).update({"nickname": nickname});
+  }
+
+  String getEmail() {
+    return firebase_auth.FirebaseAuth.instance.currentUser!.email!;
+  }
+
+  Future<void> updateProfile({
+    required String documentId,
+    required String nickname,
+    required String firstname,
+    required String lastname,
+    required String city,
+    required String country,
+    required DateTime birthday,
+    required Gender gender,
+  }) async {
+    await instance.collection("user").doc(documentId).update({
+      "nickname": nickname,
+      "firstname": firstname,
+      "lastname": lastname,
+      "city": city,
+      "country": country,
+      "birthday": birthday,
+      "gender": gender.name,
+    });
+  }
 }

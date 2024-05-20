@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hoora/bloc/create_crowd_report/create_crowd_report_bloc.dart';
 import 'package:hoora/bloc/user/user_bloc.dart';
-import 'package:hoora/common/crowd_report_sentences.dart';
+import 'package:hoora/common/sentences.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/model/spot_model.dart';
 import 'package:hoora/ui/page/map/crowd_report_validation.dart';
@@ -42,7 +42,7 @@ class _CreateCrowdReportPageState extends State<CreateCrowdReportPage> {
       body: BlocConsumer<CreateCrowdReportBloc, CreateCrowdReportState>(
         listener: (context, state) {
           if (state is CreateCrowdReportSuccess) {
-            context.read<UserBloc>().add(GemsEarned(amount: 5));
+            context.read<UserBloc>().add(AddGem(gem: 5));
 
             Navigator.pushReplacement(
               context,
@@ -161,7 +161,7 @@ class _CreateCrowdReportPageState extends State<CreateCrowdReportPage> {
                                   child: Stack(
                                     children: [
                                       if (intensity > 1)
-                                        Center(child: Image.asset("assets/images/density_$intensity.png")),
+                                        Center(child: Image.asset("assets/images/intensity_$intensity.png")),
                                     ],
                                   ),
                                 );

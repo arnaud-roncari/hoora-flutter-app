@@ -237,45 +237,71 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
   }
 
   Widget buildPlaylistButton() {
-    Widget button = Container(
-      height: 50,
-      width: 50,
-      decoration: BoxDecoration(
-        color: kPrimary,
-        border: Border.all(color: Colors.white, width: 2),
-        borderRadius: BorderRadius.circular(kPadding10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            spreadRadius: 0,
-            blurRadius: 3,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(kRadius10),
-          onTap: () {
-            setState(() {
-              isCategoriesDisplayed = !isCategoriesDisplayed;
-            });
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(kPadding5),
-            child: Center(
-              child: SvgPicture.asset("assets/svg/playlist.svg"),
+    Playlist? selectedPlaylist = context.read<MapBloc>().selectedPlaylist;
+    List<Playlist> playlists = context.read<MapBloc>().playlists;
+
+    late Widget button;
+
+    if (selectedPlaylist == null || isCategoriesDisplayed) {
+      button = Container(
+        height: 50,
+        width: 50,
+        decoration: BoxDecoration(
+          color: kPrimary,
+          border: Border.all(color: Colors.white, width: 2),
+          borderRadius: BorderRadius.circular(kPadding10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 0,
+              blurRadius: 3,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(kRadius10),
+            onTap: () {
+              setState(() {
+                isCategoriesDisplayed = !isCategoriesDisplayed;
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(kPadding5),
+              child: Center(
+                child: SvgPicture.asset("assets/svg/playlist.svg"),
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    } else {
+      button = PlaylistCard(
+        playlist: selectedPlaylist,
+        selectedPlaylist: selectedPlaylist,
+        onTap: (_) {
+          if (!isCategoriesDisplayed) {
+            setState(() {
+              isCategoriesDisplayed = true;
+            });
+          } else {
+            Playlist? selectedPlaylist = context.read<MapBloc>().selectedPlaylist;
+            if (selectedPlaylist != null && _.id == selectedPlaylist.id) {
+              context.read<MapBloc>().add(PlaylistSelected(playlist: null));
+            } else {
+              context.read<MapBloc>().add(PlaylistSelected(playlist: _));
+            }
+            setState(() {
+              isCategoriesDisplayed = false;
+            });
+          }
+        },
+      );
+    }
 
     if (isCategoriesDisplayed) {
-      List<Playlist> playlists = context.read<MapBloc>().playlists;
-      Playlist? selectedPlaylist = context.read<MapBloc>().selectedPlaylist;
-
       List<Widget> children = [];
 
       for (int i = 0; i < playlists.length; i++) {
@@ -307,6 +333,9 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
                   } else {
                     context.read<MapBloc>().add(PlaylistSelected(playlist: _));
                   }
+                  setState(() {
+                    isCategoriesDisplayed = false;
+                  });
                 },
               ),
             ),

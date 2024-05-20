@@ -1,20 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+enum Gender { male, female, other }
+
 class User {
   final String id;
   final String userId;
   int gem;
   final int experience;
   final int level;
-  final String firstname;
-  final String lastname;
-  final String nickname;
-  final String city;
-  final String country;
-  final String language;
-  final String gender;
-  final String birthday;
-  final String phoneNumber;
+  String firstname;
+  String lastname;
+  String nickname;
+  String city;
+  String country;
+  Gender? gender;
+  DateTime? birthday;
+  final int amountSpotValidated;
+  final int amountCrowdReportCreated;
+  final int amountChallengeUnlocked;
+  final int amountOfferUnlocked;
+  final int amountDonation;
+  final DateTime createdAt;
 
   User({
     required this.id,
@@ -27,10 +33,14 @@ class User {
     required this.nickname,
     required this.city,
     required this.country,
-    required this.language,
     required this.gender,
     required this.birthday,
-    required this.phoneNumber,
+    required this.createdAt,
+    required this.amountChallengeUnlocked,
+    required this.amountCrowdReportCreated,
+    required this.amountDonation,
+    required this.amountOfferUnlocked,
+    required this.amountSpotValidated,
   });
 
   factory User.fromSnapshot(QueryDocumentSnapshot doc) {
@@ -45,10 +55,14 @@ class User {
       nickname: doc['nickname'],
       city: doc['city'],
       country: doc['country'],
-      language: doc['language'],
-      gender: doc['gender'],
-      birthday: doc['birthday'],
-      phoneNumber: doc['phoneNumber'],
+      gender: doc['gender'] == null ? null : Gender.values.byName(doc['gender']),
+      birthday: doc["birthday"] == null ? null : (doc["birthday"] as Timestamp).toDate(),
+      createdAt: (doc["createdAt"] as Timestamp).toDate(),
+      amountChallengeUnlocked: doc['amountChallengeUnlocked'],
+      amountCrowdReportCreated: doc['amountCrowdReportCreated'],
+      amountDonation: doc['amountDonation'],
+      amountOfferUnlocked: doc['amountOfferUnlocked'],
+      amountSpotValidated: doc['amountSpotValidated'],
     );
   }
 
@@ -59,30 +73,4 @@ class User {
     }
     return list;
   }
-
-  // factory User.fromJson(Map<String, dynamic> json) {
-  //   return User(
-  //     id: json['id'],
-  //     gem: json['gem'],
-  //     experience: json['experience'],
-  //     level: json['level'],
-  //     firstname: json['firstname'],
-  //     lastname: json['lastname'],
-  //     nickname: json['nickname'],
-  //     city: json['city'],
-  //     country: json['country'],
-  //     language: json['language'],
-  //     gender: json['gender'],
-  //     birthday: json['birthday'],
-  //     phoneNumber: json['phoneNumber'],
-  //   );
-  // }
-
-  // static Future<List<User>> fromJsons(List<dynamic> jsons) async {
-  //   final List<User> list = [];
-  //   for (Map<String, dynamic> json in jsons) {
-  //     list.add(User.fromJson(json));
-  //   }
-  //   return list;
-  // }
 }

@@ -83,6 +83,14 @@ const TextStyle kBoldARPDisplay11 = TextStyle(
   height: 1,
 );
 
+const TextStyle kBoldARPDisplay12 = TextStyle(
+  fontFamily: "ARPDisplay",
+  fontSize: 12,
+  fontWeight: FontWeight.w900,
+  color: kPrimary,
+  height: 1,
+);
+
 const TextStyle kRegularBalooPaaji20 = TextStyle(
   fontFamily: "BalooPaaji",
   fontSize: 20,
@@ -162,6 +170,14 @@ const TextStyle kBoldBalooPaaji12 = TextStyle(
   height: 1,
 );
 
+const TextStyle kRBoldBalooPaaji18 = TextStyle(
+  fontFamily: "BalooPaaji",
+  fontSize: 18,
+  fontWeight: FontWeight.w900,
+  color: kPrimary,
+  height: 1,
+);
+
 const TextStyle kRegularBalooPaaji18 = TextStyle(
   fontFamily: "BalooPaaji",
   fontSize: 18,
@@ -209,6 +225,14 @@ ButtonStyle kButtonRoundedStyle = ElevatedButton.styleFrom(
   backgroundColor: kPrimary,
   shape: const StadiumBorder(),
   disabledBackgroundColor: kPrimary,
+  padding: EdgeInsets.zero,
+  minimumSize: Size.zero,
+);
+
+ButtonStyle kButtonRoundedPrimary3Style = ElevatedButton.styleFrom(
+  backgroundColor: kPrimary3,
+  shape: const StadiumBorder(),
+  disabledBackgroundColor: kPrimary3,
   padding: EdgeInsets.zero,
   minimumSize: Size.zero,
 );

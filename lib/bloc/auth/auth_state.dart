@@ -49,3 +49,23 @@ class ForgotPasswordFailed extends AuthState {
 
   ForgotPasswordFailed({required this.exception});
 }
+
+class SignOutLoading extends AuthState {}
+
+class SignOutSuccess extends AuthState {}
+
+class SignOutFailed extends AuthState {
+  final AlertException exception;
+
+  SignOutFailed({required this.exception});
+}
+
+class DeleteLoading extends AuthState {}
+
+class DeleteSuccess extends AuthState {}
+
+class DeleteFailed extends AuthState {
+  final AlertException exception;
+
+  DeleteFailed({required this.exception});
+}

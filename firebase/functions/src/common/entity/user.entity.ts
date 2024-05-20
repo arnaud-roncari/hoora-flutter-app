@@ -11,10 +11,15 @@ export class UserEntity {
   nickname: string;
   city: string;
   country: string;
-  language: string;
-  gender: string;
-  birthday: string;
-  phoneNumber: string;
+  gender: string | null;
+  birthday: Date | null;
+  amountSpotValidated: number;
+  amountCrowdReportCreated: number;
+  amountChallengeUnlocked: number;
+  amountOfferUnlocked: number;
+  amountDonation: number;
+  createdAt: Date;
+
 
   constructor({id,
     userId,
@@ -26,10 +31,14 @@ export class UserEntity {
     nickname,
     city,
     country,
-    language,
     gender,
     birthday,
-    phoneNumber,
+    amountSpotValidated,
+    amountCrowdReportCreated,
+    amountChallengeUnlocked,
+    amountOfferUnlocked,
+    amountDonation,
+    createdAt,
   } : {
       id: string,
       userId: string,
@@ -41,10 +50,15 @@ export class UserEntity {
       nickname: string,
       city: string,
       country: string,
-      language: string,
-      gender: string,
-      birthday: string,
-      phoneNumber: string,
+      gender: string | null,
+      birthday: Date | null,
+      amountSpotValidated: number,
+      amountCrowdReportCreated: number,
+      amountChallengeUnlocked: number,
+      amountOfferUnlocked: number,
+      amountDonation: number,
+    createdAt: Date,
+
      }) {
     this.id = id;
     this.userId = userId;
@@ -56,10 +70,14 @@ export class UserEntity {
     this.nickname = nickname;
     this.city = city;
     this.country = country;
-    this.language = language;
     this.gender = gender;
     this.birthday = birthday;
-    this.phoneNumber = phoneNumber;
+    this.amountSpotValidated = amountSpotValidated;
+    this.amountCrowdReportCreated = amountCrowdReportCreated;
+    this.amountChallengeUnlocked = amountChallengeUnlocked;
+    this.amountOfferUnlocked = amountOfferUnlocked;
+    this.amountDonation = amountDonation;
+    this.createdAt = createdAt;
   }
 
 
@@ -76,10 +94,15 @@ export class UserEntity {
       nickname: json.nickname,
       city: json.city,
       country: json.country,
-      language: json.language,
       gender: json.gender,
-      birthday: json.birthday,
-      phoneNumber: json.phoneNumber,
+      birthday: json.birthday === null ? null : json.birthday.toDate(),
+      amountSpotValidated: json.amountSpotValidated,
+      amountCrowdReportCreated: json.amountCrowdReportCreated,
+      amountChallengeUnlocked: json.amountChallengeUnlocked,
+      amountOfferUnlocked: json.amountOfferUnlocked,
+      amountDonation: json.amountDonation,
+      createdAt: json.createdAt,
+
     });
     return user;
   }

@@ -181,11 +181,14 @@ export class SpotEntity {
 
   getGemsNow() : number {
     const date: Date = new Date(Date.now());
-    let hour = date.getHours();
+    // UTC to french
+    date.setHours(date.getHours() + 2);
+
+    const hour = date.getHours();
     if (hour < 7 || hour > 21) {
-      hour = 10;
+      date.setHours(10);
     }
-    date.setHours(hour);
+
     return this.getGemsAt(date);
   }
 
@@ -225,7 +228,8 @@ export class SpotEntity {
 
   getDensityNow() : number {
     const date = new Date();
-
+    // UTC to french
+    date.setHours(date.getHours() + 2);
     return this.getDensityAt(date);
   }
 
@@ -236,6 +240,7 @@ export class SpotEntity {
 
   getGemsAt( date: Date) : number {
     let gems: number = this.trafficPoints[this.getWeekDay(date) - 1].get(date.getHours().toString())!;
+
     if (gems > 0 && this.isBalanceSponsoredAt(date)) {
       gems += this.balancePremium!.gem;
     }
@@ -247,7 +252,6 @@ export class SpotEntity {
     if (this.hasDiscoveryPoints(date)) {
       gems += 5;
     }
-
     return gems;
   }
 

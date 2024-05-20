@@ -126,20 +126,15 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   }
 
   /// Filter spots based on gems, closing times and playlist.
-  /// There is a unique case of filtering with the playlist "To" (10 best spots, based on score).
+  /// There is a unique case of filtering with the playlist "To" (10
+  /// best spots, based on score).
   /// PS: This one is different from explore page.
   void _filterSpots() async {
     List<Spot> filteredSpots = [];
 
     /// Unique filtering case for "Top" playlist.
     if (selectedPlaylist != null && selectedPlaylist!.name.toLowerCase().contains("top")) {
-      for (int i = 0; i < spots.length; i++) {
-        Spot spot = spots[i];
-
-        if (!spot.isClosedAt(actualDate)) {
-          filteredSpots.add(spot);
-        }
-      }
+      filteredSpots = List.from(spots);
 
       filteredSpots.sort((a, b) {
         return b.score.compareTo(a.score);
@@ -151,7 +146,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
     /// Standard playlist filtering.
     for (Spot spot in spots) {
-      if (!spot.isClosedAt(actualDate) && spot.hasPlaylist(selectedPlaylist)) {
+      if (spot.hasPlaylist(selectedPlaylist)) {
         filteredSpots.add(spot);
       }
     }

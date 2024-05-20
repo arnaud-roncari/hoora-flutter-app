@@ -81,10 +81,10 @@ class SignUpGiftGemsPage extends StatelessWidget {
                   child: ElevatedButton(
                     style: kButtonRoundedStyle,
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, "/home");
+                      Navigator.pushReplacementNamed(context, "/auth/nickname");
                     },
                     child: Text(
-                      "C'est partiiiii !",
+                      "Récupérer",
                       style: kBoldBalooPaaji16.copyWith(
                         color: Colors.white,
                       ),

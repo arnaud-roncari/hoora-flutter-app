@@ -6,18 +6,25 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hoora/bloc/auth/auth_bloc.dart';
+import 'package:hoora/bloc/challenge/challenge_bloc.dart';
 import 'package:hoora/bloc/create_crowd_report/create_crowd_report_bloc.dart';
 import 'package:hoora/bloc/explore/explore_bloc.dart';
 import 'package:hoora/bloc/first_launch/first_launch_bloc.dart';
 import 'package:hoora/bloc/map/map_bloc.dart';
+import 'package:hoora/bloc/offer/offer_bloc.dart';
+import 'package:hoora/bloc/ranking/ranking_bloc.dart';
 import 'package:hoora/bloc/user/user_bloc.dart';
 import 'package:hoora/bloc/validate_spot/validate_spot_bloc.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/common/globals.dart';
+import 'package:hoora/repository/challenge_repository.dart';
+import 'package:hoora/repository/company_repository.dart';
 import 'package:hoora/repository/crowd_report_repository.dart';
+import 'package:hoora/repository/offer_repository.dart';
 import 'package:hoora/repository/region_repository.dart';
 import 'package:hoora/repository/playlist_repository.dart';
 import 'package:hoora/ui/page/auth/forgot_password.dart';
+import 'package:hoora/ui/page/auth/nickname_page.dart';
 import 'package:hoora/ui/page/auth/sign_in.dart';
 import 'package:hoora/ui/page/auth/sign_up.dart';
 import 'package:hoora/ui/page/auth/sign_up_gift_gems.dart';
@@ -26,12 +33,18 @@ import 'package:hoora/ui/page/first_launch/welcome_page.dart';
 import 'package:hoora/ui/page/first_launch/request_geolocation_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hoora/ui/page/home_page.dart';
-import 'package:hoora/ui/page/my_gift_page.dart';
 import 'package:hoora/repository/auth_repository.dart';
 import 'package:hoora/repository/crash_repository.dart';
 import 'package:hoora/repository/spot_repository.dart';
 import 'package:hoora/repository/user_repository.dart';
-import 'package:hoora/ui/page/user/earnings.dart';
+import 'package:hoora/ui/page/user/earnings_page.dart';
+import 'package:hoora/ui/page/user/level_page.dart';
+import 'package:hoora/ui/page/user/settings/faq_page.dart';
+import 'package:hoora/ui/page/user/settings/feedback_page.dart';
+import 'package:hoora/ui/page/user/settings/privacy_page.dart';
+import 'package:hoora/ui/page/user/settings/profile_page.dart';
+import 'package:hoora/ui/page/user/settings/settings_page.dart';
+import 'package:hoora/ui/page/user/settings/traffic_point_explanation_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -92,6 +105,9 @@ class HooraApp extends StatelessWidget {
         RepositoryProvider<RegionRepository>(create: (context) => RegionRepository()),
         RepositoryProvider<PlaylistRepository>(create: (context) => PlaylistRepository()),
         RepositoryProvider<CrowdReportRepository>(create: (context) => CrowdReportRepository()),
+        RepositoryProvider<ChallengeRepository>(create: (context) => ChallengeRepository()),
+        RepositoryProvider<OfferRepository>(create: (context) => OfferRepository()),
+        RepositoryProvider<CompanyRepository>(create: (context) => CompanyRepository()),
       ],
       child: Builder(builder: (context) {
         return MultiBlocProvider(
@@ -108,6 +124,8 @@ class HooraApp extends StatelessWidget {
             BlocProvider(
               create: (_) => UserBloc(
                 userRepository: context.read<UserRepository>(),
+                companyRepository: context.read<CompanyRepository>(),
+                offerRepository: context.read<OfferRepository>(),
                 crashRepository: context.read<CrashRepository>(),
               ),
             ),
@@ -141,6 +159,25 @@ class HooraApp extends StatelessWidget {
                 crowdReportRepository: context.read<CrowdReportRepository>(),
               ),
             ),
+            BlocProvider(
+              create: (_) => ChallengeBloc(
+                crashRepository: context.read<CrashRepository>(),
+                challengeRepository: context.read<ChallengeRepository>(),
+              ),
+            ),
+            BlocProvider(
+              create: (_) => RankingBloc(
+                userRepository: context.read<UserRepository>(),
+                crashRepository: context.read<CrashRepository>(),
+              ),
+            ),
+            BlocProvider(
+              create: (_) => OfferBloc(
+                offerRepository: context.read<OfferRepository>(),
+                companyRepository: context.read<CompanyRepository>(),
+                crashRepository: context.read<CrashRepository>(),
+              ),
+            ),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -156,10 +193,17 @@ class HooraApp extends StatelessWidget {
               '/auth/sign_in': (context) => const SignInPage(),
               '/auth/sign_up': (context) => const SignUpPage(),
               '/auth/sign_up_gift_gems': (context) => const SignUpGiftGemsPage(),
+              '/auth/nickname': (context) => const NicknamePage(),
               '/auth/forgot_password': (context) => const ForgotPasswordPage(),
               '/home': (context) => const HomePage(),
-              '/home/my_gift': (context) => const MyGiftPage(),
               '/home/earnings': (context) => const EarningsPage(),
+              '/home/earnings/level': (context) => const LevelPage(),
+              '/home/earnings/settings': (context) => const SettingsPage(),
+              '/home/earnings/settings/faq': (context) => const FAQPage(),
+              '/home/earnings/settings/traffic_point': (context) => const TrafficPointExplanationPage(),
+              '/home/earnings/settings/feedback': (context) => const FeedbackPage(),
+              '/home/earnings/settings/privacy': (context) => const PrivacyPage(),
+              '/home/earnings/settings/profile': (context) => const ProfilePage(),
             },
           ),
         );

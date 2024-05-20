@@ -4,7 +4,7 @@ import {SpotEntity} from "../common/entity/spot.entity";
 import {LastCrowdReportEntity} from "../common/entity/last_crowd_report.entity";
 import {UserEntity} from "../common/entity/user.entity";
 
-export class CrowdReport {
+export class CrowdReportService {
   static async create(dto: CreateCrowdReportDto, userId: string) {
     // Create crowd report document
     await admin.firestore().collection("crowdReport").add({

@@ -175,25 +175,37 @@ class _SpotPageState extends State<SpotPage> {
                                       children: [
                                         if (spot.isClosedAt(DateTime.now().copyWith(hour: hour)))
                                           Center(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(
-                                                    kRadius100,
-                                                  )),
-                                              child: const Padding(
-                                                padding:
-                                                    EdgeInsets.symmetric(horizontal: kPadding10, vertical: kPadding5),
-                                                child: Text(
-                                                  "Fermé",
-                                                  style: kRegularBalooPaaji16,
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                const Spacer(),
+                                                SvgPicture.asset(
+                                                  "assets/svg/lock.svg",
+                                                  height: 30,
                                                 ),
-                                              ),
+                                                const SizedBox(height: kPadding10),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.circular(
+                                                        kRadius100,
+                                                      )),
+                                                  child: const Padding(
+                                                    padding: EdgeInsets.symmetric(
+                                                        horizontal: kPadding10, vertical: kPadding5),
+                                                    child: Text(
+                                                      "Fermé",
+                                                      style: kRegularBalooPaaji16,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const Spacer(),
+                                              ],
                                             ),
                                           ),
                                         if (!spot.isClosedAt(DateTime.now().copyWith(hour: hour)) && intensity > 1)
                                           Image.asset(
-                                            'assets/images/density_$intensity.png',
+                                            'assets/images/intensity_$intensity.png',
                                             height: constraint.maxWidth,
                                             width: constraint.maxWidth,
                                           ),
@@ -218,8 +230,8 @@ class _SpotPageState extends State<SpotPage> {
                   initialHour: hour,
                   onChanged: (hour) {
                     setState(() {
-                      intensity = calculateIntensity();
                       this.hour = hour;
+                      intensity = calculateIntensity();
                     });
                   },
                 ),
@@ -278,9 +290,8 @@ class _SpotPageState extends State<SpotPage> {
                   child: ElevatedButton(
                       style: kButtonRoundedStyle,
                       onPressed: () async {
-                        String lat = widget.spot.getLatLng().latitude.toString();
-                        String lon = widget.spot.getLatLng().longitude.toString();
-                        Uri url = Uri.parse('https://www.google.com/maps/search/?api=1&query=$lat,$lon');
+                        Uri url = Uri.parse(
+                            'https://www.google.com/maps/search/?api=1&query=France, ${widget.spot.cityName}, ${widget.spot.name}');
 
                         if (!await launchUrl(url)) {
                           throw Exception('Could not launch $url');
@@ -308,7 +319,14 @@ class _SpotPageState extends State<SpotPage> {
     int total = 0;
 
     /// Average of all popular time, of the selected hours.
-    for (Map<String, int> pt in widget.spot.popularTimes) {
+    for (int i = 0; i < widget.spot.popularTimes.length; i++) {
+      Map<String, int> pt = widget.spot.popularTimes[i];
+
+      /// closed hours are not taken into account.
+      if (widget.spot.openHours[i].hours.isEmpty) {
+        continue;
+      }
+
       int val = pt[hour.toString()]!;
       if (val > 0) {
         average += val;
@@ -437,8 +455,11 @@ class _SpotPageState extends State<SpotPage> {
       String str = "";
       for (int j = 0; j < oh.hours.length; j++) {
         Hours hours = oh.hours[j];
-        if (j > 0 || j < oh.hours.length - 1) {
-          str += "  ";
+
+        if (oh.hours.length > 1) {
+          if (j > 0 || j == oh.hours.length - 1) {
+            str += "  ";
+          }
         }
 
         str += "${hours.start.length < 5 ? "0" : ""}${hours.start}-${hours.end}";

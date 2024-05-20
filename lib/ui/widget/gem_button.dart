@@ -25,7 +25,7 @@ class GemButton extends StatelessWidget {
           child: ElevatedButton(
             style: isLight ? kButtonRoundedLightStyle : kButtonRoundedStyle,
             onPressed: () {
-              Navigator.pushNamed(context, "/home/my_gift");
+              Navigator.pushNamed(context, "/home/earnings");
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: kPadding10),

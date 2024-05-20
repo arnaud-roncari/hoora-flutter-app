@@ -6,13 +6,13 @@ final class InitLoading extends MapState {}
 
 final class InitSuccess extends MapState {}
 
-final class CitySelectedUpdated extends MapState {}
-
 final class InitFailed extends MapState {
   final AlertException exception;
 
   InitFailed({required this.exception});
 }
+
+final class CitySelectedUpdated extends MapState {}
 
 final class GetSpotsSuccess extends MapState {}
 

@@ -28,6 +28,15 @@ class Alert {
       ),
     );
   }
+
+  static showSuccessWidget(BuildContext context, Widget child) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: kPrimary,
+        content: child,
+      ),
+    );
+  }
 }
 
 class AlertException {

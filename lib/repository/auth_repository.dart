@@ -50,6 +50,10 @@ class AuthRepository {
     await _instance.signOut();
   }
 
+  Future<void> delete() async {
+    await _instance.currentUser!.delete();
+  }
+
   Future<void> forgotPassword(String email) async {
     await _instance.sendPasswordResetEmail(email: email);
   }

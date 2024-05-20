@@ -12,7 +12,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final CrashRepository crashRepository;
 
   AuthBloc({required this.authRepository, required this.crashRepository}) : super(AuthInitial()) {
-    on<SignOut>(signOut);
     on<SignUp>(signUp);
     on<SignIn>(signIn);
     on<ForgotPassword>(forgotPassword);
@@ -20,19 +19,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignInWithGoogle>(signInWithGoogle);
     on<SignUpWithApple>(signUpWithApple);
     on<SignUpWithGoogle>(signUpWithGoogle);
-  }
-
-  void signOut(SignOut event, Emitter<AuthState> emit) async {
-    try {
-      await authRepository.signOut();
-    } catch (exception, stack) {
-      /// Report crash to Crashlytics
-      crashRepository.report(exception, stack);
-
-      /// Format exception to be displayed.
-      AlertException alertException = AlertException.fromException(exception);
-      emit(SignInFailed(exception: alertException));
-    }
+    on<SignOut>(signOut);
+    on<Delete>(delete);
   }
 
   void forgotPassword(ForgotPassword event, Emitter<AuthState> emit) async {
@@ -143,6 +131,36 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);
       emit(SignUpFailed(exception: alertException));
+    }
+  }
+
+  void signOut(SignOut event, Emitter<AuthState> emit) async {
+    try {
+      emit(SignOutLoading());
+      await authRepository.signOut();
+      emit(SignOutSuccess());
+    } catch (exception, stack) {
+      /// Report crash to Crashlytics
+      crashRepository.report(exception, stack);
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(SignOutFailed(exception: alertException));
+    }
+  }
+
+  void delete(Delete event, Emitter<AuthState> emit) async {
+    try {
+      emit(DeleteLoading());
+      await authRepository.delete();
+      emit(DeleteSuccess());
+    } catch (exception, stack) {
+      /// Report crash to Crashlytics
+      crashRepository.report(exception, stack);
+
+      /// Format exception to be displayed.
+      AlertException alertException = AlertException.fromException(exception);
+      emit(DeleteFailed(exception: alertException));
     }
   }
 }

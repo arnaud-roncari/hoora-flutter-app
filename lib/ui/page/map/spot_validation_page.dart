@@ -33,7 +33,7 @@ class _SpotValidationPageState extends State<SpotValidationPage> {
       body: BlocConsumer<ValidateSpotBloc, ValidateSpotState>(
         listener: (context, state) {
           if (state is ValidateSpotSuccess) {
-            context.read<UserBloc>().add(GemsEarned(amount: state.gems));
+            context.read<UserBloc>().add(AddGem(gem: state.gems));
           }
         },
         builder: (context, state) {

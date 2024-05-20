@@ -31,3 +31,5 @@ class SignInWithApple extends AuthEvent {}
 class SignUpWithGoogle extends AuthEvent {}
 
 class SignUpWithApple extends AuthEvent {}
+
+class Delete extends AuthEvent {}

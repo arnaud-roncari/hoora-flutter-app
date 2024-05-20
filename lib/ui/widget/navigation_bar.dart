@@ -21,7 +21,7 @@ class _NavigationState extends State<Navigation> {
     }
   }
 
-  Widget _buildButton(String svgPath, int index) {
+  Widget _buildButton(String svgPath, String svgSelectedPath, int index) {
     return InkWell(
       borderRadius: BorderRadius.circular(kRadius100),
       onTap: () => onPressed(index),
@@ -30,11 +30,8 @@ class _NavigationState extends State<Navigation> {
         width: 50,
         child: Center(
           child: SvgPicture.asset(
-            "assets/svg/$svgPath",
+            index == currentIndex ? "assets/svg/$svgSelectedPath" : "assets/svg/$svgPath",
             height: 26,
-            colorFilter: index == currentIndex
-                ? const ColorFilter.mode(kNavigationIconSelected, BlendMode.srcIn)
-                : const ColorFilter.mode(kPrimary, BlendMode.srcIn),
           ),
         ),
       ),
@@ -50,53 +47,57 @@ class _NavigationState extends State<Navigation> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          _buildButton("explore.svg", 0),
-          _buildButton("gift.svg", 1),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 65,
-                width: 65,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(kRadius100),
-                  color: kBackground,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 0,
-                      blurRadius: 3,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Material(
-                  borderRadius: BorderRadius.circular(kRadius100),
-                  color: kBackground,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(kRadius100),
-                    onTap: () => onPressed(2),
-                    child: Center(
-                      child: Container(
-                        height: 55,
-                        width: 55,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(kRadius100),
-                          color: kPrimary,
-                        ),
-                        child: Lottie.asset("assets/animations/gem.json"),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 5),
-            ],
-          ),
-          _buildButton("challenge.svg", 3),
-          _buildButton("ranking.svg", 4),
+          _buildButton("explore.svg", "explore_blue.svg", 0),
+          _buildButton("gift.svg", "gift_blue.svg", 1),
+          _buildMainButton(),
+          _buildButton("challenge.svg", "challenge_blue.svg", 3),
+          _buildButton("ranking.svg", "ranking_blue.svg", 4),
         ],
       ),
+    );
+  }
+
+  Widget _buildMainButton() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          height: 65,
+          width: 65,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(kRadius100),
+            color: kBackground,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                spreadRadius: 0,
+                blurRadius: 3,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Material(
+            borderRadius: BorderRadius.circular(kRadius100),
+            color: kBackground,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(kRadius100),
+              onTap: () => onPressed(2),
+              child: Center(
+                child: Container(
+                  height: 55,
+                  width: 55,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(kRadius100),
+                    color: kPrimary,
+                  ),
+                  child: Lottie.asset("assets/animations/gem.json"),
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 5),
+      ],
     );
   }
 }

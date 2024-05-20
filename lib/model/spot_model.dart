@@ -211,7 +211,7 @@ class Spot {
 
   bool isSponsoredNow() {
     DateTime date = DateTime.now().copyWith(hour: DateTime.now().getFormattedHour(), minute: 00);
-    return isBalanceSponsoredAt(date);
+    return isSponsoredAt(date);
   }
 
   bool isSponsoredAt(DateTime date) {

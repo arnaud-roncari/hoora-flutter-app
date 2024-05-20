@@ -17,10 +17,10 @@ class SpotMarker extends StatelessWidget {
             height: 50,
             width: 50,
             decoration: BoxDecoration(
-              color: spot.isSponsoredNow() ? null : kPrimary,
+              color: spot.isSponsoredNow() && spot.getGemsNow() > 0 ? null : kPrimary,
               border: Border.all(color: Colors.white, width: 3),
               borderRadius: BorderRadius.circular(kRadius100),
-              gradient: spot.isSponsoredNow()
+              gradient: spot.isSponsoredNow() && spot.getGemsNow() > 0
                   ? const LinearGradient(
                       colors: [
                         Color.fromRGBO(187, 177, 123, 1),
@@ -51,7 +51,7 @@ class SpotMarker extends StatelessWidget {
                   child: Text(
                     spot.getGemsNow().toString(),
                     style: kBoldARPDisplay11.copyWith(
-                      color: spot.isSponsoredNow() ? kPrimary : Colors.white,
+                      color: spot.isSponsoredNow() && spot.getGemsNow() > 0 ? kPrimary : Colors.white,
                     ),
                   ),
                 ),

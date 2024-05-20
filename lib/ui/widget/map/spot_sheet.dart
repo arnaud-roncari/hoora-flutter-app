@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hoora/common/crowd_report_sentences.dart';
+import 'package:hoora/common/sentences.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/model/spot_model.dart';
 import 'package:hoora/ui/page/map/create_crowd_report_page.dart';
@@ -130,7 +130,7 @@ class _SpotSheetState extends State<SpotSheet> {
                 ),
               ),
             ),
-            if (!isInCircleRadius)
+            if (!isInCircleRadius || widget.spot.isClosedAt(DateTime.now()))
               Container(
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.4),
@@ -205,7 +205,7 @@ class _SpotSheetState extends State<SpotSheet> {
                 }),
               ),
             ),
-            if (!isInCircleRadius || widget.spot.getGemsNow() == 0)
+            if (!isInCircleRadius || widget.spot.getGemsNow() == 0 || widget.spot.isClosedAt(DateTime.now()))
               Container(
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.4),
@@ -285,10 +285,10 @@ class _SpotSheetState extends State<SpotSheet> {
                 height: 50,
                 width: 50,
                 decoration: BoxDecoration(
-                  color: widget.spot.isSponsoredNow() ? null : kPrimary,
+                  color: widget.spot.isSponsoredNow() && widget.spot.getGemsNow() > 0 ? null : kPrimary,
                   border: Border.all(color: Colors.white, width: 3),
                   borderRadius: BorderRadius.circular(kRadius100),
-                  gradient: widget.spot.isSponsoredNow()
+                  gradient: widget.spot.isSponsoredNow() && widget.spot.getGemsNow() > 0
                       ? const LinearGradient(
                           colors: [
                             Color.fromRGBO(187, 177, 123, 1),
@@ -317,7 +317,7 @@ class _SpotSheetState extends State<SpotSheet> {
                       child: Text(
                         widget.spot.getGemsNow().toString(),
                         style: kBoldARPDisplay11.copyWith(
-                          color: widget.spot.isSponsoredNow() ? kPrimary : Colors.white,
+                          color: widget.spot.isSponsoredNow() && widget.spot.getGemsNow() > 0 ? kPrimary : Colors.white,
                         ),
                       ),
                     ),
@@ -403,9 +403,38 @@ class _SpotSheetState extends State<SpotSheet> {
                         ),
                         child: Stack(
                           children: [
+                            if (widget.spot.isClosedAt(DateTime.now()))
+                              Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Spacer(),
+                                    SvgPicture.asset(
+                                      "assets/svg/lock.svg",
+                                      height: 30,
+                                    ),
+                                    const SizedBox(height: kPadding10),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(
+                                            kRadius100,
+                                          )),
+                                      child: const Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: kPadding10, vertical: kPadding5),
+                                        child: Text(
+                                          "Fermé",
+                                          style: kRegularBalooPaaji16,
+                                        ),
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                  ],
+                                ),
+                              ),
                             if (widget.spot.hasCrowdReportNow())
                               Image.asset(
-                                'assets/images/density_${widget.spot.lastCrowdReport!.intensity}.png',
+                                'assets/images/intensity_${widget.spot.lastCrowdReport!.intensity}.png',
                                 height: constraint.maxWidth,
                                 width: constraint.maxWidth,
                               )

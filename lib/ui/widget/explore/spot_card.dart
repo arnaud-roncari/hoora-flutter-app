@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hoora/bloc/explore/explore_bloc.dart';
-import 'package:hoora/common/crowd_report_sentences.dart';
+import 'package:hoora/common/sentences.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/model/spot_model.dart';
 import 'package:hoora/ui/page/spot_page.dart';
@@ -82,7 +82,7 @@ class SpotCard extends StatelessWidget {
                     children: [
                       Text(
                         spot.name,
-                        style: kBoldARPDisplay11.copyWith(color: Colors.white),
+                        style: kBoldARPDisplay12.copyWith(color: Colors.white),
                         overflow: TextOverflow.clip,
                         maxLines: 2,
                       ),
@@ -91,7 +91,7 @@ class SpotCard extends StatelessWidget {
                         spot.cityName,
                         overflow: TextOverflow.clip,
                         maxLines: 1,
-                        style: kRegularBalooPaaji14.copyWith(color: Colors.white),
+                        style: kRegularBalooPaaji16.copyWith(color: Colors.white),
                       ),
                       const Spacer(),
 
@@ -149,9 +149,11 @@ class SpotCard extends StatelessWidget {
                                 height: 30,
                                 width: 70,
                                 decoration: BoxDecoration(
-                                  color: spot.isSponsoredAt(selectedDate) ? null : kGemsIndicator,
+                                  color: spot.isSponsoredAt(selectedDate) && spot.getGemsAt(selectedDate) > 0
+                                      ? null
+                                      : kGemsIndicator,
                                   borderRadius: BorderRadius.circular(kRadius100),
-                                  gradient: spot.isSponsoredAt(selectedDate)
+                                  gradient: spot.isSponsoredAt(selectedDate) && spot.getGemsAt(selectedDate) > 0
                                       ? const LinearGradient(
                                           colors: [
                                             Color.fromRGBO(187, 177, 123, 1),
