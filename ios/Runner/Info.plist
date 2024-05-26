@@ -23,11 +23,11 @@
 		<!-- Copied from GoogleService-Info.plist key CLIENT_ID -->
 		<string>1041066486499-f33db4fta01p2c8i36q9ohsiqtvkfsit.apps.googleusercontent.com</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string>Hoora need to access to the phone position, to display spots around users.</string>
+		<string>Quehora need to access to the phone position, to display spots around users.</string>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
-		<string>Hoora</string>
+		<string>Quehora</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -35,7 +35,7 @@
 		<key>CFBundleInfoDictionaryVersion</key>
 		<string>6.0</string>
 		<key>CFBundleName</key>
-		<string>hoora</string>
+		<string>Quehora</string>
 		<key>CFBundlePackageType</key>
 		<string>APPL</string>
 		<key>CFBundleShortVersionString</key>

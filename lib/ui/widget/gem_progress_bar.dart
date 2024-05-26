@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hoora/common/decoration.dart';
 
-/// TODO Fixer l'affichage quand peu d'expérience
 class GemProgressBar extends StatelessWidget {
   final int value;
   final int goal;
@@ -34,14 +33,17 @@ class GemProgressBar extends StatelessWidget {
                   ),
                   child: Center(
                     child: LayoutBuilder(builder: (_, constraint) {
-                      return Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          height: constraint.maxHeight,
-                          width: constraint.maxWidth * (pourcentage / 100),
-                          decoration: BoxDecoration(
-                            color: const Color.fromRGBO(26, 213, 124, 1),
-                            borderRadius: BorderRadius.circular(kRadius100),
+                      return Padding(
+                        padding: const EdgeInsets.all(2),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            height: constraint.maxHeight,
+                            width: constraint.maxWidth * (pourcentage / 100),
+                            decoration: BoxDecoration(
+                              color: const Color.fromRGBO(26, 213, 124, 1),
+                              borderRadius: BorderRadius.circular(kRadius100),
+                            ),
                           ),
                         ),
                       );

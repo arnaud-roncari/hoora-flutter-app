@@ -25,10 +25,10 @@ class RankingBloc extends Bloc<RankingEvent, RankingState> {
   void initialize(Init event, Emitter<RankingState> emit) async {
     try {
       emit(InitLoading());
-      user = event.user;
+      user = await userRepository.getUser();
       users = await userRepository.getAllUsers();
       users.sort((a, b) {
-        return b.gem.compareTo(a.gem);
+        return b.experience.compareTo(a.experience);
       });
 
       for (int i = 0; i < users.length; i++) {

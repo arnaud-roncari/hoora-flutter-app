@@ -155,6 +155,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       for (Offer unlockedOffer in unlockedOffers) {
         if (event.offer.id == unlockedOffer.id) {
           unlockedOffer.unlockedOffer!.status = UnlockedOfferStatus.activated;
+          unlockedOffer.unlockedOffer!.validatedAt = DateTime.now();
           break;
         }
       }

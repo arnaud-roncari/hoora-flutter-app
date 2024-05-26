@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hoora/bloc/user/user_bloc.dart';
@@ -15,7 +16,7 @@ class GemButton extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         if (state is InitLoading || state is InitFailed) {
-          const SizedBox(height: 25);
+          return const SizedBox(height: 25);
         }
 
         User user = context.read<UserBloc>().user;
@@ -24,8 +25,14 @@ class GemButton extends StatelessWidget {
           height: 25,
           child: ElevatedButton(
             style: isLight ? kButtonRoundedLightStyle : kButtonRoundedStyle,
-            onPressed: () {
-              Navigator.pushNamed(context, "/home/earnings");
+            onPressed: () async {
+              if (isLight) {
+                SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+              }
+              await Navigator.pushNamed(context, "/home/earnings");
+              if (isLight) {
+                SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+              }
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: kPadding10),

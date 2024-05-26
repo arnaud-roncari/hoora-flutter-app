@@ -42,7 +42,7 @@ class PrivacyPage extends StatelessWidget {
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 onPressed: () async {
-                  Uri url = Uri.parse('https://hello@hoora.app');
+                  Uri url = Uri.parse('https://hello@quehora.app');
 
                   if (!await launchUrl(url)) {
                     throw Exception('Could not launch $url');

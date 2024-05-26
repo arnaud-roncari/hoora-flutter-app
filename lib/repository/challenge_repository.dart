@@ -35,6 +35,7 @@ class ChallengeRepository {
   }
 
   Future<void> claimUnlockedChallenge(String unlockedChallengeId) async {
+    // final url = Uri.parse('http://127.0.0.1:5001/hoora-fb944/us-central1/claimUnlockedChallenge');
     final url = Uri.parse('https://claimunlockedchallenge-nmciz2db3a-uc.a.run.app');
     await http.post(
       url,

@@ -8,7 +8,7 @@ class OfferRepository {
   FirebaseFirestore instance = FirebaseFirestore.instance;
   final FirebaseAuth authInstance = FirebaseAuth.instance;
 
-  Future<List<Offer>> getAllOffers() async {
+  Future<List<Offer>> getOffers() async {
     QuerySnapshot snapshot = await instance.collection("offer").get();
     List<Offer> offers = Offer.fromSnapshots(snapshot.docs);
     List<Offer> filteredOffers = [];
@@ -29,6 +29,11 @@ class OfferRepository {
     }
 
     return filteredOffers;
+  }
+
+  Future<List<Offer>> getAllOffers() async {
+    QuerySnapshot snapshot = await instance.collection("offer").get();
+    return Offer.fromSnapshots(snapshot.docs);
   }
 
   Future<List<UnlockedOffer>> getUnlockedOffers() async {

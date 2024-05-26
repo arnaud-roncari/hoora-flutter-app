@@ -106,4 +106,15 @@ export class UserEntity {
     });
     return user;
   }
+
+  static fromSnapshots(snapshots: DocumentData[]): UserEntity[] {
+    const list: UserEntity[] = [];
+    for (const snapshot of snapshots) {
+      const elem = UserEntity.fromSnapshot(snapshot);
+      if (elem) {
+        list.push(elem);
+      }
+    }
+    return list;
+  }
 }

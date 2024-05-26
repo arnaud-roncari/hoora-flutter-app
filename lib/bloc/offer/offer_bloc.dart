@@ -35,7 +35,7 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
       /// Fetch companies, offers and unlocked offers
       List futures = await Future.wait([
         companyRepository.getAllCompanies(),
-        offerRepository.getAllOffers(),
+        offerRepository.getOffers(),
         offerRepository.getUnlockedOffers(),
       ]);
 

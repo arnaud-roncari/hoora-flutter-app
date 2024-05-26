@@ -175,7 +175,7 @@ class OfferPage extends StatelessWidget {
               const SizedBox(height: kPadding20),
               if (!viewOnly)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: kPadding20),
+                  padding: const EdgeInsets.only(left: kPadding20, right: kPadding20, bottom: kPadding20),
                   child: SizedBox(
                     height: 50,
                     width: double.infinity,
@@ -222,13 +222,14 @@ class OfferPage extends StatelessWidget {
               offer.unlockedOffer = state.unlockedOffer;
               context.read<UserBloc>().add(AddUnlockedOffer(offer: offer));
 
-              Navigator.pushReplacement(
+              Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
                   builder: (BuildContext context) => OfferUnlockedSuccessPage(
                     offer: offer,
                   ),
                 ),
+                (route) => route.settings.name == "/home",
               );
             }
           },

@@ -1,13 +1,15 @@
 import {CreateCrowdReportDto} from "../common/dto/create_crowd_report.dto";
-import * as admin from "firebase-admin";
-import {SpotEntity} from "../common/entity/spot.entity";
 import {LastCrowdReportEntity} from "../common/entity/last_crowd_report.entity";
-import {UserEntity} from "../common/entity/user.entity";
+import {TransactionType} from "../common/entity/transaction.entity";
+import {CrowdReportRepository} from "../repository/crowd_report.repository";
+import {SpotRepository} from "../repository/spot.repository";
+import {TransactionRepository} from "../repository/transaction.repository";
+import {UserRepository} from "../repository/user.repository";
 
 export class CrowdReportService {
   static async create(dto: CreateCrowdReportDto, userId: string) {
     // Create crowd report document
-    await admin.firestore().collection("crowdReport").add({
+    await CrowdReportRepository.create({
       userId: userId,
       spotId: dto.spotId,
       intensity: dto.intensity,
@@ -16,8 +18,7 @@ export class CrowdReportService {
     });
 
     // Get the spot
-    const spotDoc = await admin.firestore().collection("spot").doc(dto.spotId).get();
-    const spot = SpotEntity.fromSnapshot(spotDoc);
+    const spot = await SpotRepository.getSpotById(dto.spotId);
 
     // Update the last crowd report
     spot.lastCrowdReport = new LastCrowdReportEntity({
@@ -26,13 +27,24 @@ export class CrowdReportService {
       intensity: dto.intensity,
       userId: userId,
     });
+    await SpotRepository.updateLastCrowdReport(dto.spotId, spot.lastCrowdReport.toJson());
 
-    await admin.firestore().collection("spot").doc(dto.spotId).update({lastCrowdReport: spot.lastCrowdReport.toJson()});
+    //  Update the user
+    const user = await UserRepository.getUser(userId);
+    await UserRepository.updateUserAfterCreatingReport(
+      user.id,
+      user.gem + 5,
+      user.experience + 5,
+      user.amountCrowdReportCreated + 1,
+    );
 
-    //  Update the user gems
-    const snapshot = await admin.firestore().collection("user").where("userId", "==", userId).get();
-    const user = UserEntity.fromSnapshot(snapshot.docs[0]);
-    user.gem += 5;
-    await admin.firestore().collection("user").doc(user.id).update({gem: user.gem});
+    // Create transaction
+    await TransactionRepository.create({
+      "type": TransactionType.crowd_report,
+      "gem": 5,
+      "userId": userId,
+      "name": spot.name,
+      "createdAt": new Date(),
+    });
   }
 }

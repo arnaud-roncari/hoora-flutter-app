@@ -47,7 +47,7 @@ class RankedCard extends StatelessWidget {
             ),
             const SizedBox(width: kPadding10),
             Text(
-              user.gem.toString(),
+              user.experience.toString(),
               style: kBoldARPDisplay13.copyWith(color: isLightTheme ? kPrimary : Colors.white),
             ),
             const SizedBox(width: kPadding10),

@@ -144,6 +144,7 @@ class OfferUnlockedSuccessPage extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: kPadding20),
           ],
         ),
       ),

@@ -1,7 +1,8 @@
-import * as admin from "firebase-admin";
 import {CreateSpotDto} from "../common/dto/create_spot.dto";
-import {SpotEntity} from "../common/entity/spot.entity";
-import {UserEntity} from "../common/entity/user.entity";
+import {TransactionType} from "../common/entity/transaction.entity";
+import {SpotRepository} from "../repository/spot.repository";
+import {TransactionRepository} from "../repository/transaction.repository";
+import {UserRepository} from "../repository/user.repository";
 
 export class SpotService {
   static trafficPoints : number[][] = [
@@ -75,31 +76,40 @@ export class SpotService {
     // Generate gems per day
     const trafficPoints = this._generateTrafficPoints(dto);
 
-    await admin.firestore().collection("spot").add({
+    await SpotRepository.create({
       "trafficPoints": trafficPoints,
       ...dto.toJson(),
     });
   }
 
   static async validate(userId: string, spotId: string) {
-    //  Retrieve the gems that the user will earn, from the spot
-    const spotDoc = await admin.firestore().collection("spot").doc(spotId).get();
-    const spot = SpotEntity.fromSnapshot(spotDoc);
+    const spot = await SpotRepository.getSpotById(spotId);
     const gems = spot.getGemsNow();
 
     //  Create a new validation document
-    await admin.firestore().collection("spotValidation").add({
+    await SpotRepository.createSpotValidation({
       userId: userId,
       spotId: spotId,
       gems: gems,
       createdAt: new Date(Date.now()),
     });
 
-    //  Update the user gem and experience
-    const snapshot = await admin.firestore().collection("user").where("userId", "==", userId).get();
-    const user = UserEntity.fromSnapshot(snapshot.docs[0]);
-    user.gem += gems;
-    user.experience += gems;
-    await admin.firestore().collection("user").doc(user.id).update({gem: user.gem});
+    //  Update the user
+    const user = await UserRepository.getUser(userId);
+    await UserRepository.updateUserAftervalidatingSpot(
+      user.id,
+      user.gem + gems,
+      user.experience + gems,
+      user.amountSpotValidated + 1,
+    );
+
+    // Create transaction
+    await TransactionRepository.create({
+      "type": TransactionType.validation,
+      "gem": gems,
+      "userId": userId,
+      "name": spot.name,
+      "createdAt": new Date(),
+    });
   }
 }

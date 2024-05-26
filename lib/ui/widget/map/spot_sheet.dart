@@ -432,7 +432,7 @@ class _SpotSheetState extends State<SpotSheet> {
                                   ],
                                 ),
                               ),
-                            if (widget.spot.hasCrowdReportNow())
+                            if (widget.spot.hasCrowdReportNow() && widget.spot.lastCrowdReport!.intensity > 1)
                               Image.asset(
                                 'assets/images/intensity_${widget.spot.lastCrowdReport!.intensity}.png',
                                 height: constraint.maxWidth,

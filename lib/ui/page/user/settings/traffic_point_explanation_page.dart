@@ -37,7 +37,7 @@ class TrafficPointExplanationPage extends StatelessWidget {
                 )),
                 const SizedBox(height: kPadding40),
                 const Text(
-                  "Hoora valorise les visites en heures creuses pour réduire la congestion dans les lieux touristiques et favoriser une expérience de visite optimale. Découvrez le fonctionnement de notre système de points :",
+                  "Quehora valorise les visites en heures creuses pour réduire la congestion dans les lieux touristiques et favoriser une expérience de visite optimale. Découvrez le fonctionnement de notre système de points :",
                   style: kRegularBalooPaaji14,
                 ),
                 buildSection(
@@ -45,7 +45,7 @@ class TrafficPointExplanationPage extends StatelessWidget {
                   "En choisissant de visiter pendant les heures creuses, que le lieu soit très fréquenté ou non, vous gagnez des points. Les heures creuses sont des moments moins affluents, permettant une expérience de visite plus agréable.",
                 ),
                 buildSection("2. Attribution des points en fonction de l'impact",
-                    "Les points sont attribués en fonction de votre contribution à la réduction du nombre de visiteurs. Pour cela, nous comparons le nombre de visiteurs attendus lors de votre visite à la moyenne hebdomadaire. Vous gagnez des points uniquement si l'affluence prévue pour votre visite est inférieure à cette moyenne hebdomadaire. En revanche, si l'affluence est égale ou supérieure à la moyenne, aucun point n'est attribué, car la visite ne contribue pas à alléger la fréquentation du site.\n\nHoora utilise des données prévisionnelles d'affluence heure par heure à partir de sources fiables pour chaque site touristique.\n\n\nLes créneaux de visite en dessous de la moyenne d'affluence sont récompensés, plus le créneau est en dessous de cette moyenne, plus le nombre de points accordés est élevé pour encourager les visites durant les périodes de moindre affluences."),
+                    "Les points sont attribués en fonction de votre contribution à la réduction du nombre de visiteurs. Pour cela, nous comparons le nombre de visiteurs attendus lors de votre visite à la moyenne hebdomadaire. Vous gagnez des points uniquement si l'affluence prévue pour votre visite est inférieure à cette moyenne hebdomadaire. En revanche, si l'affluence est égale ou supérieure à la moyenne, aucun point n'est attribué, car la visite ne contribue pas à alléger la fréquentation du site.\n\nQuehora utilise des données prévisionnelles d'affluence heure par heure à partir de sources fiables pour chaque site touristique.\n\n\nLes créneaux de visite en dessous de la moyenne d'affluence sont récompensés, plus le créneau est en dessous de cette moyenne, plus le nombre de points accordés est élevé pour encourager les visites durant les périodes de moindre affluences."),
 
                 const SizedBox(height: kPadding40),
                 Center(

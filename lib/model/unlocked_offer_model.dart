@@ -10,7 +10,7 @@ class UnlockedOffer {
   UnlockedOfferStatus status;
   final int gem;
   final DateTime createdAt;
-  final DateTime? validatedAt;
+  DateTime? validatedAt;
 
   UnlockedOffer({
     required this.id,

@@ -2,41 +2,76 @@ import * as admin from "firebase-admin";
 import {UserEntity} from "../common/entity/user.entity";
 
 export class UserRepository {
-  static async updateLevel(userId: string, newLevel: number) : Promise<void> {
-    // Fetch user
-    const snapshot = await admin.firestore().collection("user").where("userId", "==", userId).get();
-    const user = UserEntity.fromSnapshot(snapshot.docs[0]);
-    // Update level
-    await admin.firestore().collection("user").doc(user.id).update({level: newLevel});
+  static async setLevel(documentId: string, level: number) : Promise<void> {
+    await admin.firestore().collection("user").doc(documentId).update({level: level});
   }
 
-  static async updateAmountCrowdReportCreated(userId: string) : Promise<void> {
+  static async getUser(userId: string): Promise<UserEntity> {
     const snapshot = await admin.firestore().collection("user").where("userId", "==", userId).get();
     const user = UserEntity.fromSnapshot(snapshot.docs[0]);
-    await admin.firestore().collection("user").doc(user.id).update({amountCrowdReportCreated: user.amountCrowdReportCreated + 1});
+    return user;
   }
 
-  static async updateAmountChallengeUnlocked(userId: string) : Promise<void> {
-    const snapshot = await admin.firestore().collection("user").where("userId", "==", userId).get();
-    const user = UserEntity.fromSnapshot(snapshot.docs[0]);
-    await admin.firestore().collection("user").doc(user.id).update({amountChallengeUnlocked: user.amountChallengeUnlocked + 1});
+  static async getAll(): Promise<UserEntity[]> {
+    const snapshot = await admin.firestore().collection("user").get();
+    const users = UserEntity.fromSnapshots(snapshot.docs);
+    return users;
+  }
+  
+  /**
+ *
+ * @param documentId
+ * @param gem
+ * @param amountOfferUnlocked
+ */
+  static async updateUserAfterUnlockingOffer(documentId: string, gem: number, amountOfferUnlocked: number): Promise<void> {
+    await admin.firestore().collection("user").doc(documentId).update({
+      gem: gem,
+      amountOfferUnlocked: amountOfferUnlocked,
+    });
   }
 
-  static async updateAmountSpotValidated(userId: string) : Promise<void> {
-    const snapshot = await admin.firestore().collection("user").where("userId", "==", userId).get();
-    const user = UserEntity.fromSnapshot(snapshot.docs[0]);
-    await admin.firestore().collection("user").doc(user.id).update({amountSpotValidated: user.amountSpotValidated + 1});
+
+  /**
+   *
+   * @param documentId
+   * @param gem
+   * @param amountSpotValidated
+   * @param experience
+   */
+  static async updateUserAftervalidatingSpot(documentId: string, gem: number, experience: number, amountSpotValidated: number): Promise<void> {
+    await admin.firestore().collection("user").doc(documentId).update({
+      gem: gem,
+      experience: experience,
+      amountSpotValidated: amountSpotValidated,
+    });
   }
 
-  static async updateAmountOfferUnlocked(userId: string) : Promise<void> {
-    const snapshot = await admin.firestore().collection("user").where("userId", "==", userId).get();
-    const user = UserEntity.fromSnapshot(snapshot.docs[0]);
-    await admin.firestore().collection("user").doc(user.id).update({amountOfferUnlocked: user.amountOfferUnlocked + 1});
+  /**
+   *
+   * @param documentId
+   * @param gem
+   * @param experience
+   * @param amountCrowdReportCreated
+   */
+  static async updateUserAfterCreatingReport(documentId: string, gem: number, experience: number, amountCrowdReportCreated: number): Promise<void> {
+    await admin.firestore().collection("user").doc(documentId).update({
+      gem: gem,
+      experience: experience,
+      amountCrowdReportCreated: amountCrowdReportCreated,
+    });
   }
 
-  static async decreaseGem(userId: string, gem: number): Promise<void> {
-    const snapshot = await admin.firestore().collection("user").where("userId", "==", userId).get();
-    const user = UserEntity.fromSnapshot(snapshot.docs[0]);
-    await admin.firestore().collection("user").doc(user.id).update({gem: user.gem - gem});
+  /**
+   *
+   * @param documentId
+   * @param gem
+   * @param amountDonation
+   */
+  static async updateUserAfterDonation(documentId: string, gem: number, amountDonation: number): Promise<void> {
+    await admin.firestore().collection("user").doc(documentId).update({
+      gem: gem,
+      amountDonation: amountDonation,
+    });
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hoora/bloc/ranking/ranking_bloc.dart';
-import 'package:hoora/bloc/user/user_bloc.dart' as user_bloc;
 import 'package:hoora/common/alert.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/model/user_model.dart';
@@ -23,9 +22,7 @@ class _RankingPageState extends State<RankingPage> with AutomaticKeepAliveClient
   void initState() {
     super.initState();
     rankingBloc = context.read<RankingBloc>();
-    rankingBloc.add(Init(
-      user: context.read<user_bloc.UserBloc>().user,
-    ));
+    rankingBloc.add(Init());
   }
 
   @override

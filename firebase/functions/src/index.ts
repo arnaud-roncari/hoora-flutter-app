@@ -17,15 +17,18 @@ import {CreateUnlockedChallengeDto} from "./common/dto/create_unlocked_challenge
 import {ClaimUnlockedChallengeDto} from "./common/dto/claim_unlocked_challenge.dto";
 import {UserEntity} from "./common/entity/user.entity";
 import {UserService} from "./service/user.service";
-import {CrowdReportEntity} from "./common/entity/crowd_report.entity";
-import {SpotValidatedEntity} from "./common/entity/spot_validated";
-import {UnlockedChallengeEntity} from "./common/entity/unlocked_challenge.entity";
 import {CreateCompanyDto} from "./common/dto/create_company.dto";
 import {CompanyService} from "./service/company.service";
 import {CreateOfferDto} from "./common/dto/create_offer.dto";
 import {OfferService} from "./service/offer.service";
 import {UnlockOfferDto} from "./common/dto/unlock_offer.dto";
-import {UnlockedOfferEntity} from "./common/entity/unlocked_offer.entity";
+import {CreateOrganizationDto} from "./common/dto/create_organization.dto";
+import {OrganizationService} from "./service/organization.service";
+import {CreateProjectDto} from "./common/dto/create_project.dto";
+import {ProjectService} from "./service/project.service";
+import {DonateDto} from "./common/dto/donate_offer.dto";
+import {TransactionRepository} from "./repository/transaction.repository";
+import {TransactionType} from "./common/entity/transaction.entity";
 
 // TODO: Upgrade body validation
 // TODO: Catch crashes
@@ -54,6 +57,15 @@ export const onUserCreated = v1.auth.user().onCreate(async (user) => {
     amountDonation: 0,
     createdAt: new Date(),
   });
+
+  // Create transaction
+  await TransactionRepository.create({
+    "type": TransactionType.launch_gift,
+    "gem": 15,
+    "userId": user.uid,
+    "name": "Récompense de bienvenue",
+    "createdAt": new Date(),
+  });
 });
 
 /**
@@ -62,46 +74,12 @@ export const onUserCreated = v1.auth.user().onCreate(async (user) => {
 exports.onUserUpdated = v2.firestore.onDocumentUpdated("user/{docId}", async (event) => {
   const user = UserEntity.fromSnapshot(event.data!.after);
   if (user.level === 1 && user.experience > 800) {
-    await UserService.updateLevel(user.userId, 2);
+    await UserService.setLevel(user.id, 2);
   } else if ( user.level === 2 && user.experience > 2000) {
-    await UserService.updateLevel(user.userId, 3);
+    await UserService.setLevel(user.id, 3);
   }
-  // / TODO : Trigger challenges.
+  // TODO : Trigger challenges.
 });
-
-
-/**
- * Update User stats
- */
-exports.onCrowdReportCreated = v2.firestore.onDocumentCreated("crowdReport/{docId}", async (event) => {
-  const crowdReport = CrowdReportEntity.fromSnapshot(event.data!);
-  await UserService.updateAmountCrowdReportCreated(crowdReport.userId);
-});
-
-/**
- * Update User stats
- */
-exports.onSpotValidated = v2.firestore.onDocumentCreated("spotValidation/{docId}", async (event) => {
-  const spotValidated = SpotValidatedEntity.fromSnapshot(event.data!);
-  await UserService.updateAmountSpotValidated(spotValidated.userId);
-});
-
-/**
- * Update User stats
- */
-exports.onChallengeUnlocked = v2.firestore.onDocumentCreated("unlockedChallenge/{docId}", async (event) => {
-  const unlockedChallenge = UnlockedChallengeEntity.fromSnapshot(event.data!);
-  await UserService.updateAmountChallengeUnlocked(unlockedChallenge.userId);
-});
-
-/**
- * Update User stats
- */
-exports.onOfferUnlocked = v2.firestore.onDocumentCreated("unlockedOffer/{docId}", async (event) => {
-  const unlockedOffer = UnlockedOfferEntity.fromSnapshot(event.data!);
-  await UserService.updateAmountOfferUnlocked(unlockedOffer.userId);
-});
-
 
 /**
  * Increase spotQuantity
@@ -241,6 +219,27 @@ export const unlockOffer = v2.https.onRequest(async ( request, response) => {
 });
 
 /**
+ * Donate
+ */
+export const donate = v2.https.onRequest(async ( request, response) => {
+  try {
+    // Extract parameters
+    const decodedIdToken = await verifyIdToken(request);
+    const userId = decodedIdToken.uid;
+    const dto = DonateDto.fromJson(request.body);
+
+    await ProjectService.donate( userId, dto);
+
+    // TODO: Implement history
+
+    response.json({status: "OK"});
+  } catch (e) {
+    console.log(e);
+    response.json({status: "KO", error: e});
+  }
+});
+
+/**
  * Create challenges
  */
 export const createChallenges = v2.https.onRequest(async (request, response ) => {
@@ -285,6 +284,40 @@ export const createOffers = v2.https.onRequest(async (request, response ) => {
 
     response.json({status: "OK"});
   } catch (e) {
+    response.json({status: "KO", error: e});
+  }
+});
+
+
+/**
+ * Create organizations
+ */
+export const createOrganizations = v2.https.onRequest(async (request, response ) => {
+  try {
+    for (const organization of request.body) {
+      const dto = CreateOrganizationDto.fromJson(organization);
+      await OrganizationService.create(dto);
+    }
+
+    response.json({status: "OK"});
+  } catch (e) {
+    response.json({status: "KO", error: e});
+  }
+});
+
+/**
+ * Create projects
+ */
+export const createProjects = v2.https.onRequest(async (request, response ) => {
+  try {
+    for (const project of request.body) {
+      const dto = CreateProjectDto.fromJson(project);
+      await ProjectService.create(dto);
+    }
+
+    response.json({status: "OK"});
+  } catch (e) {
+    console.log(e);
     response.json({status: "KO", error: e});
   }
 });

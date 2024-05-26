@@ -7,8 +7,8 @@ import 'package:hoora/bloc/user/user_bloc.dart' as user_bloc;
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/ui/page/challenge_page.dart';
 import 'package:hoora/ui/page/explore/explore_page.dart';
+import 'package:hoora/ui/page/gift_page.dart';
 import 'package:hoora/ui/page/map/map_page.dart';
-import 'package:hoora/ui/page/offer/offers_page.dart';
 import 'package:hoora/ui/page/ranking_page.dart';
 import 'package:hoora/ui/widget/navigation_bar.dart';
 
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
                     padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
                     child: const ExplorePage(),
                   ),
-                  const OffersPage(),
+                  const GiftPage(),
                   const MapPage(),
                   const ChallengePage(),
                   const RankingPage(),

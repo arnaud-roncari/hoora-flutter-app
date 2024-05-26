@@ -5,7 +5,6 @@ import 'package:hoora/bloc/offer/offer_bloc.dart';
 import 'package:hoora/common/alert.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/model/offer_model.dart';
-import 'package:hoora/ui/widget/gem_button.dart';
 import 'package:hoora/ui/widget/level_card.dart';
 import 'package:hoora/ui/widget/offer/offer_card.dart';
 
@@ -44,27 +43,6 @@ class _OffersPageState extends State<OffersPage> with AutomaticKeepAliveClientMi
         return SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: MediaQuery.of(context).padding.top),
-              const Padding(
-                padding: EdgeInsets.only(top: kPadding20, right: kPadding20),
-                child: Align(alignment: Alignment.topRight, child: GemButton()),
-              ),
-              const SizedBox(height: kPadding20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset("assets/svg/offer_gift.svg"),
-                  const SizedBox(width: kPadding10),
-                  const Text("Nos offres", style: kRBoldBalooPaaji18),
-                ],
-              ),
-              const SizedBox(height: kPadding40),
-              const Text(
-                "Dépenser mes points",
-                style: kBoldARPDisplay18,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: kPadding20),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: kPadding20),
                 child: LevelCard(height: 100),

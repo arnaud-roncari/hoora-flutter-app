@@ -1,6 +1,8 @@
 import {CreateOfferDto} from "../common/dto/create_offer.dto";
+import {TransactionType} from "../common/entity/transaction.entity";
 import {UnlockedOfferStatus} from "../common/entity/unlocked_offer.entity";
 import {OfferRepository} from "../repository/offer.repository";
+import {TransactionRepository} from "../repository/transaction.repository";
 import {UserRepository} from "../repository/user.repository";
 
 export class OfferService {
@@ -32,7 +34,21 @@ export class OfferService {
     // Update offer codes
     await OfferRepository.updateCodes(offerId, offer.codes);
 
-    // Decrease user gem
-    await UserRepository.decreaseGem(userId, offer.price);
+    // Update user
+    const user = await UserRepository.getUser(userId);
+    await UserRepository.updateUserAfterUnlockingOffer(
+      user.id,
+      user.gem - offer.price,
+      user.amountOfferUnlocked + 1,
+    );
+
+    // Create transaction
+    await TransactionRepository.create({
+      "type": TransactionType.offer,
+      "gem": offer.price,
+      "userId": user.userId,
+      "name": offer.title,
+      "createdAt": new Date(),
+    });
   }
 }

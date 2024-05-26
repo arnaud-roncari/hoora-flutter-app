@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hoora/bloc/user/user_bloc.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/model/offer_model.dart';
+import 'package:hoora/ui/page/user/transaction_page.dart';
 import 'package:hoora/ui/widget/level_card.dart';
 import 'package:hoora/ui/widget/user/unlocked_offer_card.dart';
 
@@ -44,7 +45,12 @@ class _EarningsPageState extends State<EarningsPage> {
                   /// Experience
                   InkWell(
                     onTap: () {
-                      // TODO push on  history
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const TransactionPage(),
+                        ),
+                      );
                     },
                     child: Container(
                       height: 115,
