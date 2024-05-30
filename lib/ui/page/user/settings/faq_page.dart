@@ -79,12 +79,12 @@ class FAQPage extends StatelessWidget {
         const SizedBox(height: kPadding40),
         Text(
           title,
-          style: kBoldBalooPaaji14,
+          style: kBoldNunito14,
         ),
         const SizedBox(height: kPadding20),
         Text(
           content,
-          style: kRegularBalooPaaji14,
+          style: kRegularNunito14,
         ),
       ],
     );

@@ -52,7 +52,7 @@ class _RankingPageState extends State<RankingPage> with AutomaticKeepAliveClient
               children: [
                 SvgPicture.asset("assets/svg/ranking_rugby.svg"),
                 const SizedBox(width: kPadding10),
-                const Text("Classement", style: kRBoldBalooPaaji18),
+                const Text("Classement", style: kRBoldNunito18),
               ],
             ),
             const SizedBox(height: kPadding40),

@@ -60,7 +60,7 @@ class _OffersPageState extends State<OffersPage> with AutomaticKeepAliveClientMi
                   const SizedBox(width: 5),
                   const Text(
                     'Niveau I',
-                    style: kRBoldBalooPaaji18,
+                    style: kRBoldNunito18,
                   ),
                 ],
               ),
@@ -104,7 +104,7 @@ class _OffersPageState extends State<OffersPage> with AutomaticKeepAliveClientMi
                   const SizedBox(width: 5),
                   const Text(
                     'Niveau II',
-                    style: kRBoldBalooPaaji18,
+                    style: kRBoldNunito18,
                   ),
                 ],
               ),
@@ -149,7 +149,7 @@ class _OffersPageState extends State<OffersPage> with AutomaticKeepAliveClientMi
                   const SizedBox(width: 5),
                   const Text(
                     'Niveau III',
-                    style: kRBoldBalooPaaji18,
+                    style: kRBoldNunito18,
                   ),
                 ],
               ),

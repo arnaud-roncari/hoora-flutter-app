@@ -38,7 +38,7 @@ class TrafficPointExplanationPage extends StatelessWidget {
                 const SizedBox(height: kPadding40),
                 const Text(
                   "Quehora valorise les visites en heures creuses pour réduire la congestion dans les lieux touristiques et favoriser une expérience de visite optimale. Découvrez le fonctionnement de notre système de points :",
-                  style: kRegularBalooPaaji14,
+                  style: kRegularNunito14,
                 ),
                 buildSection(
                   "1. Sélection du moment et du lieu de votre visite",
@@ -80,12 +80,12 @@ class TrafficPointExplanationPage extends StatelessWidget {
         const SizedBox(height: kPadding40),
         Text(
           title,
-          style: kBoldBalooPaaji14,
+          style: kBoldNunito14,
         ),
         const SizedBox(height: kPadding20),
         Text(
           content,
-          style: kRegularBalooPaaji14,
+          style: kRegularNunito14,
         ),
       ],
     );

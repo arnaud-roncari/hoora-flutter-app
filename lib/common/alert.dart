@@ -10,7 +10,7 @@ class Alert {
         content: Text(
           text,
           textAlign: TextAlign.center,
-          style: kRegularBalooPaaji20.copyWith(color: Colors.white),
+          style: kRegularNunito20.copyWith(color: Colors.white),
         ),
       ),
     );
@@ -23,7 +23,7 @@ class Alert {
         content: Text(
           text,
           textAlign: TextAlign.center,
-          style: kRegularBalooPaaji20.copyWith(color: Colors.white),
+          style: kRegularNunito20.copyWith(color: Colors.white),
         ),
       ),
     );

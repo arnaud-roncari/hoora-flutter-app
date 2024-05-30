@@ -170,7 +170,7 @@ class _SpotValidationPageState extends State<SpotValidationPage> {
                             children: [
                               const Text(
                                 "Je partage l'affluence",
-                                style: kBoldBalooPaaji16,
+                                style: kBoldNunito16,
                               ),
                               const SizedBox(width: kPadding10),
                               SvgPicture.asset("assets/svg/gem.svg"),

@@ -42,7 +42,7 @@ class _SpotSheetState extends State<SpotSheet> {
           padding: const EdgeInsets.only(bottom: kPadding5),
           child: Text(
             "Affluences signalées il y a moins de deux heures.",
-            style: kRegularBalooPaaji12.copyWith(
+            style: kRegularNunito12.copyWith(
               color: Colors.white,
             ),
           ),
@@ -80,7 +80,7 @@ class _SpotSheetState extends State<SpotSheet> {
                     padding: const EdgeInsets.only(top: kPadding10),
                     child: Text(
                       "Rapprochez vous du site pour pouvoir valider",
-                      style: kRegularBalooPaaji14.copyWith(
+                      style: kRegularNunito14.copyWith(
                         color: Colors.white,
                       ),
                     ),
@@ -122,7 +122,7 @@ class _SpotSheetState extends State<SpotSheet> {
                   children: [
                     const Text(
                       "Je partage l'affluence",
-                      style: kBoldBalooPaaji16,
+                      style: kBoldNunito16,
                     ),
                     const SizedBox(width: kPadding10),
                     SvgPicture.asset("assets/svg/gem.svg"),
@@ -179,7 +179,7 @@ class _SpotSheetState extends State<SpotSheet> {
                         children: [
                           Text(
                             "Je valide ma visite",
-                            style: kBoldBalooPaaji16.copyWith(color: Colors.white),
+                            style: kBoldNunito16.copyWith(color: Colors.white),
                           ),
                           const SizedBox(width: kPadding10),
                           SvgPicture.asset("assets/svg/gem.svg"),
@@ -258,7 +258,7 @@ class _SpotSheetState extends State<SpotSheet> {
                 const SizedBox(height: kPadding5),
                 Text(
                   crowdReportSentences[widget.spot.lastCrowdReport!.intensity - 1],
-                  style: kRegularBalooPaaji12.copyWith(color: isInCircleRadius ? kPrimary : kPrimary3),
+                  style: kRegularNunito12.copyWith(color: isInCircleRadius ? kPrimary : kPrimary3),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -362,7 +362,7 @@ class _SpotSheetState extends State<SpotSheet> {
                 const SizedBox(height: kPadding5),
                 Text(
                   getCrowdReportAwaitingTimeSentence(),
-                  style: kRegularBalooPaaji12.copyWith(
+                  style: kRegularNunito12.copyWith(
                     color: isInCircleRadius ? kPrimary : kPrimary3,
                   ),
                   textAlign: TextAlign.center,
@@ -424,7 +424,7 @@ class _SpotSheetState extends State<SpotSheet> {
                                         padding: EdgeInsets.symmetric(horizontal: kPadding10, vertical: kPadding5),
                                         child: Text(
                                           "Fermé",
-                                          style: kRegularBalooPaaji16,
+                                          style: kRegularNunito16,
                                         ),
                                       ),
                                     ),
@@ -482,7 +482,7 @@ class _SpotSheetState extends State<SpotSheet> {
               style: ElevatedButton.styleFrom(backgroundColor: kPrimary3),
               child: Text(
                 "Découvrir",
-                style: kBoldBalooPaaji14.copyWith(color: kPrimary),
+                style: kBoldNunito14.copyWith(color: kPrimary),
               ),
             ),
           ),

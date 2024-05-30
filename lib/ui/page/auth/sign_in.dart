@@ -74,12 +74,12 @@ class _SignInPageState extends State<SignInPage> {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               "Email",
-                              style: kRegularBalooPaaji14,
+                              style: kRegularNunito14,
                             ),
                           ),
                           const SizedBox(height: kPadding5),
                           TextFormField(
-                            style: kRegularBalooPaaji18,
+                            style: kRegularNunito18,
                             decoration: kTextFieldStyle.copyWith(prefixIcon: const Icon(CupertinoIcons.mail)),
                             controller: emailController,
                             validator: Validator.email,
@@ -89,13 +89,13 @@ class _SignInPageState extends State<SignInPage> {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               "Mot de passe",
-                              style: kRegularBalooPaaji14,
+                              style: kRegularNunito14,
                             ),
                           ),
                           const SizedBox(height: kPadding5),
                           TextFormField(
                             obscureText: true,
-                            style: kRegularBalooPaaji18,
+                            style: kRegularNunito18,
                             decoration: kTextFieldStyle.copyWith(
                                 prefixIcon: const Icon(CupertinoIcons.lock), hintText: "Mot de passe"),
                             controller: passwordController,
@@ -123,7 +123,7 @@ class _SignInPageState extends State<SignInPage> {
                                     )
                                   : Text(
                                       "Se connecter",
-                                      style: kBoldBalooPaaji16.copyWith(
+                                      style: kBoldNunito16.copyWith(
                                         color: Colors.white,
                                       ),
                                     ),
@@ -145,7 +145,7 @@ class _SignInPageState extends State<SignInPage> {
                             //         )
                             //       : Text(
                             //           "Réinitialiser",
-                            //           style: kBoldBalooPaaji16.copyWith(
+                            //           style: kBoldNunito16.copyWith(
                             //             color: Colors.white,
                             //           ),
                             //         ),
@@ -163,7 +163,7 @@ class _SignInPageState extends State<SignInPage> {
                                 ),
                               ),
                               SizedBox(width: kPadding10),
-                              Text("Ou", style: kRegularBalooPaaji14),
+                              Text("Ou", style: kRegularNunito14),
                               SizedBox(width: kPadding10),
                               Expanded(
                                 child: Divider(
@@ -193,7 +193,7 @@ class _SignInPageState extends State<SignInPage> {
                                     )
                                   : Text(
                                       "Continuer avec Google",
-                                      style: kBoldBalooPaaji16.copyWith(
+                                      style: kBoldNunito16.copyWith(
                                         color: Colors.white,
                                       ),
                                     ),
@@ -221,7 +221,7 @@ class _SignInPageState extends State<SignInPage> {
                                           )
                                         : Text(
                                             "Continuer avec Apple",
-                                            style: kBoldBalooPaaji16.copyWith(
+                                            style: kBoldNunito16.copyWith(
                                               color: Colors.white,
                                             ),
                                           ),
@@ -242,7 +242,7 @@ class _SignInPageState extends State<SignInPage> {
                               },
                               child: const Text(
                                 "Mot de passe oublié ?",
-                                style: kRegularBalooPaaji14,
+                                style: kRegularNunito14,
                               ),
                             ),
                           ),

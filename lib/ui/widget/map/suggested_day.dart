@@ -43,7 +43,7 @@ class _SuggestedDayState extends State<SuggestedDay> {
         const SizedBox(height: kPadding5),
         Text(
           widget.title,
-          style: kBoldBalooPaaji10,
+          style: kBoldNunito10,
         ),
       ],
     );

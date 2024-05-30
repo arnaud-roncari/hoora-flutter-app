@@ -50,7 +50,7 @@ class PrivacyPage extends StatelessWidget {
                 },
                 child: const Text(
                   "Support & Aide",
-                  style: kRegularBalooPaaji16,
+                  style: kRegularNunito16,
                 ),
               ),
               TextButton(
@@ -68,7 +68,7 @@ class PrivacyPage extends StatelessWidget {
                 },
                 child: const Text(
                   "Conditions Générales d'Utilisation",
-                  style: kRegularBalooPaaji16,
+                  style: kRegularNunito16,
                 ),
               ),
               TextButton(
@@ -86,7 +86,7 @@ class PrivacyPage extends StatelessWidget {
                 },
                 child: const Text(
                   "Politique de Confidentialité",
-                  style: kRegularBalooPaaji16,
+                  style: kRegularNunito16,
                 ),
               ),
               TextButton(
@@ -104,7 +104,7 @@ class PrivacyPage extends StatelessWidget {
                 },
                 child: const Text(
                   "Mentions légales",
-                  style: kRegularBalooPaaji16,
+                  style: kRegularNunito16,
                 ),
               ),
             ],

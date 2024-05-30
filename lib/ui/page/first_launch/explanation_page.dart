@@ -67,7 +67,7 @@ class _ExplanationPageState extends State<ExplanationPage> {
                                 widthFactor: 0.9,
                                 child: Text(
                                   "Découvrez des attractions touristiques en explorant notre carte interactive.",
-                                  style: kRegularBalooPaaji20,
+                                  style: kRegularNunito20,
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -101,7 +101,7 @@ class _ExplanationPageState extends State<ExplanationPage> {
                                   widthFactor: 0.9,
                                   child: Text(
                                     "Choisissez le meilleur moment pour visiter grâce à nos prévisions d'affluence et planifiez votre journée pour éviter les foules.",
-                                    style: kRegularBalooPaaji20,
+                                    style: kRegularNunito20,
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
@@ -135,7 +135,7 @@ class _ExplanationPageState extends State<ExplanationPage> {
                                 widthFactor: 0.9,
                                 child: Text(
                                   "Validez votre visite en heure creuse ou signalez une affluence et gagnez des points !",
-                                  style: kRegularBalooPaaji20,
+                                  style: kRegularNunito20,
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -165,7 +165,7 @@ class _ExplanationPageState extends State<ExplanationPage> {
                                 widthFactor: 0.9,
                                 child: Text(
                                   "Échangez vos points contre des avantages exclusifs ! Votre contribution à un tourisme responsable est récompensée !",
-                                  style: kRegularBalooPaaji20,
+                                  style: kRegularNunito20,
                                   textAlign: TextAlign.center,
                                 ),
                               ),

@@ -1,6 +1,6 @@
 import * as admin from "firebase-admin";
 import {SpotEntity} from "../common/entity/spot.entity";
-import { SpotValidatedEntity } from "../common/entity/spot_validated";
+import {SpotValidatedEntity} from "../common/entity/spot_validated";
 
 export class SpotRepository {
   static async getSpotById(documentId: string): Promise<SpotEntity> {
@@ -24,8 +24,8 @@ export class SpotRepository {
 
   static async getSpotsValidated(userId: string): Promise<SpotValidatedEntity[]> {
     const snapshotSv = await admin.firestore().collection("spotValidation")
-    .where("userId", "==", userId)
-    .get();
-  return  SpotValidatedEntity.fromSnapshots(snapshotSv.docs);
+      .where("userId", "==", userId)
+      .get();
+    return SpotValidatedEntity.fromSnapshots(snapshotSv.docs);
   }
 }

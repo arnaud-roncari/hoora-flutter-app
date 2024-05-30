@@ -40,7 +40,7 @@ class WelcomePage extends StatelessWidget {
                     widthFactor: 0.9,
                     child: Text(
                       "Prêt à embarquer pour votre première visite récompensée ?",
-                      style: kRegularBalooPaaji20,
+                      style: kRegularNunito20,
                       textAlign: TextAlign.center,
                     ),
                   ),

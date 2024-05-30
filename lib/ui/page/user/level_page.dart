@@ -58,7 +58,7 @@ class _LevelPageState extends State<LevelPage> {
             const SizedBox(height: kPadding5),
             const Text(
               "Mon niveau",
-              style: kRegularBalooPaaji14,
+              style: kRegularNunito14,
             ),
             const SizedBox(height: kPadding5),
             Text(
@@ -97,7 +97,7 @@ class _LevelPageState extends State<LevelPage> {
               child: Text(
                 "Tous vos gains depuis votre inscription sont comptabilisés et vous permettent de monter en niveau. Cumulez encore plus de points pour débloquer des récompenses toujours plus alléchantes !",
                 textAlign: TextAlign.center,
-                style: kRegularBalooPaaji14,
+                style: kRegularNunito14,
               ),
             ),
             const SizedBox(height: kPadding20),
@@ -106,7 +106,7 @@ class _LevelPageState extends State<LevelPage> {
               child: Text(
                 "Plus vous visitez durablement, plus vous êtes récompensés !",
                 textAlign: TextAlign.center,
-                style: kBoldBalooPaaji14,
+                style: kBoldNunito14,
               ),
             ),
             const SizedBox(height: kPadding40),
@@ -122,13 +122,13 @@ class _LevelPageState extends State<LevelPage> {
                     const SizedBox(height: kPadding5),
                     const Text(
                       "Niveau 1",
-                      style: kBoldBalooPaaji14,
+                      style: kBoldNunito14,
                     ),
                     const SizedBox(height: kPadding5),
                     const Text(
                       "Touriste\nResponsable",
                       textAlign: TextAlign.center,
-                      style: kBoldBalooPaaji12,
+                      style: kBoldNunito12,
                     ),
                   ],
                 ),
@@ -141,13 +141,13 @@ class _LevelPageState extends State<LevelPage> {
                     const SizedBox(height: kPadding5),
                     const Text(
                       "Niveau 2",
-                      style: kBoldBalooPaaji14,
+                      style: kBoldNunito14,
                     ),
                     const SizedBox(height: kPadding5),
                     const Text(
                       "Aventurier\nEngagé",
                       textAlign: TextAlign.center,
-                      style: kBoldBalooPaaji12,
+                      style: kBoldNunito12,
                     ),
                   ],
                 ),
@@ -160,13 +160,13 @@ class _LevelPageState extends State<LevelPage> {
                     const SizedBox(height: kPadding5),
                     const Text(
                       "Niveau 3",
-                      style: kBoldBalooPaaji14,
+                      style: kBoldNunito14,
                     ),
                     const SizedBox(height: kPadding5),
                     const Text(
                       "Explorateur\nElite",
                       textAlign: TextAlign.center,
-                      style: kBoldBalooPaaji12,
+                      style: kBoldNunito12,
                     ),
                   ],
                 ),

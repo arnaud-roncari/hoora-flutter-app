@@ -126,7 +126,7 @@ class ProjectCard extends StatelessWidget {
                           const SizedBox(height: kPadding5),
                           Text(
                             project.subtitle,
-                            style: kRegularBalooPaaji14,
+                            style: kRegularNunito14,
                           ),
                         ],
                       ),

@@ -85,7 +85,7 @@ class SignUpGiftGemsPage extends StatelessWidget {
                     },
                     child: Text(
                       "Récupérer",
-                      style: kBoldBalooPaaji16.copyWith(
+                      style: kBoldNunito16.copyWith(
                         color: Colors.white,
                       ),
                     ),

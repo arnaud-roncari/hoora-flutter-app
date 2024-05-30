@@ -57,7 +57,7 @@ class _DurationButtonState extends State<DurationButton> {
             ),
             child: const Text(
               "-",
-              style: kRegularBalooPaaji32,
+              style: kRegularNunito32,
             ),
           ),
         ),
@@ -76,7 +76,7 @@ class _DurationButtonState extends State<DurationButton> {
             ),
             child: Text(
               durationtoString(),
-              style: kBoldBalooPaaji16.copyWith(color: Colors.white),
+              style: kBoldNunito16.copyWith(color: Colors.white),
             ),
           ),
         ),
@@ -107,7 +107,7 @@ class _DurationButtonState extends State<DurationButton> {
             ),
             child: const Text(
               "+",
-              style: kRegularBalooPaaji32,
+              style: kRegularNunito32,
             ),
           ),
         ),

@@ -91,7 +91,7 @@ class SpotCard extends StatelessWidget {
                         spot.cityName,
                         overflow: TextOverflow.clip,
                         maxLines: 1,
-                        style: kRegularBalooPaaji16.copyWith(color: Colors.white),
+                        style: kRegularNunito16.copyWith(color: Colors.white),
                       ),
                       const Spacer(),
 
@@ -118,7 +118,7 @@ class SpotCard extends StatelessWidget {
                                           crowdReportSentences[spot.lastCrowdReport!.intensity - 1],
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 2,
-                                          style: kRegularBalooPaaji12.copyWith(
+                                          style: kRegularNunito12.copyWith(
                                             color: Colors.white,
                                           ),
                                         ),
@@ -138,7 +138,7 @@ class SpotCard extends StatelessWidget {
                                     const SizedBox(width: kPadding5),
                                     Text(
                                       getCrowdReportAwaitingTime(),
-                                      style: kRegularBalooPaaji12.copyWith(
+                                      style: kRegularNunito12.copyWith(
                                         color: Colors.white,
                                       ),
                                     ),

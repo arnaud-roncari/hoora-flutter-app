@@ -79,7 +79,7 @@ class CityPage extends StatelessWidget {
                               },
                               child: const Text(
                                 "Toute la région",
-                                style: kBoldBalooPaaji16,
+                                style: kBoldNunito16,
                               ),
                             ),
                           ),
@@ -116,7 +116,7 @@ class CityPage extends StatelessWidget {
                               },
                               child: Text(
                                 city.name,
-                                style: kBoldBalooPaaji16,
+                                style: kBoldNunito16,
                                 textAlign: TextAlign.center,
                               ),
                             ),

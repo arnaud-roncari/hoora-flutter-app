@@ -2,7 +2,7 @@ name: hoora
 description: "A new Flutter project."
 publish_to: 'none'
 
-version: 1.5.2+23
+version: 1.5.4+25
 
 environment:
   sdk: '>=3.3.3 <4.0.0'
@@ -52,6 +52,16 @@ flutter:
         - asset: assets/fonts/BalooPaaji2-Medium.ttf
         - asset: assets/fonts/BalooPaaji2-Regular.ttf
         - asset: assets/fonts/BalooPaaji2-SemiBold.ttf
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/Nunito-Bold.ttf
+        - asset: assets/fonts/Nunito-ExtraBold.ttf
+        - asset: assets/fonts/Nunito-Medium.ttf
+        - asset: assets/fonts/Nunito-Regular.ttf
+        - asset: assets/fonts/Nunito-SemiBold.ttf
+    - family: NunitoBlack
+      fonts:
+        - asset: assets/fonts/Nunito-Black.ttf
     - family: ARPDisplay
       fonts:
         - asset: assets/fonts/ARPDisplay-20.ttf

@@ -82,7 +82,7 @@ class _ChallengePageState extends State<ChallengePage> with AutomaticKeepAliveCl
                   children: [
                     SvgPicture.asset("assets/svg/challenge_mountain.svg"),
                     const SizedBox(width: kPadding10),
-                    const Text("Challenges", style: kRBoldBalooPaaji18),
+                    const Text("Challenges", style: kRBoldNunito18),
                   ],
                 ),
                 const SizedBox(height: kPadding40),

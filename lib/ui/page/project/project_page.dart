@@ -116,21 +116,21 @@ class ProjectPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: kPadding5),
-                    const Center(child: Text("Points récoltés / Objectif", style: kRegularBalooPaaji12)),
+                    const Center(child: Text("Points récoltés / Objectif", style: kRegularNunito12)),
                     const SizedBox(height: kPadding20),
-                    const Text("Présentation de l'association", style: kBoldBalooPaaji12),
+                    const Text("Présentation de l'association", style: kBoldNunito12),
                     const SizedBox(height: kPadding10),
-                    Text(project.organizationDescription, style: kRegularBalooPaaji12),
-                    const SizedBox(height: kPadding20),
-
-                    const Text("L'action de l'association avec vos contributions", style: kBoldBalooPaaji12),
-                    const SizedBox(height: kPadding10),
-                    Text(project.description, style: kRegularBalooPaaji12),
+                    Text(project.organizationDescription, style: kRegularNunito12),
                     const SizedBox(height: kPadding20),
 
-                    const Text("Conditions et Validité", style: kBoldBalooPaaji12),
+                    const Text("L'action de l'association avec vos contributions", style: kBoldNunito12),
                     const SizedBox(height: kPadding10),
-                    Text(project.condition, style: kRegularBalooPaaji12),
+                    Text(project.description, style: kRegularNunito12),
+                    const SizedBox(height: kPadding20),
+
+                    const Text("Conditions et Validité", style: kBoldNunito12),
+                    const SizedBox(height: kPadding10),
+                    Text(project.condition, style: kRegularNunito12),
                     const SizedBox(height: kPadding20),
 
                     if (canDonate) buildDonationButtons(context),
@@ -150,7 +150,7 @@ class ProjectPage extends StatelessWidget {
         const Center(
           child: Text(
             "Soutenir l'association en effectuant un don",
-            style: kBoldBalooPaaji12,
+            style: kBoldNunito12,
             textAlign: TextAlign.center,
           ),
         ),
@@ -256,7 +256,7 @@ class ProjectPage extends StatelessWidget {
                 children: [
                   const Text(
                     'Êtes-vous sûr(e) de vouloir échanger vos Points contre cette prestation ? Veuillez noter que cette action est définitive et ne peut être annulée.',
-                    style: kRegularBalooPaaji14,
+                    style: kRegularNunito14,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: kPadding20),
@@ -285,7 +285,7 @@ class ProjectPage extends StatelessWidget {
                               children: [
                                 Text(
                                   "Convertir ${gem.toString()}",
-                                  style: kBoldBalooPaaji16.copyWith(color: Colors.white),
+                                  style: kBoldNunito16.copyWith(color: Colors.white),
                                 ),
                                 const SizedBox(
                                   width: kPadding5,
@@ -307,7 +307,7 @@ class ProjectPage extends StatelessWidget {
                       },
                       child: const Text(
                         "Annuler",
-                        style: kRegularBalooPaaji16,
+                        style: kRegularNunito16,
                       ),
                     ),
                   ),

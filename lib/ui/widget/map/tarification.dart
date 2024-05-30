@@ -13,8 +13,8 @@ class Tarification extends StatelessWidget {
     return Column(children: [
       SvgPicture.asset(svgPath),
       const SizedBox(height: kPadding5),
-      Text(data.price, style: kBoldBalooPaaji12),
-      Text(data.condition, style: kRegularBalooPaaji12),
+      Text(data.price, style: kBoldNunito12),
+      Text(data.condition, style: kRegularNunito12),
     ]);
   }
 }

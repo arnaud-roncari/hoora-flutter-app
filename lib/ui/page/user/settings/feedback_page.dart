@@ -42,7 +42,7 @@ class FeedbackPage extends StatelessWidget {
               const SizedBox(height: kPadding40),
               const Text(
                 "Vous voulez nous signalez un\nbug, une anomalie ou juste nous\nfaire une suggestion, contactez\nsupport@quehora.app ou bien\nrendez vous sur notre page\nInstagram.",
-                style: kRegularBalooPaaji16,
+                style: kRegularNunito16,
                 textAlign: TextAlign.center,
               ),
               const Spacer(flex: 3),

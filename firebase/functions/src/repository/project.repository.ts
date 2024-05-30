@@ -1,5 +1,6 @@
 import * as admin from "firebase-admin";
 import {ProjectEntity} from "../common/entity/project.entity";
+import {DonationEntity} from "../common/entity/donation.entity";
 
 export class ProjectRepository {
   static async create(json : any) : Promise<void> {
@@ -20,9 +21,9 @@ export class ProjectRepository {
     return project;
   }
 
-  // static async getDonation(userId: string): Promise<DonationEnt> {
-  //   const snapshot = await admin.firestore().collection("project").where("userId", "==", userId).get();
-  //   const project = ProjectEntity.fromSnapshot(snapshot);
-  //   return project;
-  // }
+  static async getDonations(userId: string): Promise<DonationEntity[]> {
+    const snapshot = await admin.firestore().collection("donation").where("userId", "==", userId).get();
+    const donations = DonationEntity.fromSnapshots(snapshot.docs);
+    return donations;
+  }
 }

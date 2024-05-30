@@ -82,7 +82,7 @@ class _EarningsPageState extends State<EarningsPage> {
                                   const SizedBox(height: kPadding5),
                                   Text(
                                     "Visitez en Heures creuses & Gagnez des Récompenses !",
-                                    style: kRegularBalooPaaji16.copyWith(color: Colors.white),
+                                    style: kRegularNunito16.copyWith(color: Colors.white),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                   ),
@@ -105,7 +105,7 @@ class _EarningsPageState extends State<EarningsPage> {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         "Mes offres disponibles",
-                        style: kBoldBalooPaaji16,
+                        style: kBoldNunito16,
                       )),
                   const SizedBox(height: kPadding20),
 

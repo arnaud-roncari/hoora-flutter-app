@@ -17,7 +17,7 @@ export class UserRepository {
     const users = UserEntity.fromSnapshots(snapshot.docs);
     return users;
   }
-  
+
   /**
  *
  * @param documentId

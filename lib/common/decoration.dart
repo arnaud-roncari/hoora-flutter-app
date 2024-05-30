@@ -91,103 +91,103 @@ const TextStyle kBoldARPDisplay12 = TextStyle(
   height: 1,
 );
 
-const TextStyle kRegularBalooPaaji20 = TextStyle(
-  fontFamily: "BalooPaaji",
+const TextStyle kRegularNunito20 = TextStyle(
+  fontFamily: "Nunito",
   fontSize: 20,
   fontWeight: FontWeight.w400,
   color: kPrimary,
   height: 1,
 );
 
-const TextStyle kBoldBalooPaaji16 = TextStyle(
-  fontFamily: "BalooPaaji",
+const TextStyle kBoldNunito16 = TextStyle(
+  fontFamily: "NunitoBlack",
   fontSize: 16,
   fontWeight: FontWeight.w900,
   color: kPrimary,
   height: 1,
 );
-const TextStyle kBoldBalooPaaji20 = TextStyle(
-  fontFamily: "BalooPaaji",
+const TextStyle kBoldNunito20 = TextStyle(
+  fontFamily: "NunitoBlack",
   fontSize: 20,
   fontWeight: FontWeight.w900,
   color: kPrimary,
   height: 1,
 );
 
-const TextStyle kRegularBalooPaaji10 = TextStyle(
-  fontFamily: "BalooPaaji",
+const TextStyle kRegularNunito10 = TextStyle(
+  fontFamily: "Nunito",
   fontSize: 10,
   fontWeight: FontWeight.w400,
   color: kPrimary,
   height: 1,
 );
 
-const TextStyle kRegularBalooPaaji12 = TextStyle(
-  fontFamily: "BalooPaaji",
+const TextStyle kRegularNunito12 = TextStyle(
+  fontFamily: "Nunito",
   fontSize: 12,
   fontWeight: FontWeight.w400,
   color: kPrimary,
   height: 1,
 );
 
-const TextStyle kRegularBalooPaaji14 = TextStyle(
-  fontFamily: "BalooPaaji",
+const TextStyle kRegularNunito14 = TextStyle(
+  fontFamily: "Nunito",
   fontSize: 14,
   fontWeight: FontWeight.w400,
   color: kPrimary,
   height: 1,
 );
 
-const TextStyle kRegularBalooPaaji16 = TextStyle(
-  fontFamily: "BalooPaaji",
+const TextStyle kRegularNunito16 = TextStyle(
+  fontFamily: "Nunito",
   fontSize: 16,
   fontWeight: FontWeight.w400,
   color: kPrimary,
   height: 1,
 );
 
-const TextStyle kBoldBalooPaaji10 = TextStyle(
-  fontFamily: "BalooPaaji",
+const TextStyle kBoldNunito10 = TextStyle(
+  fontFamily: "NunitoBlack",
   fontSize: 10,
   fontWeight: FontWeight.w900,
   color: kPrimary,
   height: 1,
 );
 
-const TextStyle kBoldBalooPaaji14 = TextStyle(
-  fontFamily: "BalooPaaji",
+const TextStyle kBoldNunito14 = TextStyle(
+  fontFamily: "NunitoBlack",
   fontSize: 14,
   fontWeight: FontWeight.w900,
   color: kPrimary,
   height: 1,
 );
 
-const TextStyle kBoldBalooPaaji12 = TextStyle(
-  fontFamily: "BalooPaaji",
+const TextStyle kBoldNunito12 = TextStyle(
+  fontFamily: "NunitoBlack",
   fontSize: 12,
   fontWeight: FontWeight.w900,
   color: kPrimary,
   height: 1,
 );
 
-const TextStyle kRBoldBalooPaaji18 = TextStyle(
-  fontFamily: "BalooPaaji",
+const TextStyle kRBoldNunito18 = TextStyle(
+  fontFamily: "NunitoBlack",
   fontSize: 18,
   fontWeight: FontWeight.w900,
   color: kPrimary,
   height: 1,
 );
 
-const TextStyle kRegularBalooPaaji18 = TextStyle(
-  fontFamily: "BalooPaaji",
+const TextStyle kRegularNunito18 = TextStyle(
+  fontFamily: "Nunito",
   fontSize: 18,
   fontWeight: FontWeight.w400,
   color: kPrimary,
   height: 1,
 );
 
-const TextStyle kRegularBalooPaaji32 = TextStyle(
-  fontFamily: "BalooPaaji",
+const TextStyle kRegularNunito32 = TextStyle(
+  fontFamily: "Nunito",
   fontSize: 32,
   fontWeight: FontWeight.w400,
   color: kPrimary,
@@ -196,7 +196,7 @@ const TextStyle kRegularBalooPaaji32 = TextStyle(
 
 InputDecoration kTextFieldStyle = InputDecoration(
   hintText: "Email",
-  hintStyle: kRegularBalooPaaji18.copyWith(
+  hintStyle: kRegularNunito18.copyWith(
     color: Colors.black.withOpacity(0.5),
   ),
   contentPadding: const EdgeInsets.symmetric(horizontal: 10),

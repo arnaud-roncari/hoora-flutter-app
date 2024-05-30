@@ -59,7 +59,7 @@ class PlaylistCard extends StatelessWidget {
                 const SizedBox(height: 2.5),
                 Text(
                   playlist.name,
-                  style: kRegularBalooPaaji10,
+                  style: kRegularNunito10,
                   overflow: TextOverflow.ellipsis,
                 ),
               ],

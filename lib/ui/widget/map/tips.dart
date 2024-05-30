@@ -35,7 +35,7 @@ class _TipsState extends State<Tips> {
                 padding: const EdgeInsets.all(kPadding20),
                 child: Text(
                   tips[index],
-                  style: kRegularBalooPaaji20.copyWith(color: Colors.white),
+                  style: kRegularNunito20.copyWith(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
               ));

@@ -69,12 +69,12 @@ class _SignUpPageState extends State<SignUpPage> {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 "Email",
-                                style: kRegularBalooPaaji14,
+                                style: kRegularNunito14,
                               ),
                             ),
                             const SizedBox(height: kPadding5),
                             TextFormField(
-                              style: kRegularBalooPaaji18,
+                              style: kRegularNunito18,
                               decoration: kTextFieldStyle.copyWith(prefixIcon: const Icon(CupertinoIcons.mail)),
                               controller: emailController,
                               validator: Validator.email,
@@ -84,13 +84,13 @@ class _SignUpPageState extends State<SignUpPage> {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 "Mot de passe",
-                                style: kRegularBalooPaaji14,
+                                style: kRegularNunito14,
                               ),
                             ),
                             const SizedBox(height: kPadding5),
                             TextFormField(
                               obscureText: true,
-                              style: kRegularBalooPaaji18,
+                              style: kRegularNunito18,
                               decoration: kTextFieldStyle.copyWith(
                                   prefixIcon: const Icon(CupertinoIcons.lock), hintText: "Mot de passe"),
                               controller: passwordController,
@@ -101,13 +101,13 @@ class _SignUpPageState extends State<SignUpPage> {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 "Confirmez votre mot de passe",
-                                style: kRegularBalooPaaji14,
+                                style: kRegularNunito14,
                               ),
                             ),
                             const SizedBox(height: kPadding5),
                             TextFormField(
                               obscureText: true,
-                              style: kRegularBalooPaaji18,
+                              style: kRegularNunito18,
                               decoration: kTextFieldStyle.copyWith(
                                   prefixIcon: const Icon(CupertinoIcons.lock), hintText: "Mot de passe"),
                               controller: confirmPasswordController,
@@ -142,7 +142,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       )
                                     : Text(
                                         "Créer mon compte",
-                                        style: kBoldBalooPaaji16.copyWith(
+                                        style: kBoldNunito16.copyWith(
                                           color: Colors.white,
                                         ),
                                       ),
@@ -160,7 +160,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   ),
                                 ),
                                 SizedBox(width: kPadding10),
-                                Text("Ou", style: kRegularBalooPaaji14),
+                                Text("Ou", style: kRegularNunito14),
                                 SizedBox(width: kPadding10),
                                 Expanded(
                                   child: Divider(
@@ -190,7 +190,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       )
                                     : Text(
                                         "Continuer avec Google",
-                                        style: kBoldBalooPaaji16.copyWith(
+                                        style: kBoldNunito16.copyWith(
                                           color: Colors.white,
                                         ),
                                       ),
@@ -218,7 +218,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                             )
                                           : Text(
                                               "Continuer avec Apple",
-                                              style: kBoldBalooPaaji16.copyWith(
+                                              style: kBoldNunito16.copyWith(
                                                 color: Colors.white,
                                               ),
                                             ),
@@ -239,7 +239,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 },
                                 child: const Text(
                                   "Se connecter",
-                                  style: kRegularBalooPaaji14,
+                                  style: kRegularNunito14,
                                 ),
                               ),
                             ),
@@ -247,11 +247,11 @@ class _SignUpPageState extends State<SignUpPage> {
                             RichText(
                               textAlign: TextAlign.center,
                               text: TextSpan(
-                                style: kRegularBalooPaaji14,
+                                style: kRegularNunito14,
                                 children: [
                                   const TextSpan(text: 'En créant votre compte, vous acceptez les '),
                                   TextSpan(
-                                      style: kBoldBalooPaaji14,
+                                      style: kBoldNunito14,
                                       text: 'Conditions Générales d\'utilisation',
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () async {
@@ -264,7 +264,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         }),
                                   const TextSpan(text: ' de ce service et reconnaissez avoir pris connaissance de la '),
                                   TextSpan(
-                                      style: kBoldBalooPaaji14,
+                                      style: kBoldNunito14,
                                       text: 'Politique de Confidentialité.',
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () async {

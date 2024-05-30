@@ -29,6 +29,7 @@ import {ProjectService} from "./service/project.service";
 import {DonateDto} from "./common/dto/donate_offer.dto";
 import {TransactionRepository} from "./repository/transaction.repository";
 import {TransactionType} from "./common/entity/transaction.entity";
+import {onSchedule} from "firebase-functions/v2/scheduler";
 
 // TODO: Upgrade body validation
 // TODO: Catch crashes
@@ -68,6 +69,7 @@ export const onUserCreated = v1.auth.user().onCreate(async (user) => {
   });
 });
 
+
 /**
  * Update level
  */
@@ -78,7 +80,6 @@ exports.onUserUpdated = v2.firestore.onDocumentUpdated("user/{docId}", async (ev
   } else if ( user.level === 2 && user.experience > 2000) {
     await UserService.setLevel(user.id, 3);
   }
-  // TODO : Trigger challenges.
 });
 
 /**
@@ -106,6 +107,14 @@ exports.decreaseSpotQuantity = v2.firestore.onDocumentDeleted("spot/{docId}", as
   await RegionService.decreaseSpotQuantity(spot);
 }
 );
+
+/**
+ * Triggered every month
+ * Used for challenges
+ */
+exports.everyMonth = onSchedule("0 0 1 * *", async (_: any) => {
+  await ChallengeService.trigger("", ["5", "6"]);
+});
 
 /**
  * Create spots
@@ -155,6 +164,18 @@ export const createRegions = v2.https.onRequest(async (request, response ) => {
   }
 });
 
+
+export const debugging = v2.https.onRequest(async (request, response) => {
+  try {
+    await ChallengeService.trigger("", ["5", "6"]);
+
+    response.json({status: "OK"});
+  } catch (e) {
+    console.log(e);
+    response.json({status: "KO", error: e});
+  }
+});
+
 /**
  * Validate spot
  */
@@ -167,11 +188,9 @@ export const validateSpot = v2.https.onRequest(async (request, response) => {
 
     await SpotService.validate(userId, spotId);
 
-    // TODO: Implement history
-
     response.json({status: "OK"});
 
-    ChallengeService.trigger(userId, ["1"]);
+    ChallengeService.trigger(userId, ["1", "2", "3", "4", "8", "9"]);
   } catch (e) {
     response.json({status: "KO", error: e});
   }
@@ -190,7 +209,7 @@ export const createCrowdReport = v2.https.onRequest(async ( request, response) =
 
     await CrowdReportService.create(dto, userId);
 
-    // TODO: Implement history
+    ChallengeService.trigger(userId, ["10", "11", "12", "13"]);
 
     response.json({status: "OK"});
   } catch (e) {
@@ -230,7 +249,8 @@ export const donate = v2.https.onRequest(async ( request, response) => {
 
     await ProjectService.donate( userId, dto);
 
-    // TODO: Implement history
+    ChallengeService.trigger(userId, ["7"]);
+
 
     response.json({status: "OK"});
   } catch (e) {

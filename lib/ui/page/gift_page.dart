@@ -89,7 +89,7 @@ class _GiftPageState extends State<GiftPage> {
                     children: [
                       SvgPicture.asset("assets/svg/offer_gift.svg"),
                       const SizedBox(width: kPadding10),
-                      const Text("Nos offres", style: kRBoldBalooPaaji18),
+                      const Text("Nos offres", style: kRBoldNunito18),
                     ],
                   ),
                   const Spacer(),
@@ -124,7 +124,7 @@ class _GiftPageState extends State<GiftPage> {
                     children: [
                       SvgPicture.asset("assets/svg/tree.svg"),
                       const SizedBox(width: kPadding10),
-                      const Text("Eco Actions", style: kRBoldBalooPaaji18),
+                      const Text("Eco Actions", style: kRBoldNunito18),
                     ],
                   ),
                   const Spacer(),

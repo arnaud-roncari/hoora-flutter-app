@@ -73,7 +73,7 @@ class UnlockedOfferCard extends StatelessWidget {
                           const SizedBox(height: kPadding5),
                           Text(
                             offer.title,
-                            style: kRegularBalooPaaji14,
+                            style: kRegularNunito14,
                           ),
                         ],
                       ),

@@ -128,7 +128,7 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
                       padding: const EdgeInsets.all(kPadding10),
                       child: Text(
                         "Sélectionnez un site que vous souhaitez visiter",
-                        style: kRegularBalooPaaji16.copyWith(color: Colors.white),
+                        style: kRegularNunito16.copyWith(color: Colors.white),
                         textAlign: TextAlign.center,
                       ),
                     ),

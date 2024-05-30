@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -53,8 +52,6 @@ import 'package:hoora/ui/page/user/settings/settings_page.dart';
 import 'package:hoora/ui/page/user/settings/traffic_point_explanation_page.dart';
 import 'firebase_options.dart';
 
-/// TODO faut déclencher les trigger dans les controller
-/// TODO tout ce qui concerne les dates, il faut convertir en heure FR
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -68,11 +65,11 @@ void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  if (true) {
-    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-    FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: false, sslEnabled: false);
-    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-  }
+  // if (true) {
+  //   FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+  //   FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: false, sslEnabled: false);
+  //   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  // }
 
   /// Pass all uncaught "fatal" errors from the framework to Crashlytics
   FlutterError.onError = (errorDetails) {

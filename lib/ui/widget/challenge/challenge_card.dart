@@ -98,7 +98,7 @@ class _ChallengeCardState extends State<ChallengeCard> {
                                     alignment: Alignment.topLeft,
                                     child: Text(
                                       widget.challenge.description,
-                                      style: kRegularBalooPaaji12.copyWith(
+                                      style: kRegularNunito12.copyWith(
                                         color: widget.challenge.getTextColor(),
                                       ),
                                       maxLines: 2,
@@ -166,7 +166,7 @@ class _ChallengeCardState extends State<ChallengeCard> {
             : Center(
                 child: Text(
                   "Collecter",
-                  style: kBoldBalooPaaji12.copyWith(color: Colors.white),
+                  style: kBoldNunito12.copyWith(color: Colors.white),
                 ),
               ),
       );
@@ -194,7 +194,7 @@ class _ChallengeCardState extends State<ChallengeCard> {
             : Center(
                 child: Text(
                   "Terminé",
-                  style: kBoldBalooPaaji12.copyWith(color: Colors.white),
+                  style: kBoldNunito12.copyWith(color: Colors.white),
                 ),
               ),
       );

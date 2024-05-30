@@ -90,7 +90,7 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
                           context.read<ExploreBloc>().selectedCity == null
                               ? context.read<ExploreBloc>().selectedRegion.name
                               : context.read<ExploreBloc>().selectedCity!.name,
-                          style: kBoldBalooPaaji16.copyWith(color: Colors.white),
+                          style: kBoldNunito16.copyWith(color: Colors.white),
                         ),
                       ),
                     ),
@@ -117,7 +117,7 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
                         padding: const EdgeInsets.all(kPadding10),
                         child: Text(
                           _getWeekday(context.read<ExploreBloc>().selectedDate),
-                          style: kBoldBalooPaaji16.copyWith(color: Colors.white),
+                          style: kBoldNunito16.copyWith(color: Colors.white),
                         ),
                       ),
                     ),

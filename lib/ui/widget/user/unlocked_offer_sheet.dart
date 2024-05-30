@@ -59,7 +59,7 @@ class UnlockedOfferSheet extends StatelessWidget {
                       },
                       child: const Text(
                         "Détail",
-                        style: kRegularBalooPaaji14,
+                        style: kRegularNunito14,
                       ),
                     ),
                   ),
@@ -93,7 +93,7 @@ class UnlockedOfferSheet extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: kPadding20, vertical: kPadding10),
                         child: Text(
                           'Mon code: ${offer.unlockedOffer!.code}',
-                          style: kRegularBalooPaaji14,
+                          style: kRegularNunito14,
                         ),
                       ),
                     );
@@ -106,7 +106,7 @@ class UnlockedOfferSheet extends StatelessWidget {
                         const SizedBox(height: kPadding5),
                         Text(
                           "Référence: ${offer.unlockedOffer!.code}",
-                          style: kRegularBalooPaaji14,
+                          style: kRegularNunito14,
                         ),
                         const SizedBox(height: kPadding10),
 
@@ -149,7 +149,7 @@ class UnlockedOfferSheet extends StatelessWidget {
                                             padding: EdgeInsets.only(left: 35),
                                             child: Text(
                                               "J'utilise mon offre",
-                                              style: kBoldBalooPaaji16,
+                                              style: kBoldNunito16,
                                             ),
                                           ),
                                           child: Padding(
@@ -178,11 +178,11 @@ class UnlockedOfferSheet extends StatelessWidget {
                         RichText(
                           textAlign: TextAlign.center,
                           text: const TextSpan(
-                            style: kRegularBalooPaaji14,
+                            style: kRegularNunito14,
                             children: [
                               TextSpan(
                                 text: "Attention ! ",
-                                style: kBoldBalooPaaji14,
+                                style: kBoldNunito14,
                               ),
                               TextSpan(
                                 text:
@@ -200,12 +200,12 @@ class UnlockedOfferSheet extends StatelessWidget {
                       const SizedBox(height: kPadding5),
                       Text(
                         "Référence: ${offer.unlockedOffer!.code}",
-                        style: kRegularBalooPaaji14,
+                        style: kRegularNunito14,
                       ),
                       const SizedBox(height: kPadding20),
                       Text(
                         "Vous avez utilisé cette offre\nle ${getDate()} à ${getHour()}",
-                        style: kRegularBalooPaaji14,
+                        style: kRegularNunito14,
                         textAlign: TextAlign.center,
                       ),
                     ],

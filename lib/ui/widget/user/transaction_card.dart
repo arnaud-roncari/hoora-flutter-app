@@ -47,13 +47,13 @@ class TransactionCard extends StatelessWidget {
                   Text(
                     // "tester le responsive avec un texte longtester le responsive avec un texte longtester le responsive avec un texte longtester le responsive avec un texte longtester le responsive avec un texte long",
                     transaction.name,
-                    style: kBoldBalooPaaji14,
+                    style: kBoldNunito14,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     getDate(),
-                    style: kRegularBalooPaaji14,
+                    style: kRegularNunito14,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   )

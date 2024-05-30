@@ -188,7 +188,7 @@ class _CreateCrowdReportPageState extends State<CreateCrowdReportPage> {
                     padding: const EdgeInsets.all(kPadding10),
                     child: Text(
                       crowdReportSentences[intensity - 1],
-                      style: kBoldBalooPaaji14.copyWith(color: Colors.white),
+                      style: kBoldNunito14.copyWith(color: Colors.white),
                     ),
                   ),
                 ),
@@ -239,7 +239,7 @@ class _CreateCrowdReportPageState extends State<CreateCrowdReportPage> {
                             children: [
                               Text(
                                 "Je partage mon ressenti",
-                                style: kBoldBalooPaaji16.copyWith(color: Colors.white),
+                                style: kBoldNunito16.copyWith(color: Colors.white),
                               ),
                               const SizedBox(width: kPadding10),
                               SvgPicture.asset("assets/svg/gem.svg"),

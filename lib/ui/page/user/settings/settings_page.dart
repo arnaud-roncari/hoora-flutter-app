@@ -53,7 +53,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   child: const Text(
                     "Comment sont calculés mes points ?",
-                    style: kRegularBalooPaaji16,
+                    style: kRegularNunito16,
                   ),
                 ),
                 TextButton(
@@ -66,7 +66,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                   child: const Text(
                     "Mes informations",
-                    style: kRegularBalooPaaji16,
+                    style: kRegularNunito16,
                   ),
                 ),
 
@@ -81,7 +81,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                   child: const Text(
                     "F.A.Q",
-                    style: kRegularBalooPaaji16,
+                    style: kRegularNunito16,
                   ),
                 ),
 
@@ -95,7 +95,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                   child: const Text(
                     "Confidentialité",
-                    style: kRegularBalooPaaji16,
+                    style: kRegularNunito16,
                   ),
                 ),
 
@@ -111,7 +111,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     children: [
                       const Text(
                         "Donner un retour sur l'application",
-                        style: kRegularBalooPaaji16,
+                        style: kRegularNunito16,
                       ),
                       const SizedBox(width: kPadding10),
                       SvgPicture.asset("assets/svg/storm.svg"),
@@ -128,7 +128,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                   child: const Text(
                     "Se déconnecter",
-                    style: kRegularBalooPaaji16,
+                    style: kRegularNunito16,
                   ),
                 ),
                 TextButton(
@@ -141,7 +141,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                   child: const Text(
                     "Supprimer son compte",
-                    style: kRegularBalooPaaji16,
+                    style: kRegularNunito16,
                   ),
                 ),
               ],
@@ -176,35 +176,35 @@ class _SettingsPageState extends State<SettingsPage> {
             const SizedBox(height: kPadding10),
             Text(
               "Grâce à vos visites hors pic, vous avez allégé la fréquentation de ${context.read<UserBloc>().user.amountSpotValidated} sites.",
-              style: kRegularBalooPaaji14,
+              style: kRegularNunito14,
             ),
             const SizedBox(height: kPadding10),
             const Text(
               "Votre choix a permis :",
-              style: kRegularBalooPaaji14,
+              style: kRegularNunito14,
             ),
             const SizedBox(height: kPadding10),
             RichText(
               text: const TextSpan(
-                style: kRegularBalooPaaji14,
+                style: kRegularNunito14,
                 children: [
                   TextSpan(
                     text: '1. ',
-                    style: kBoldBalooPaaji14,
+                    style: kBoldNunito14,
                   ),
                   TextSpan(
                     text: 'D\'améliorer l\'expérience de visite pour tous !',
                   ),
                   TextSpan(
                     text: '\n2. ',
-                    style: kBoldBalooPaaji14,
+                    style: kBoldNunito14,
                   ),
                   TextSpan(
                     text: 'De diminuer la pression sur les infrastructures touristiques.',
                   ),
                   TextSpan(
                     text: '\n3. ',
-                    style: kBoldBalooPaaji14,
+                    style: kBoldNunito14,
                   ),
                   TextSpan(
                     text: 'De réduire les coûts de maintenance et la consommation d\'énergie des lieux visités.',
@@ -215,7 +215,7 @@ class _SettingsPageState extends State<SettingsPage> {
             const SizedBox(height: kPadding10),
             const Text(
               "Merci d'opter pour un tourisme plus durable !",
-              style: kBoldBalooPaaji14,
+              style: kBoldNunito14,
             ),
           ],
         ),
@@ -248,7 +248,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 children: [
                   const Text(
                     'Etes-vous vraiment sûr de vouloir vous déconnecter ? ',
-                    style: kRBoldBalooPaaji18,
+                    style: kRBoldNunito18,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: kPadding20),
@@ -270,7 +270,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             )
                           : Text(
                               "Se déconnecter",
-                              style: kBoldBalooPaaji16.copyWith(color: Colors.white),
+                              style: kBoldNunito16.copyWith(color: Colors.white),
                             ),
                     ),
                   ),
@@ -286,7 +286,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       },
                       child: const Text(
                         "Annuler",
-                        style: kRegularBalooPaaji16,
+                        style: kRegularNunito16,
                       ),
                     ),
                   ),
@@ -324,13 +324,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 children: [
                   const Text(
                     'Voulez-vous  vraiment supprimer votre compte ?',
-                    style: kRBoldBalooPaaji18,
+                    style: kRBoldNunito18,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: kPadding10),
                   const Text(
                     'En supprimant votre compte, vous perds l\'ensemble de ta progression, vos points, vos avantages et tous vos achats en cours seront annulés.',
-                    style: kRegularBalooPaaji12,
+                    style: kRegularNunito12,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: kPadding20),
@@ -352,7 +352,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             )
                           : Text(
                               "Supprimer",
-                              style: kBoldBalooPaaji16.copyWith(color: Colors.white),
+                              style: kBoldNunito16.copyWith(color: Colors.white),
                             ),
                     ),
                   ),
@@ -368,7 +368,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       },
                       child: const Text(
                         "Annuler",
-                        style: kRegularBalooPaaji16,
+                        style: kRegularNunito16,
                       ),
                     ),
                   ),

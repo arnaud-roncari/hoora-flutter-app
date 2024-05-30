@@ -87,7 +87,7 @@ class RegionPage extends StatelessWidget {
                           },
                           child: Text(
                             region.name,
-                            style: kBoldBalooPaaji16,
+                            style: kBoldNunito16,
                           ),
                         ),
                       ),
@@ -101,7 +101,7 @@ class RegionPage extends StatelessWidget {
                 widthFactor: 0.8,
                 child: Text(
                   "Certaines régions sont actuellement en préparation et seront bientôt disponibles",
-                  style: kRegularBalooPaaji12,
+                  style: kRegularNunito12,
                   textAlign: TextAlign.center,
                 ),
               ),

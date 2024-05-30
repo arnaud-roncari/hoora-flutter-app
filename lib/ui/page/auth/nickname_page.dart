@@ -86,12 +86,12 @@ class _NicknamePageState extends State<NicknamePage> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Pseudo",
-                          style: kRegularBalooPaaji14,
+                          style: kRegularNunito14,
                         ),
                       ),
                       const SizedBox(height: kPadding5),
                       TextFormField(
-                        style: kRegularBalooPaaji18,
+                        style: kRegularNunito18,
                         decoration: kTextFieldStyle.copyWith(hintText: "Pseudo"),
                         controller: nicknameController,
                         validator: Validator.isNotEmpty,
@@ -121,7 +121,7 @@ class _NicknamePageState extends State<NicknamePage> {
                                 )
                               : Text(
                                   "C'est partiiiii !",
-                                  style: kBoldBalooPaaji16.copyWith(
+                                  style: kBoldNunito16.copyWith(
                                     color: Colors.white,
                                   ),
                                 ),

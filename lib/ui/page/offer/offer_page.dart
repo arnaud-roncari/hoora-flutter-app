@@ -115,7 +115,7 @@ class OfferPage extends StatelessWidget {
                     child: Center(
                       child: Text(
                         offer.title,
-                        style: kRegularBalooPaaji12,
+                        style: kRegularNunito12,
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -130,7 +130,7 @@ class OfferPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: kPadding20),
                 child: Text(
                   "Présentation de l'Offre :",
-                  style: kBoldBalooPaaji12,
+                  style: kBoldNunito12,
                 ),
               ),
               const SizedBox(height: kPadding20),
@@ -138,7 +138,7 @@ class OfferPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: kPadding20),
                 child: Text(
                   offer.description,
-                  style: kRegularBalooPaaji12,
+                  style: kRegularNunito12,
                 ),
               ),
               const SizedBox(height: kPadding20),
@@ -148,7 +148,7 @@ class OfferPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: kPadding20),
                 child: Text(
                   "Comment profiter de l'Offre :",
-                  style: kBoldBalooPaaji12,
+                  style: kBoldNunito12,
                 ),
               ),
               const SizedBox(height: kPadding20),
@@ -164,7 +164,7 @@ class OfferPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: kPadding20),
                 child: Text(
                   "Conditions et validité",
-                  style: kBoldBalooPaaji12,
+                  style: kBoldNunito12,
                 ),
               ),
               const SizedBox(height: kPadding20),
@@ -193,7 +193,7 @@ class OfferPage extends StatelessWidget {
                         children: [
                           Text(
                             "Convertir ${offer.price.toString()}",
-                            style: kBoldBalooPaaji16.copyWith(color: Colors.white),
+                            style: kBoldNunito16.copyWith(color: Colors.white),
                           ),
                           const SizedBox(width: kPadding5),
                           SvgPicture.asset("assets/svg/gem.svg"),
@@ -242,7 +242,7 @@ class OfferPage extends StatelessWidget {
                 children: [
                   const Text(
                     'Êtes-vous sûr(e) de vouloir échanger vos Points contre cette prestation ? Veuillez noter que cette action est définitive et ne peut être annulée.',
-                    style: kRegularBalooPaaji14,
+                    style: kRegularNunito14,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: kPadding20),
@@ -267,7 +267,7 @@ class OfferPage extends StatelessWidget {
                               children: [
                                 Text(
                                   "Convertir ${offer.price.toString()}",
-                                  style: kBoldBalooPaaji16.copyWith(color: Colors.white),
+                                  style: kBoldNunito16.copyWith(color: Colors.white),
                                 ),
                                 const SizedBox(width: kPadding5),
                                 SvgPicture.asset("assets/svg/gem.svg"),
@@ -287,7 +287,7 @@ class OfferPage extends StatelessWidget {
                       },
                       child: const Text(
                         "Annuler",
-                        style: kRegularBalooPaaji16,
+                        style: kRegularNunito16,
                       ),
                     ),
                   ),
@@ -311,7 +311,7 @@ class OfferPage extends StatelessWidget {
             children: [
               const Icon(Icons.check),
               const SizedBox(width: kPadding10),
-              Expanded(child: Text(instruction, style: kRegularBalooPaaji12)),
+              Expanded(child: Text(instruction, style: kRegularNunito12)),
             ],
           ),
         ),
@@ -333,11 +333,11 @@ class OfferPage extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: kPadding10),
           child: RichText(
             text: TextSpan(
-              style: kRegularBalooPaaji14,
+              style: kRegularNunito14,
               children: [
                 TextSpan(
                   text: "$key ",
-                  style: kBoldBalooPaaji12,
+                  style: kBoldNunito12,
                 ),
                 TextSpan(
                   text: value,

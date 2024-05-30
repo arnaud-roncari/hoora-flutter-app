@@ -120,7 +120,7 @@ class SliderThumbCircle extends SliderComponentShape {
       ..style = PaintingStyle.fill;
 
     TextSpan span = TextSpan(
-      style: kBoldBalooPaaji20.copyWith(color: Colors.white),
+      style: kBoldNunito20.copyWith(color: Colors.white),
       text: "${getValue(value)}h",
     );
 

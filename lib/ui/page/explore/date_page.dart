@@ -77,7 +77,7 @@ class DatePage extends StatelessWidget {
                           },
                           child: Text(
                             displayedName,
-                            style: kBoldBalooPaaji16,
+                            style: kBoldNunito16,
                           ),
                         ),
                       ),

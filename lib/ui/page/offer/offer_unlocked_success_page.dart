@@ -78,7 +78,7 @@ class OfferUnlockedSuccessPage extends StatelessWidget {
                   child: Center(
                     child: Text(
                       "Votre commande est confirmée, votre coupon est  disponible dès maintenant dans votre page cagnotte.",
-                      style: kRegularBalooPaaji14,
+                      style: kRegularNunito14,
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -95,11 +95,11 @@ class OfferUnlockedSuccessPage extends StatelessWidget {
                       children: [
                         const Text(
                           "Votre code: ",
-                          style: kRegularBalooPaaji16,
+                          style: kRegularNunito16,
                         ),
                         Text(
                           offer.unlockedOffer!.code,
-                          style: kBoldBalooPaaji16,
+                          style: kBoldNunito16,
                         ),
                       ],
                     ),
@@ -109,7 +109,7 @@ class OfferUnlockedSuccessPage extends StatelessWidget {
                     child: Center(
                       child: Text(
                         "Activez votre code promo\nuniquement en présence du\npartenaire, le jour de votre visite.",
-                        style: kBoldBalooPaaji14,
+                        style: kBoldNunito14,
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -137,7 +137,7 @@ class OfferUnlockedSuccessPage extends StatelessWidget {
                     children: [
                       Text(
                         "Ma cagnotte",
-                        style: kBoldBalooPaaji16.copyWith(color: Colors.white),
+                        style: kBoldNunito16.copyWith(color: Colors.white),
                       ),
                     ],
                   ),

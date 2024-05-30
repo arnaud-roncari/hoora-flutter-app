@@ -2,14 +2,13 @@ import * as admin from "firebase-admin";
 import {CreateChallengeDto} from "../common/dto/create_challenge.dto";
 import {ChallengeStatus, UnlockedChallengeEntity} from "../common/entity/unlocked_challenge.entity";
 import {UserEntity} from "../common/entity/user.entity";
-import {SpotValidatedEntity} from "../common/entity/spot_validated";
 import {ChallengeEntity} from "../common/entity/challenge_entity";
 import {TransactionRepository} from "../repository/transaction.repository";
 import {TransactionType} from "../common/entity/transaction.entity";
 import {ChallengeRepository} from "../repository/challenge_repository";
-import { SpotRepository } from "../repository/spot.repository";
-import { UserRepository } from "../repository/user.repository";
-import { ProjectRepository } from "../repository/project.repository";
+import {SpotRepository} from "../repository/spot.repository";
+import {UserRepository} from "../repository/user.repository";
+import {ProjectRepository} from "../repository/project.repository";
 
 export class ChallengeService {
   static async create(dto: CreateChallengeDto) : Promise<void> {
@@ -74,7 +73,6 @@ export class ChallengeService {
   }
 
 
-
   /**
    * Trigger challenges verification
    */
@@ -82,29 +80,59 @@ export class ChallengeService {
     for (const challengeId of challengeIds) {
       switch (challengeId) {
       case "1":
-        ChallengeService._challenge1(userId);
+        await ChallengeService._challenge1(userId);
         break;
-        case "2":
-          ChallengeService._challenge2(userId);
-          break;
-          case "3":
-            ChallengeService._challenge3(userId);
-            break;
-            case "4":
-              ChallengeService._challenge4(userId);
-              break;
-              case "5":
-                ChallengeService._challenge5(userId);
-                break;
+      case "2":
+        await ChallengeService._challenge2(userId);
+        break;
+      case "3":
+        await ChallengeService._challenge3(userId);
+        break;
+      case "4":
+        await ChallengeService._challenge4(userId);
+        break;
+      case "5":
+        await ChallengeService._challenge5();
+        break;
+      case "6":
+        await ChallengeService._challenge6();
+        break;
+      case "7":
+        await ChallengeService._challenge7(userId);
+        break;
+
+      case "8":
+        await ChallengeService._challenge8(userId);
+        break;
+
+      case "9":
+        await ChallengeService._challenge9(userId);
+        break;
+
+      case "10":
+        await ChallengeService._challenge10(userId);
+        break;
+
+      case "11":
+        await ChallengeService._challenge11(userId);
+        break;
+
+      case "12":
+        await ChallengeService._challenge12(userId);
+        break;
+
+      case "13":
+        await ChallengeService._challenge13(userId);
+        break;
       }
     }
   }
 
 
- /**
-  * 
-  * @param userId 
-  * @returns 
+  /**
+  *
+  * @param userId
+  * @returns
   */
   static async _challenge1(userId: string) : Promise<void> {
     try {
@@ -117,7 +145,11 @@ export class ChallengeService {
       const spotsValidated = await SpotRepository.getSpotsValidated(userId);
 
       for (const spotValidated of spotsValidated) {
-        if (spotValidated.createdAt.getHours() < 11) {
+        // UTC to french
+        const createdAt = spotValidated.createdAt;
+        createdAt.setHours(createdAt.getHours() + 2);
+
+        if (createdAt.getHours() < 11) {
           ChallengeService.createUnlocked(userId, "challenge_1");
           break;
         }
@@ -127,11 +159,11 @@ export class ChallengeService {
     }
   }
 
-  
+
   /**
-   * 
-   * @param userId 
-   * @returns 
+   *
+   * @param userId
+   * @returns
    */
   static async _challenge2(userId: string) : Promise<void> {
     try {
@@ -140,117 +172,283 @@ export class ChallengeService {
         return;
       }
 
-      let user = await UserRepository.getUser(userId);
+      const user = await UserRepository.getUser(userId);
 
-      if (user.amountSpotValidated >= 25) {
+      if (user.amountSpotValidated >= 20) {
         ChallengeService.createUnlocked(userId, "challenge_2");
       }
-      
     } catch (e) {
       // Log error
     }
   }
 
-  /**   
-   * 
-   * @param userId 
-   * @returns 
+  /**
+   *
+   * @param userId
+   * @returns
    */
-    static async _challenge3(userId: string) : Promise<void> {
-      try {
-        const isUnlocked = await ChallengeRepository.isUnlocked(userId, "challenge_3");
-        if (isUnlocked) {
-          return;
-        }
-  
-        let user = await UserRepository.getUser(userId);
-  
-        if (user.amountSpotValidated >= 10) {
-          ChallengeService.createUnlocked(userId, "challenge_3");
-        }
-        
-      } catch (e) {
-        // Log error
+  static async _challenge3(userId: string) : Promise<void> {
+    try {
+      const isUnlocked = await ChallengeRepository.isUnlocked(userId, "challenge_3");
+      if (isUnlocked) {
+        return;
       }
-    }
 
-    /**
-     * 
-     * @param userId 
-     * @returns 
-     */
-    static async _challenge4(userId: string) : Promise<void> {
-      try {
-        const isUnlocked = await ChallengeRepository.isUnlocked(userId, "challenge_4");
-        if (isUnlocked) {
-          return;
-        }
-  
-        // Get spots validated
-        const spotsValidated = await SpotRepository.getSpotsValidated(userId);
-  
-        for (const spotValidated of spotsValidated) {
-          if (spotValidated.createdAt.getHours() >= 19) {
-            ChallengeService.createUnlocked(userId, "challenge_4");
-            break;
-          }
-        }
-        
-      } catch (e) {
-        // Log error
+      const user = await UserRepository.getUser(userId);
+
+      if (user.amountSpotValidated >= 10) {
+        ChallengeService.createUnlocked(userId, "challenge_3");
       }
+    } catch (e) {
+      // Log error
     }
+  }
 
-        /**
-     * 
-     * @param userId 
-     * @returns 
+  /**
+     *
+     * @param userId
+     * @returns
      */
-        static async _challenge5(userId: string) : Promise<void> {
-          try {
-            const isUnlocked = await ChallengeRepository.isUnlocked(userId, "challenge_5");
-            if (isUnlocked) {
-              return;
-            }
-      
-          // Fetch all users
-          let users = await UserRepository.getAll();
-          
-          // Sort users based on experience
-          users.sort( (a, b) => {
-            return a.experience > b.experience ? -1 : 1;
-          })
-        
-          // Takes 10 first users
-          users = users.slice(0, 10)
+  static async _challenge4(userId: string) : Promise<void> {
+    try {
+      const isUnlocked = await ChallengeRepository.isUnlocked(userId, "challenge_4");
+      if (isUnlocked) {
+        return;
+      }
 
-          for (let user of users) {
-            if (user.userId == userId) { 
-            await ChallengeService.createUnlocked(userId, "challenge_5");
-              break;
-            }
-          }
-            
-          } catch (e) {
-            // Log error
+      // Get spots validated
+      const spotsValidated = await SpotRepository.getSpotsValidated(userId);
+
+      for (const spotValidated of spotsValidated) {
+        // UTC to french
+        const createdAt = spotValidated.createdAt;
+        createdAt.setHours(createdAt.getHours() + 2);
+
+        if (createdAt.getHours() >= 19) {
+          ChallengeService.createUnlocked(userId, "challenge_4");
+          break;
+        }
+      }
+    } catch (e) {
+      // Log error
+    }
+  }
+
+
+  static async _challenge5() : Promise<void> {
+    try {
+      // Fetch all users
+      const users = await UserRepository.getAll();
+
+      // Sort users based on experience
+      users.sort( (a, b) => {
+        return a.experience > b.experience ? -1 : 1;
+      });
+
+      // Defining tops as list
+      const top = users.slice(0, 3);
+
+      for (const user of users) {
+        // Already unlocked
+        const isUnlocked = await ChallengeRepository.isUnlocked(user.userId, "challenge_5");
+        if (isUnlocked) {
+          continue;
+        }
+
+        for (const topUser of top) {
+          if (user.userId === topUser.userId) {
+            await ChallengeService.createUnlocked(user.userId, "challenge_5");
           }
         }
-  
-        static async _challenge6(userId: string) : Promise<void> {
-          try {
-            const isUnlocked = await ChallengeRepository.isUnlocked(userId, "challenge_6");
-            if (isUnlocked) {
-              return;
-            }
-      
-            // Fetch donations
-            // let donations = ProjectRepository.get
-            // Si > 1, on valide
-        
-       
-            
-          } catch (e) {
-            // Log error
+      }
+    } catch (e) {
+      // Log error
+    }
+  }
+
+  static async _challenge6() : Promise<void> {
+    try {
+      // Fetch all users
+      const users = await UserRepository.getAll();
+
+      // Sort users based on experience
+      users.sort( (a, b) => {
+        return a.experience > b.experience ? -1 : 1;
+      });
+
+      // Defining tops as list
+      const top = users.slice(0, 10);
+
+      for (const user of users) {
+        // Already unlocked
+        const isUnlocked = await ChallengeRepository.isUnlocked(user.userId, "challenge_6");
+        if (isUnlocked) {
+          continue;
+        }
+
+        for (const topUser of top) {
+          if (user.userId === topUser.userId) {
+            await ChallengeService.createUnlocked(user.userId, "challenge_6");
           }
         }
+      }
+    } catch (e) {
+      // Log error
+    }
+  }
+
+  /**
+   *
+   * @param userId
+   * @returns
+   */
+  static async _challenge7(userId: string) : Promise<void> {
+    try {
+      const isUnlocked = await ChallengeRepository.isUnlocked(userId, "challenge_7");
+      if (isUnlocked) {
+        return;
+      }
+
+      // Fetch donations
+      const donations = await ProjectRepository.getDonations(userId);
+
+      if (donations.length > 0) {
+        ChallengeService.createUnlocked(userId, "challenge_7");
+      }
+    } catch (e) {
+      // Log error
+    }
+  }
+
+  /**
+   *
+   * @param userId
+   * @returns
+   */
+  static async _challenge8(userId: string) : Promise<void> {
+    try {
+      const isUnlocked = await ChallengeRepository.isUnlocked(userId, "challenge_8");
+      if (isUnlocked) {
+        return;
+      }
+
+      const user = await UserRepository.getUser(userId);
+
+      if (user.amountSpotValidated >= 50) {
+        ChallengeService.createUnlocked(userId, "challenge_8");
+      }
+    } catch (e) {
+      // Log error
+    }
+  }
+
+  /**
+   *
+   * @param userId
+   * @returns
+   */
+  static async _challenge9(userId: string) : Promise<void> {
+    try {
+      const isUnlocked = await ChallengeRepository.isUnlocked(userId, "challenge_9");
+      if (isUnlocked) {
+        return;
+      }
+
+      const user = await UserRepository.getUser(userId);
+
+      if (user.amountSpotValidated >= 100) {
+        ChallengeService.createUnlocked(userId, "challenge_9");
+      }
+    } catch (e) {
+      // Log error
+    }
+  }
+
+  /**
+   *
+   * @param userId
+   * @returns
+   */
+  static async _challenge10(userId: string) : Promise<void> {
+    try {
+      const isUnlocked = await ChallengeRepository.isUnlocked(userId, "challenge_10");
+      if (isUnlocked) {
+        return;
+      }
+
+      const user = await UserRepository.getUser(userId);
+
+      if (user.amountCrowdReportCreated >= 10) {
+        ChallengeService.createUnlocked(userId, "challenge_10");
+      }
+    } catch (e) {
+      // Log error
+    }
+  }
+
+  /**
+   *
+   * @param userId
+   * @returns
+   */
+  static async _challenge11(userId: string) : Promise<void> {
+    try {
+      const isUnlocked = await ChallengeRepository.isUnlocked(userId, "challenge_11");
+      if (isUnlocked) {
+        return;
+      }
+
+      const user = await UserRepository.getUser(userId);
+
+      if (user.amountCrowdReportCreated >= 20) {
+        ChallengeService.createUnlocked(userId, "challenge_11");
+      }
+    } catch (e) {
+      // Log error
+    }
+  }
+
+  /**
+   *
+   * @param userId
+   * @returns
+   */
+  static async _challenge12(userId: string) : Promise<void> {
+    try {
+      const isUnlocked = await ChallengeRepository.isUnlocked(userId, "challenge_12");
+      if (isUnlocked) {
+        return;
+      }
+
+      const user = await UserRepository.getUser(userId);
+
+      if (user.amountCrowdReportCreated >= 50) {
+        ChallengeService.createUnlocked(userId, "challenge_12");
+      }
+    } catch (e) {
+      // Log error
+    }
+  }
+
+  /**
+   *
+   * @param userId
+   * @returns
+   */
+  static async _challenge13(userId: string) : Promise<void> {
+    try {
+      const isUnlocked = await ChallengeRepository.isUnlocked(userId, "challenge_13");
+      if (isUnlocked) {
+        return;
+      }
+
+      const user = await UserRepository.getUser(userId);
+
+      if (user.amountCrowdReportCreated >= 100) {
+        ChallengeService.createUnlocked(userId, "challenge_13");
+      }
+    } catch (e) {
+      // Log error
+    }
+  }
 }

@@ -75,11 +75,11 @@ class _SpotPageState extends State<SpotPage> {
                     padding: const EdgeInsets.only(bottom: kPadding20),
                     child: Gallery(spot: spot),
                   ),
-                Text(spot.type, style: kRegularBalooPaaji16, textAlign: TextAlign.center),
+                Text(spot.type, style: kRegularNunito16, textAlign: TextAlign.center),
                 const SizedBox(height: kPadding10),
                 Text(spot.name, style: kBoldARPDisplay16, textAlign: TextAlign.center),
                 const SizedBox(height: kPadding10),
-                Text(spot.cityName, style: kRegularBalooPaaji16, textAlign: TextAlign.center),
+                Text(spot.cityName, style: kRegularNunito16, textAlign: TextAlign.center),
                 const SizedBox(height: kPadding10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -95,7 +95,7 @@ class _SpotPageState extends State<SpotPage> {
                           padding: const EdgeInsets.symmetric(horizontal: kPadding10),
                           child: Text(
                             getVisitDuration(),
-                            style: kBoldBalooPaaji16.copyWith(color: Colors.white),
+                            style: kBoldNunito16.copyWith(color: Colors.white),
                           ),
                         ),
                       ),
@@ -122,7 +122,7 @@ class _SpotPageState extends State<SpotPage> {
                               const SizedBox(width: kPadding5),
                               Text(
                                 spot.rating.toString(),
-                                style: kBoldBalooPaaji16.copyWith(color: Colors.white),
+                                style: kBoldNunito16.copyWith(color: Colors.white),
                               ),
                             ],
                           ),
@@ -132,7 +132,7 @@ class _SpotPageState extends State<SpotPage> {
                   ],
                 ),
                 const SizedBox(height: kPadding20),
-                Text(spot.description, style: kRegularBalooPaaji16, textAlign: TextAlign.center),
+                Text(spot.description, style: kRegularNunito16, textAlign: TextAlign.center),
                 const SizedBox(height: kPadding40),
                 const Text("Quel jour privilégier ?", style: kBoldARPDisplay16, textAlign: TextAlign.center),
                 const SizedBox(height: kPadding20),
@@ -195,7 +195,7 @@ class _SpotPageState extends State<SpotPage> {
                                                         horizontal: kPadding10, vertical: kPadding5),
                                                     child: Text(
                                                       "Fermé",
-                                                      style: kRegularBalooPaaji16,
+                                                      style: kRegularNunito16,
                                                     ),
                                                   ),
                                                 ),
@@ -276,7 +276,7 @@ class _SpotPageState extends State<SpotPage> {
                             const SizedBox(width: kPadding10),
                             const Text(
                               "Site Web",
-                              style: kBoldBalooPaaji16,
+                              style: kBoldNunito16,
                             ),
                             const Spacer(),
                           ],
@@ -299,7 +299,7 @@ class _SpotPageState extends State<SpotPage> {
                       },
                       child: Text(
                         "Ouvrir Google Maps",
-                        style: kBoldBalooPaaji16.copyWith(color: Colors.white),
+                        style: kBoldNunito16.copyWith(color: Colors.white),
                       )),
                 ),
                 SizedBox(
@@ -438,7 +438,7 @@ class _SpotPageState extends State<SpotPage> {
           const SizedBox(width: kPadding5),
           Text(
             h,
-            style: kRegularBalooPaaji16,
+            style: kRegularNunito16,
           )
         ],
       ));
@@ -473,57 +473,57 @@ class _SpotPageState extends State<SpotPage> {
         children: [
           Row(
             children: [
-              const SizedBox(width: 80, child: Text("Lundi", style: kRegularBalooPaaji16)),
+              const SizedBox(width: 80, child: Text("Lundi", style: kRegularNunito16)),
               const SizedBox(width: kPadding20),
-              Text(!stringifiedHours[0].contains(":") ? "Fermé" : stringifiedHours[0], style: kRegularBalooPaaji16),
+              Text(!stringifiedHours[0].contains(":") ? "Fermé" : stringifiedHours[0], style: kRegularNunito16),
             ],
           ),
           const SizedBox(height: kPadding5),
           Row(
             children: [
-              const SizedBox(width: 80, child: Text("Mardi", style: kRegularBalooPaaji16)),
+              const SizedBox(width: 80, child: Text("Mardi", style: kRegularNunito16)),
               const SizedBox(width: kPadding20),
-              Text(!stringifiedHours[1].contains(":") ? "Fermé" : stringifiedHours[1], style: kRegularBalooPaaji16),
+              Text(!stringifiedHours[1].contains(":") ? "Fermé" : stringifiedHours[1], style: kRegularNunito16),
             ],
           ),
           const SizedBox(height: kPadding5),
           Row(
             children: [
-              const SizedBox(width: 80, child: Text("Mercredi", style: kRegularBalooPaaji16)),
+              const SizedBox(width: 80, child: Text("Mercredi", style: kRegularNunito16)),
               const SizedBox(width: kPadding20),
-              Text(!stringifiedHours[2].contains(":") ? "Fermé" : stringifiedHours[2], style: kRegularBalooPaaji16),
+              Text(!stringifiedHours[2].contains(":") ? "Fermé" : stringifiedHours[2], style: kRegularNunito16),
             ],
           ),
           const SizedBox(height: kPadding5),
           Row(
             children: [
-              const SizedBox(width: 80, child: Text("Jeudi", style: kRegularBalooPaaji16)),
+              const SizedBox(width: 80, child: Text("Jeudi", style: kRegularNunito16)),
               const SizedBox(width: kPadding20),
-              Text(!stringifiedHours[3].contains(":") ? "Fermé" : stringifiedHours[3], style: kRegularBalooPaaji16),
+              Text(!stringifiedHours[3].contains(":") ? "Fermé" : stringifiedHours[3], style: kRegularNunito16),
             ],
           ),
           const SizedBox(height: kPadding5),
           Row(
             children: [
-              const SizedBox(width: 80, child: Text("Vendredi", style: kRegularBalooPaaji16)),
+              const SizedBox(width: 80, child: Text("Vendredi", style: kRegularNunito16)),
               const SizedBox(width: kPadding20),
-              Text(!stringifiedHours[4].contains(":") ? "Fermé" : stringifiedHours[4], style: kRegularBalooPaaji16),
+              Text(!stringifiedHours[4].contains(":") ? "Fermé" : stringifiedHours[4], style: kRegularNunito16),
             ],
           ),
           const SizedBox(height: kPadding5),
           Row(
             children: [
-              const SizedBox(width: 80, child: Text("Samedi", style: kRegularBalooPaaji16)),
+              const SizedBox(width: 80, child: Text("Samedi", style: kRegularNunito16)),
               const SizedBox(width: kPadding20),
-              Text(!stringifiedHours[5].contains(":") ? "Fermé" : stringifiedHours[5], style: kRegularBalooPaaji16),
+              Text(!stringifiedHours[5].contains(":") ? "Fermé" : stringifiedHours[5], style: kRegularNunito16),
             ],
           ),
           const SizedBox(height: kPadding5),
           Row(
             children: [
-              const SizedBox(width: 80, child: Text("Dimanche", style: kRegularBalooPaaji16)),
+              const SizedBox(width: 80, child: Text("Dimanche", style: kRegularNunito16)),
               const SizedBox(width: kPadding20),
-              Text(!stringifiedHours[6].contains(":") ? "Fermé" : stringifiedHours[6], style: kRegularBalooPaaji16),
+              Text(!stringifiedHours[6].contains(":") ? "Fermé" : stringifiedHours[6], style: kRegularNunito16),
             ],
           ),
         ],

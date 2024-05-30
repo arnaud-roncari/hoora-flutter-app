@@ -45,7 +45,7 @@ class LevelCard extends StatelessWidget {
                       children: [
                         const Text(
                           "Mon niveau",
-                          style: kRegularBalooPaaji14,
+                          style: kRegularNunito14,
                         ),
                         const SizedBox(height: kPadding5),
                         Text(
