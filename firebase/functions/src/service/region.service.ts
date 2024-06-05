@@ -1,7 +1,6 @@
 import {CreateRegionDto} from "../common/dto/create_region.dto";
 import {CityEntity} from "../common/entity/city.entity";
 import {RegionEntity} from "../common/entity/region.entity";
-import {SpotEntity} from "../common/entity/spot.entity";
 import * as admin from "firebase-admin";
 
 export class RegionService {
@@ -9,16 +8,15 @@ export class RegionService {
     await admin.firestore().collection("region").add(dto.toJson());
   }
 
-  static async increaseSpotQuantity( spot : SpotEntity) {
+  static async increaseSpotQuantity(regionId : string, cityId: string) {
     // Retrieve region
-    const regionId = spot.regionId;
     const regionSnapshot = await admin.firestore().collection("region").doc(regionId).get();
     const region = RegionEntity.fromSnapshot(regionSnapshot);
 
     // Increment the right region spot quantity
     const cities = region.cities;
     for (const city of cities) {
-      if (city.id === spot.cityId) {
+      if (city.id === cityId) {
         city.spotQuantity += 1;
         break;
       }
@@ -30,16 +28,15 @@ export class RegionService {
     });
   }
 
-  static async decreaseSpotQuantity( spot : SpotEntity) {
+  static async decreaseSpotQuantity(regionId : string, cityId: string) {
     // Retrieve region
-    const regionId = spot.regionId;
     const regionSnapshot = await admin.firestore().collection("region").doc(regionId).get();
     const region = RegionEntity.fromSnapshot(regionSnapshot);
 
     // Decrease the right region spot quantity
     const cities = region.cities;
     for (const city of cities) {
-      if (city.id === spot.cityId) {
+      if (city.id === cityId) {
         city.spotQuantity -= 1;
         break;
       }

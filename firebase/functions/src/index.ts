@@ -7,7 +7,6 @@ import {verifyIdToken} from "./common/verify_id_token";
 import {CrowdReportService} from "./service/crowd_report.service";
 import {CreateCrowdReportDto} from "./common/dto/create_crowd_report.dto";
 import {RegionService} from "./service/region.service";
-import {SpotEntity} from "./common/entity/spot.entity";
 import {CreatePlaylistDto} from "./common/dto/create_playlist.dto";
 import {PlaylistService} from "./service/playlist.service";
 import {CreateRegionDto} from "./common/dto/create_region.dto";
@@ -30,6 +29,7 @@ import {DonateDto} from "./common/dto/donate_offer.dto";
 import {TransactionRepository} from "./repository/transaction.repository";
 import {TransactionType} from "./common/entity/transaction.entity";
 import {onSchedule} from "firebase-functions/v2/scheduler";
+import {SpotRepository} from "./repository/spot.repository";
 
 // TODO: Upgrade body validation
 // TODO: Catch crashes
@@ -71,6 +71,21 @@ export const onUserCreated = v1.auth.user().onCreate(async (user) => {
 
 
 /**
+ * Set traffic points
+ */
+export const onSpotCreated = v2.firestore.onDocumentCreated("spot/{docId}", async (event) => {
+  try {
+    const data = event.data!.data();
+    const popularTimes = data.popularTimes;
+    const density = data.density[new Date().getMonth()];
+    const trafficPoints = SpotService.generateTrafficPoints(popularTimes, density);
+    await SpotRepository.setTrafficPoints(event.data!.id, trafficPoints);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+/**
  * Update level
  */
 exports.onUserUpdated = v2.firestore.onDocumentUpdated("user/{docId}", async (event) => {
@@ -90,8 +105,11 @@ exports.incrementSpotQuantity = v2.firestore.onDocumentCreated("spot/{docId}", a
   if (snapshot == null) {
     return;
   }
-  const spot = SpotEntity.fromSnapshot(snapshot);
-  await RegionService.increaseSpotQuantity(spot);
+
+  // const spot = SpotEntity.fromSnapshot(snapshot);
+  // await RegionService.increaseSpotQuantity(spot);
+  const data = snapshot.data();
+  await RegionService.increaseSpotQuantity(data.regionId, data.cityId);
 });
 
 /**
@@ -103,8 +121,10 @@ exports.decreaseSpotQuantity = v2.firestore.onDocumentDeleted("spot/{docId}", as
     return;
   }
 
-  const spot = SpotEntity.fromSnapshot(snapshot);
-  await RegionService.decreaseSpotQuantity(spot);
+  // const spot = SpotEntity.fromSnapshot(snapshot);
+  // await RegionService.decreaseSpotQuantity(spot);
+  const data = snapshot.data();
+  await RegionService.decreaseSpotQuantity(data.regionId, data.cityId);
 }
 );
 

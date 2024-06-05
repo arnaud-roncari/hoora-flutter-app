@@ -14,6 +14,10 @@ export class SpotRepository {
     await admin.firestore().collection("spot").doc(documentId).update({lastCrowdReport: lastCrowdReport});
   }
 
+  static async setTrafficPoints(documentId: string, trafficPoints: object[]): Promise<void> {
+    await admin.firestore().collection("spot").doc(documentId).update({"trafficPoints": trafficPoints});
+  }
+
   static async create(json: any): Promise<void> {
     await admin.firestore().collection("spot").add(json);
   }
