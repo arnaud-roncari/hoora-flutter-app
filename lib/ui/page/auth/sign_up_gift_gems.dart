@@ -79,7 +79,7 @@ class SignUpGiftGemsPage extends StatelessWidget {
                   height: 50,
                   width: double.infinity,
                   child: ElevatedButton(
-                    style: kButtonRoundedStyle,
+                    style: kButtonStyle,
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, "/auth/nickname");
                     },

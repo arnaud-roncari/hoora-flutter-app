@@ -17,6 +17,14 @@ class UserRepository {
     return users;
   }
 
+  Future<bool> isNicknameAvailable(String nickname) async {
+    final snapshot = await instance.collection("user").where("nickname", isEqualTo: nickname).get();
+    if (snapshot.docs.isNotEmpty) {
+      return false;
+    }
+    return true;
+  }
+
   Future<void> setNickname(String nickname) async {
     User user = await getUser();
     await instance.collection("user").doc(user.id).update({"nickname": nickname});
@@ -33,7 +41,7 @@ class UserRepository {
     required String lastname,
     required String city,
     required String country,
-    required DateTime birthday,
+    required DateTime? birthday,
     required Gender gender,
   }) async {
     await instance.collection("user").doc(documentId).update({

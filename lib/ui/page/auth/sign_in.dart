@@ -34,7 +34,11 @@ class _SignInPageState extends State<SignInPage> {
             if (state.isNewUser) {
               Navigator.pushNamed(context, "/auth/sign_up_gift_gems");
             } else {
-              Navigator.pushNamed(context, "/home");
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                "/home",
+                (route) => false,
+              );
             }
           }
         },

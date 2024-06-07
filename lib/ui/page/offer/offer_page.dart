@@ -333,7 +333,7 @@ class OfferPage extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: kPadding10),
           child: RichText(
             text: TextSpan(
-              style: kRegularNunito14,
+              style: kRegularNunito12,
               children: [
                 TextSpan(
                   text: "$key ",

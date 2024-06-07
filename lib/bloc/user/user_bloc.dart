@@ -103,8 +103,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   void setNickname(SetNickname event, Emitter<UserState> emit) async {
     try {
       emit(SetNicknameLoading());
-      await userRepository.setNickname(event.nickname);
-      emit(SetNicknameSuccess());
+      final isAvailable = await userRepository.isNicknameAvailable(event.nickname);
+      if (!isAvailable) {
+        emit(NicknameNotAvailable(nickname: event.nickname));
+      } else {
+        await userRepository.setNickname(event.nickname);
+        emit(SetNicknameSuccess());
+      }
     } catch (exception, stack) {
       /// Report crash to Crashlytics
       crashRepository.report(exception, stack);

@@ -28,6 +28,12 @@ final class SetNicknameLoading extends UserState {}
 
 final class SetNicknameSuccess extends UserState {}
 
+final class NicknameNotAvailable extends UserState {
+  final String nickname;
+
+  NicknameNotAvailable({required this.nickname});
+}
+
 final class SetNicknameFailed extends UserState {
   final AlertException exception;
 

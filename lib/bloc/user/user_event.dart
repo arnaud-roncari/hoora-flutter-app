@@ -40,7 +40,7 @@ final class UpdateProfile extends UserEvent {
   final String lastname;
   final String city;
   final String country;
-  final DateTime birthday;
+  final DateTime? birthday;
   final Gender gender;
 
   UpdateProfile({

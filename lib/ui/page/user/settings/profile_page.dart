@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoora/bloc/user/user_bloc.dart';
 import 'package:hoora/common/alert.dart';
 import 'package:hoora/common/decoration.dart';
-import 'package:hoora/common/validator.dart';
 import 'package:hoora/model/user_model.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -100,7 +99,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       lastname: lastnameController.text,
                                       city: cityController.text,
                                       country: countryController.text,
-                                      birthday: birthday!,
+                                      birthday: birthday,
                                       gender: gender,
                                     ));
                                   }
@@ -156,7 +155,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: kRegularNunito18,
                         decoration: kTextFieldStyle.copyWith(hintText: "Pseudo"),
                         controller: nicknameController,
-                        validator: Validator.isNotEmpty,
                       ),
                       const SizedBox(height: kPadding20),
 
@@ -173,7 +171,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: kRegularNunito18,
                         decoration: kTextFieldStyle.copyWith(hintText: "Prénom"),
                         controller: firstnameController,
-                        validator: Validator.isNotEmpty,
                       ),
                       const SizedBox(height: kPadding20),
 
@@ -190,7 +187,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: kRegularNunito18,
                         decoration: kTextFieldStyle.copyWith(hintText: "Nom"),
                         controller: lastnameController,
-                        validator: Validator.isNotEmpty,
                       ),
                       const SizedBox(height: kPadding20),
 
@@ -208,7 +204,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: kRegularNunito18,
                         decoration: kTextFieldStyle.copyWith(hintText: "Date de naissance"),
                         controller: birthdayController,
-                        validator: Validator.isNotEmpty,
                         onTap: () async {
                           DateTime? date = await showDatePicker(
                             context: context,
@@ -294,7 +289,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: kRegularNunito18,
                         decoration: kTextFieldStyle.copyWith(hintText: "Ville"),
                         controller: cityController,
-                        validator: Validator.isNotEmpty,
                       ),
                       const SizedBox(height: kPadding20),
 
@@ -311,7 +305,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: kRegularNunito18,
                         decoration: kTextFieldStyle.copyWith(hintText: "Pays"),
                         controller: countryController,
-                        validator: Validator.isNotEmpty,
                       ),
                       const SizedBox(height: kPadding20),
                     ],

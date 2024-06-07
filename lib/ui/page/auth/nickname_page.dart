@@ -26,6 +26,10 @@ class _NicknamePageState extends State<NicknamePage> {
           Alert.showError(context, state.exception.message);
         }
 
+        if (state is NicknameNotAvailable) {
+          Alert.showSuccess(context, "\"${state.nickname}\" est déjà utilisé par un autre utilisateur.");
+        }
+
         if (state is SetNicknameSuccess) {
           Navigator.pushReplacementNamed(context, "/home");
         }
@@ -45,21 +49,21 @@ class _NicknamePageState extends State<NicknamePage> {
                       SizedBox(height: MediaQuery.of(context).padding.top),
                       const FractionallySizedBox(
                         child: Text(
-                          "Comment on vous appelle ? !",
+                          "Comment on vous appelle ?",
                           textAlign: TextAlign.center,
                           style: kBoldARPDisplay25,
                         ),
                       ),
                       const Spacer(),
                       SizedBox(
-                        height: 160,
+                        height: 155,
                         child: Stack(
                           children: [
                             Align(
                               alignment: Alignment.topCenter,
                               child: LottieBuilder.asset(
                                 "assets/animations/gem.json",
-                                height: 125,
+                                height: 110,
                               ),
                             ),
                             Align(
@@ -91,6 +95,7 @@ class _NicknamePageState extends State<NicknamePage> {
                       ),
                       const SizedBox(height: kPadding5),
                       TextFormField(
+                        maxLength: 10,
                         style: kRegularNunito18,
                         decoration: kTextFieldStyle.copyWith(hintText: "Pseudo"),
                         controller: nicknameController,
@@ -101,7 +106,7 @@ class _NicknamePageState extends State<NicknamePage> {
                         height: 50,
                         width: double.infinity,
                         child: ElevatedButton(
-                          style: kButtonRoundedStyle,
+                          style: kButtonStyle,
                           onPressed: state is SetNicknameLoading
                               ? null
                               : () {
