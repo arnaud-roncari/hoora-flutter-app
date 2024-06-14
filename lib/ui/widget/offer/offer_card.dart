@@ -92,7 +92,9 @@ class OfferCard extends StatelessWidget {
                               const SizedBox(height: kPadding5),
                               Text(
                                 offer.title,
+                                maxLines: 1,
                                 style: kRegularNunito14,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ],
                           ),

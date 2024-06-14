@@ -72,7 +72,15 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       Region.allRegions = regions;
 
       /// Default selected day and hour
-      selectedDate = DateTime.now().copyWith(hour: DateTime.now().getFormattedHour());
+      selectedDate = DateTime.now();
+
+      /// If after the opening time, set to the next day.
+      if (selectedDate.hour > 21) {
+        selectedDate = selectedDate.add(const Duration(days: 1));
+      }
+
+      /// Format hours.
+      selectedDate = selectedDate.copyWith(hour: DateTime.now().getFormattedHour());
 
       /// Then fetch spots
       spots = await spotRepository.getSpotsByRegion(selectedRegion, selectedCity);

@@ -51,8 +51,8 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Planifiez votre\nvisite responsable",
-                  style: kBoldARPDisplay16,
+                  "Visitez en heures\ncreuses et gagnez\ndes Diamz !",
+                  style: kBoldARPDisplay18,
                 ),
               ),
             ),
@@ -85,7 +85,7 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
                         );
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(kPadding10),
+                        padding: const EdgeInsets.symmetric(horizontal: kPadding10),
                         child: Text(
                           context.read<ExploreBloc>().selectedCity == null
                               ? context.read<ExploreBloc>().selectedRegion.name
@@ -114,7 +114,7 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
                         );
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(kPadding10),
+                        padding: const EdgeInsets.symmetric(horizontal: kPadding10),
                         child: Text(
                           _getWeekday(context.read<ExploreBloc>().selectedDate),
                           style: kBoldNunito16.copyWith(color: Colors.white),

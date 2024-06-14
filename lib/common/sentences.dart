@@ -1,12 +1,12 @@
 final List<String> crowdReportSentences = [
   "Désert",
-  "Très peu de visiteurs",
   "Peu de visiteurs",
-  "Légèrement fréquenté",
-  "Affluence modéré",
+  "Quelques visiteurs",
+  "Légère affluence",
+  "Affluence modérée",
   "Assez fréquenté",
   "Très fréquenté",
-  "Extrêmement fréquenté",
+  "Bondé",
   "Saturé",
 ];
 

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hoora/common/extension/hour_extension.dart';
 import 'package:hoora/model/city_model.dart';
 import 'package:hoora/common/alert.dart';
 import 'package:hoora/model/playlist_model.dart';
@@ -74,7 +73,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       Region.allRegions = regions;
 
       /// Default selected day
-      actualDate = DateTime.now().copyWith(hour: DateTime.now().getFormattedHour());
+      actualDate = DateTime.now();
 
       /// Then fetch spots
       spots = await spotRepository.getAllSpots();

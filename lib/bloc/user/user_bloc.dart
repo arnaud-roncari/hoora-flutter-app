@@ -123,6 +123,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   void updateProfile(UpdateProfile event, Emitter<UserState> emit) async {
     try {
       emit(UpdateProfileLoading());
+
+      /// Verify nickname is unique
+      if (event.hasNicknameChanged) {
+        bool isAvailable = await userRepository.isNicknameAvailable(event.nickname);
+
+        if (!isAvailable) {
+          emit(NicknameNotAvailable(nickname: event.nickname));
+          return;
+        }
+      }
+
       await userRepository.updateProfile(
         documentId: user.id,
         nickname: event.nickname,

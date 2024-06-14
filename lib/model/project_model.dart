@@ -7,9 +7,7 @@ class Project {
   final String title;
   final String subtitle;
   final String imagePath;
-  final String organizationDescription;
-  final String description;
-  final String condition;
+  final Map<String, String> descriptions;
   final int smallDonation;
   final int mediumDonation;
   final int bigDonation;
@@ -28,9 +26,7 @@ class Project {
       title: doc["title"],
       subtitle: doc["subtitle"],
       imagePath: doc["imagePath"],
-      organizationDescription: doc["organizationDescription"],
-      description: doc["description"],
-      condition: doc["condition"],
+      descriptions: Map<String, String>.from(doc["descriptions"]),
       smallDonation: doc["smallDonation"],
       mediumDonation: doc["mediumDonation"],
       bigDonation: doc["bigDonation"],
@@ -47,9 +43,7 @@ class Project {
       required this.title,
       required this.subtitle,
       required this.imagePath,
-      required this.organizationDescription,
-      required this.description,
-      required this.condition,
+      required this.descriptions,
       required this.smallDonation,
       required this.mediumDonation,
       required this.bigDonation,

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/model/offer_model.dart';
 import 'package:hoora/ui/page/user/earnings_page.dart';
+import 'package:lottie/lottie.dart';
 
 class OfferUnlockedSuccessPage extends StatelessWidget {
   final Offer offer;
@@ -77,7 +78,7 @@ class OfferUnlockedSuccessPage extends StatelessWidget {
                   widthFactor: 0.8,
                   child: Center(
                     child: Text(
-                      "Votre commande est confirmée, votre coupon est  disponible dès maintenant dans votre page cagnotte.",
+                      "Votre commande est confirmée, votre coupon est disponible dès maintenant dans votre page cagnotte.",
                       style: kRegularNunito14,
                       textAlign: TextAlign.center,
                     ),
@@ -85,6 +86,29 @@ class OfferUnlockedSuccessPage extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: kPadding20),
+
+            offer.codeType == CodeType.single_use
+                ? Center(
+                    child: FractionallySizedBox(
+                      widthFactor: 0.7,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: kPadding40),
+                        child: LottieBuilder.asset(
+                          "assets/animations/single_use.json",
+                        ),
+                      ),
+                    ),
+                  )
+                : Center(
+                    child: FractionallySizedBox(
+                      widthFactor: 0.5,
+                      child: LottieBuilder.asset(
+                        "assets/animations/reference.json",
+                      ),
+                    ),
+                  ),
+
             const SizedBox(height: kPadding20),
 
             offer.codeType == CodeType.single_use
@@ -108,7 +132,7 @@ class OfferUnlockedSuccessPage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: kPadding20),
                     child: Center(
                       child: Text(
-                        "Activez votre code promo\nuniquement en présence du\npartenaire, le jour de votre visite.",
+                        "Validez votre coupon, sur place, le\njour de votre visite, uniquement en\nprésence du partenaire",
                         style: kBoldNunito14,
                         textAlign: TextAlign.center,
                       ),

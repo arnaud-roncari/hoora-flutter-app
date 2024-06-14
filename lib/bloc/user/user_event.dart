@@ -43,6 +43,8 @@ final class UpdateProfile extends UserEvent {
   final DateTime? birthday;
   final Gender gender;
 
+  final bool hasNicknameChanged;
+
   UpdateProfile({
     required this.nickname,
     required this.firstname,
@@ -51,5 +53,6 @@ final class UpdateProfile extends UserEvent {
     required this.country,
     required this.birthday,
     required this.gender,
+    required this.hasNicknameChanged,
   });
 }

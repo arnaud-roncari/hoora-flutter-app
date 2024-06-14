@@ -8,7 +8,6 @@ import 'package:hoora/common/decoration.dart';
 import 'package:hoora/model/challenge_model.dart';
 import 'package:hoora/ui/widget/challenge/challenge_card.dart';
 import 'package:hoora/ui/widget/gem_button.dart';
-
 import 'package:lottie/lottie.dart';
 
 class ChallengePage extends StatefulWidget {
@@ -18,14 +17,26 @@ class ChallengePage extends StatefulWidget {
   State<ChallengePage> createState() => _ChallengePageState();
 }
 
-class _ChallengePageState extends State<ChallengePage> with AutomaticKeepAliveClientMixin {
+class _ChallengePageState extends State<ChallengePage>
+    with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
   late ChallengeBloc challengeBloc;
+  late AnimationController controller;
+  bool showAnimation = false;
 
   @override
   void initState() {
     super.initState();
     challengeBloc = context.read<ChallengeBloc>();
     challengeBloc.add(Init());
+    controller = AnimationController(vsync: this);
+    controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        setState(() {
+          showAnimation = false;
+        });
+        controller.reset();
+      }
+    });
   }
 
   @override
@@ -38,14 +49,22 @@ class _ChallengePageState extends State<ChallengePage> with AutomaticKeepAliveCl
         }
 
         if (state is ClaimSuccess) {
+          /// Show animation
+          setState(() {
+            showAnimation = true;
+          });
+
+          /// Update user gems
           context.read<user_bloc.UserBloc>().add(user_bloc.AddGem(gem: state.gem));
+
+          /// Display success message
           Alert.showSuccessWidget(
             context,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Vous avez gagné ${state.gem} gemmes !",
+                  "Vous avez gagné ${state.gem} Diamz !",
                   style: kBoldARPDisplay13.copyWith(
                     color: Colors.white,
                   ),
@@ -64,10 +83,16 @@ class _ChallengePageState extends State<ChallengePage> with AutomaticKeepAliveCl
 
         return Stack(
           children: [
-            if (state is ClaimSuccess)
+            if (showAnimation)
               LottieBuilder.asset(
                 "assets/animations/confetis.json",
                 repeat: false,
+                controller: controller,
+                onLoaded: (composition) {
+                  controller
+                    ..duration = composition.duration
+                    ..forward();
+                },
               ),
             Column(
               children: [
@@ -77,21 +102,25 @@ class _ChallengePageState extends State<ChallengePage> with AutomaticKeepAliveCl
                   child: Align(alignment: Alignment.topRight, child: GemButton()),
                 ),
                 const SizedBox(height: kPadding20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset("assets/svg/challenge_mountain.svg"),
-                    const SizedBox(width: kPadding10),
-                    const Text("Challenges", style: kRBoldNunito18),
-                  ],
+                const Padding(
+                  padding: EdgeInsets.only(left: kPadding20),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Relevez des défis &\nGagnez plus de Diamz !",
+                          style: kBoldARPDisplay18, textAlign: TextAlign.left)),
                 ),
                 const SizedBox(height: kPadding40),
-                const Text(
-                  "Gagnez plus !\nRelevez des défis!",
-                  style: kBoldARPDisplay18,
-                  textAlign: TextAlign.center,
+                Padding(
+                  padding: const EdgeInsets.only(left: kPadding20),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset("assets/svg/challenge_mountain.svg"),
+                      const SizedBox(width: kPadding10),
+                      const Text("Challenges", style: kRBoldNunito18),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: kPadding20),
+                const SizedBox(height: kPadding10),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: kPadding20),
@@ -103,7 +132,7 @@ class _ChallengePageState extends State<ChallengePage> with AutomaticKeepAliveCl
                           EdgeInsetsGeometry padding = const EdgeInsets.only(bottom: 10);
 
                           if (index == 0) {
-                            padding = const EdgeInsets.only(top: 20, bottom: 10);
+                            padding = const EdgeInsets.only(top: 10, bottom: 10);
                           }
 
                           if (index == challengeBloc.challenges.length - 1 && challengeBloc.challenges.length > 1) {
@@ -112,7 +141,7 @@ class _ChallengePageState extends State<ChallengePage> with AutomaticKeepAliveCl
 
                           return Padding(
                             padding: padding,
-                            child: ChallengeCard(challenge: challenge),
+                            child: ChallengeCard(key: UniqueKey(), challenge: challenge),
                           );
                         }),
                   ),

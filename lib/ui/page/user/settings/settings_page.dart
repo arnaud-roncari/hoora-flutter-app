@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hoora/bloc/auth/auth_bloc.dart';
 import 'package:hoora/bloc/user/user_bloc.dart';
+import 'package:hoora/common/alert.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/ui/page/auth/sign_up.dart';
+import 'package:hoora/ui/page/first_launch/welcome_page.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -140,7 +142,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     showDeletePopup();
                   },
                   child: const Text(
-                    "Supprimer son compte",
+                    "Supprimer mon compte",
                     style: kRegularNunito16,
                   ),
                 ),
@@ -306,6 +308,21 @@ class _SettingsPageState extends State<SettingsPage> {
         return BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is DeleteSuccess) {
+              Alert.showSuccess(context, "Votre compte a été supprimé.");
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const WelcomePage(),
+                ),
+                (route) => false,
+              );
+            }
+
+            if (state is RequiresRecentLogin) {
+              /// Display error
+              Alert.showSuccess(context, state.exception.message);
+
+              /// Redirect to login page
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
@@ -323,13 +340,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Text(
-                    'Voulez-vous  vraiment supprimer votre compte ?',
+                    'Voulez-vous vraiment supprimer votre compte ?',
                     style: kRBoldNunito18,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: kPadding10),
                   const Text(
-                    'En supprimant votre compte, vous perds l\'ensemble de ta progression, vos points, vos avantages et tous vos achats en cours seront annulés.',
+                    'En supprimant votre compte, vous perdrez l\'ensemble de votre progression, vos points, vos avantages et tous vos achats en cours seront annulés.',
                     style: kRegularNunito12,
                     textAlign: TextAlign.center,
                   ),
@@ -351,7 +368,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               child: CircularProgressIndicator(color: Colors.white),
                             )
                           : Text(
-                              "Supprimer",
+                              "Supprimer mon compte",
                               style: kBoldNunito16.copyWith(color: Colors.white),
                             ),
                     ),

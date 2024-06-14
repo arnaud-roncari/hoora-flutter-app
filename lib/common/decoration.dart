@@ -99,6 +99,14 @@ const TextStyle kRegularNunito20 = TextStyle(
   height: 1,
 );
 
+const TextStyle kBoldNunitoTest = TextStyle(
+  fontFamily: "NunitoBlack",
+  fontSize: 30,
+  fontWeight: FontWeight.w900,
+  color: kPrimary,
+  height: 1,
+);
+
 const TextStyle kBoldNunito16 = TextStyle(
   fontFamily: "NunitoBlack",
   fontSize: 16,
@@ -117,6 +125,14 @@ const TextStyle kBoldNunito20 = TextStyle(
 const TextStyle kRegularNunito10 = TextStyle(
   fontFamily: "Nunito",
   fontSize: 10,
+  fontWeight: FontWeight.w400,
+  color: kPrimary,
+  height: 1,
+);
+
+const TextStyle kRegularNunito11 = TextStyle(
+  fontFamily: "Nunito",
+  fontSize: 11,
   fontWeight: FontWeight.w400,
   color: kPrimary,
   height: 1,

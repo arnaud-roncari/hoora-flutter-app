@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hoora/common/globals.dart';
 
@@ -13,7 +13,7 @@ class FirstLaunchBloc extends Bloc<FirstLaunchEvent, FirstLaunchState> {
   }
 
   void setFirstLaunch(SetFirstLaunch event, Emitter<FirstLaunchState> emit) async {
-    await const FlutterSecureStorage().write(key: kSSKeyFirstLaunch, value: "false");
+    (await SharedPreferences.getInstance()).setString(kSSKeyFirstLaunch, "false");
     emit(FirstLaunchSet());
   }
 

@@ -36,15 +36,7 @@ class _ChallengeCardState extends State<ChallengeCard> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ChallengeBloc, ChallengeState>(
-      listener: (context, state) {
-        if (state is ClaimSuccess &&
-            hasUnlockedChallenge &&
-            state.unlockedChallenge.id == widget.challenge.unlockedChallenge!.id) {
-          setState(() {
-            widget.challenge.unlockedChallenge!.status = ChallengeStatus.claimed;
-          });
-        }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         return InkWell(
           onTap: () {
@@ -153,7 +145,7 @@ class _ChallengeCardState extends State<ChallengeCard> {
           color: kPrimary,
           borderRadius: BorderRadius.circular(kRadius100),
         ),
-        child: state is ClaimLoading
+        child: state is ClaimLoading && widget.challenge.id == state.challengeId
             ? const Center(
                 child: SizedBox(
                   height: 15,
@@ -181,7 +173,7 @@ class _ChallengeCardState extends State<ChallengeCard> {
           color: kPrimary,
           borderRadius: BorderRadius.circular(kRadius100),
         ),
-        child: state is ClaimLoading
+        child: state is ClaimLoading && state.challengeId == widget.challenge.id
             ? const Center(
                 child: SizedBox(
                   height: 15,

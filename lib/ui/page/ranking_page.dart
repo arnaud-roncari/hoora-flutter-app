@@ -47,21 +47,41 @@ class _RankingPageState extends State<RankingPage> with AutomaticKeepAliveClient
               child: Align(alignment: Alignment.topRight, child: GemButton()),
             ),
             const SizedBox(height: kPadding20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset("assets/svg/ranking_rugby.svg"),
-                const SizedBox(width: kPadding10),
-                const Text("Classement", style: kRBoldNunito18),
-              ],
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: kPadding20),
+                child: Text(
+                  "Montez dans le\nclassement & gagnez\ndes récompenses !",
+                  style: kBoldARPDisplay18,
+                  textAlign: TextAlign.left,
+                ),
+              ),
             ),
             const SizedBox(height: kPadding40),
-            const Text(
-              "Montez au classement\n& gagnez des\nrécompenses !",
-              style: kBoldARPDisplay18,
-              textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.only(left: kPadding20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SvgPicture.asset("assets/svg/ranking_rugby.svg"),
+                  const SizedBox(width: kPadding10),
+                  const Text("Classement", style: kRBoldNunito18),
+                ],
+              ),
             ),
-            const SizedBox(height: kPadding20),
+            const SizedBox(height: kPadding5),
+            const Padding(
+              padding: EdgeInsets.only(left: kPadding20),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Vos diamz cumulés depuis le début",
+                  style: kRegularNunito12,
+                ),
+              ),
+            ),
+            const SizedBox(height: kPadding10),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: kPadding20),
@@ -73,7 +93,7 @@ class _RankingPageState extends State<RankingPage> with AutomaticKeepAliveClient
                       EdgeInsetsGeometry padding = const EdgeInsets.only(bottom: 10);
 
                       if (index == 0) {
-                        padding = const EdgeInsets.only(top: 20, bottom: 10);
+                        padding = const EdgeInsets.only(top: 10, bottom: 10);
                       }
 
                       if (index == rankingBloc.users.length - 1 && rankingBloc.users.length > 1) {

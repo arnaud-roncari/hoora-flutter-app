@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoora/common/alert.dart';
+import 'package:hoora/common/globals.dart';
 import 'package:hoora/repository/auth_repository.dart';
 import 'package:hoora/repository/crash_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -145,6 +147,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);
+
       emit(SignOutFailed(exception: alertException));
     }
   }
@@ -153,14 +156,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       emit(DeleteLoading());
       await authRepository.delete();
-      emit(DeleteSuccess());
-    } catch (exception, stack) {
-      /// Report crash to Crashlytics
-      crashRepository.report(exception, stack);
 
+      /// Reset first launch
+      (await SharedPreferences.getInstance()).setString(kSSKeyFirstLaunch, "");
+
+      emit(DeleteSuccess());
+    } catch (exception) {
       /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);
-      emit(DeleteFailed(exception: alertException));
+
+      if (exception is FirebaseAuthException && exception.code == "requires-recent-login") {
+        emit(RequiresRecentLogin(exception: alertException));
+      } else {
+        emit(DeleteFailed(exception: alertException));
+      }
     }
   }
 }

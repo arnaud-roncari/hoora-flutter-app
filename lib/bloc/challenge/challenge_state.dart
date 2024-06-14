@@ -12,7 +12,11 @@ final class InitFailed extends ChallengeState {
   InitFailed({required this.exception});
 }
 
-class ClaimLoading extends ChallengeState {}
+class ClaimLoading extends ChallengeState {
+  final String challengeId;
+
+  ClaimLoading({required this.challengeId});
+}
 
 final class ClaimSuccess extends ChallengeState {
   final UnlockedChallenge unlockedChallenge;

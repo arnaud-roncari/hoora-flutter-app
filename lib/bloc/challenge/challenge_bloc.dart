@@ -47,6 +47,16 @@ class ChallengeBloc extends Bloc<ChallengeEvent, ChallengeState> {
       challenges.sort((a, b) {
         return a.priority.compareTo(b.priority);
       });
+
+      /// Sort claimed challenges
+      challenges.sort((a, b) {
+        if (a.unlockedChallenge != null && a.unlockedChallenge!.status == ChallengeStatus.claimed) {
+          return 1;
+        }
+
+        return 0;
+      });
+
       emit(InitSuccess());
     } catch (exception, stack) {
       /// Report crash to Crashlytics
@@ -60,9 +70,22 @@ class ChallengeBloc extends Bloc<ChallengeEvent, ChallengeState> {
 
   void claimChallenge(ClaimChallenge event, Emitter<ChallengeState> emit) async {
     try {
-      emit(ClaimLoading());
-
+      emit(ClaimLoading(challengeId: event.challenge.id));
       await challengeRepository.claimUnlockedChallenge(event.challenge.unlockedChallenge!.id);
+
+      /// Update challenge status
+      for (int i = 0; i < challenges.length; i++) {
+        Challenge challenge = challenges[i];
+        if (challenge.id == event.challenge.id) {
+          challenge.unlockedChallenge!.status = ChallengeStatus.claimed;
+
+          /// Re place it at the end of the list
+          challenges.removeAt(i);
+          challenges.add(challenge);
+          break;
+        }
+      }
+
       emit(ClaimSuccess(
         unlockedChallenge: event.challenge.unlockedChallenge!,
         gem: event.challenge.unlockedChallenge!.gem,

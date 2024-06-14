@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoora/bloc/user/user_bloc.dart';
 import 'package:hoora/common/alert.dart';
 import 'package:hoora/common/decoration.dart';
+import 'package:hoora/common/validator.dart';
 import 'package:hoora/model/user_model.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -26,12 +27,15 @@ class _ProfilePageState extends State<ProfilePage> {
   Gender gender = Gender.male;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  late String originalNickname;
+
   @override
   void initState() {
     super.initState();
     userBloc = context.read<UserBloc>();
     emailController.text = userBloc.email;
     nicknameController.text = userBloc.user.nickname;
+    originalNickname = userBloc.user.nickname;
     lastnameController.text = userBloc.user.lastname;
     firstnameController.text = userBloc.user.firstname;
     cityController.text = userBloc.user.city;
@@ -53,7 +57,15 @@ class _ProfilePageState extends State<ProfilePage> {
       body: BlocConsumer<UserBloc, UserState>(
         listener: (context, state) {
           if (state is UpdateProfileSuccess) {
+            /// Display success message
             Alert.showSuccess(context, "Votre profil a été mis à jour !");
+
+            /// Update original nickname
+            originalNickname = nicknameController.text;
+          }
+
+          if (state is NicknameNotAvailable) {
+            Alert.showError(context, "\"${state.nickname}\" est déjà utilisé par un autre utilisateur.");
           }
         },
         builder: (context, state) {
@@ -95,6 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   if (formKey.currentState!.validate()) {
                                     userBloc.add(UpdateProfile(
                                       nickname: nicknameController.text,
+                                      hasNicknameChanged: originalNickname != nicknameController.text,
                                       firstname: firstnameController.text,
                                       lastname: lastnameController.text,
                                       city: cityController.text,
@@ -155,6 +168,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: kRegularNunito18,
                         decoration: kTextFieldStyle.copyWith(hintText: "Pseudo"),
                         controller: nicknameController,
+                        validator: Validator.isNotEmpty,
+                        maxLength: 10,
                       ),
                       const SizedBox(height: kPadding20),
 

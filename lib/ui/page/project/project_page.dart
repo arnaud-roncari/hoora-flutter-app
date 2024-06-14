@@ -115,22 +115,12 @@ class ProjectPage extends StatelessWidget {
                         ),
                       ),
                     ),
+
                     const SizedBox(height: kPadding5),
                     const Center(child: Text("Points récoltés / Objectif", style: kRegularNunito12)),
                     const SizedBox(height: kPadding20),
-                    const Text("Présentation de l'association", style: kBoldNunito12),
-                    const SizedBox(height: kPadding10),
-                    Text(project.organizationDescription, style: kRegularNunito12),
-                    const SizedBox(height: kPadding20),
 
-                    const Text("L'action de l'association avec vos contributions", style: kBoldNunito12),
-                    const SizedBox(height: kPadding10),
-                    Text(project.description, style: kRegularNunito12),
-                    const SizedBox(height: kPadding20),
-
-                    const Text("Conditions et Validité", style: kBoldNunito12),
-                    const SizedBox(height: kPadding10),
-                    Text(project.condition, style: kRegularNunito12),
+                    buildDescriptions(),
                     const SizedBox(height: kPadding20),
 
                     if (canDonate) buildDonationButtons(context),
@@ -141,6 +131,28 @@ class ProjectPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildDescriptions() {
+    List<Widget> children = [];
+
+    for (String key in project.descriptions.keys) {
+      String value = project.descriptions[key]!;
+
+      children.add(Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(key, style: kBoldNunito12),
+          const SizedBox(height: kPadding10),
+          Text(value, style: kRegularNunito12),
+          const SizedBox(height: kPadding20),
+        ],
+      ));
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: children,
     );
   }
 
@@ -158,69 +170,72 @@ class ProjectPage extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ElevatedButton(
-              style: kButtonRoundedStyle,
-              onPressed: () {
-                showDonatePopup(context, project.smallDonation);
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: kPadding10),
-                child: Row(
-                  children: [
-                    Text(
-                      project.smallDonation.toString(),
-                      style: kBoldARPDisplay12.copyWith(color: Colors.white),
-                    ),
-                    const SizedBox(
-                      width: kPadding5,
-                    ),
-                    SvgPicture.asset("assets/svg/gem.svg"),
-                  ],
+            if (project.smallDonation > 0)
+              ElevatedButton(
+                style: kButtonRoundedStyle,
+                onPressed: () {
+                  showDonatePopup(context, project.smallDonation);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: kPadding10),
+                  child: Row(
+                    children: [
+                      Text(
+                        project.smallDonation.toString(),
+                        style: kBoldARPDisplay12.copyWith(color: Colors.white),
+                      ),
+                      const SizedBox(
+                        width: kPadding5,
+                      ),
+                      SvgPicture.asset("assets/svg/gem.svg"),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            ElevatedButton(
-              style: kButtonRoundedStyle,
-              onPressed: () {
-                showDonatePopup(context, project.mediumDonation);
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: kPadding10),
-                child: Row(
-                  children: [
-                    Text(
-                      project.mediumDonation.toString(),
-                      style: kBoldARPDisplay12.copyWith(color: Colors.white),
-                    ),
-                    const SizedBox(
-                      width: kPadding5,
-                    ),
-                    SvgPicture.asset("assets/svg/gem.svg"),
-                  ],
+            if (project.mediumDonation > 0)
+              ElevatedButton(
+                style: kButtonRoundedStyle,
+                onPressed: () {
+                  showDonatePopup(context, project.mediumDonation);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: kPadding10),
+                  child: Row(
+                    children: [
+                      Text(
+                        project.mediumDonation.toString(),
+                        style: kBoldARPDisplay12.copyWith(color: Colors.white),
+                      ),
+                      const SizedBox(
+                        width: kPadding5,
+                      ),
+                      SvgPicture.asset("assets/svg/gem.svg"),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            ElevatedButton(
-              style: kButtonRoundedStyle,
-              onPressed: () {
-                showDonatePopup(context, project.bigDonation);
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: kPadding10),
-                child: Row(
-                  children: [
-                    Text(
-                      project.bigDonation.toString(),
-                      style: kBoldARPDisplay12.copyWith(color: Colors.white),
-                    ),
-                    const SizedBox(
-                      width: kPadding5,
-                    ),
-                    SvgPicture.asset("assets/svg/gem.svg"),
-                  ],
+            if (project.bigDonation > 0)
+              ElevatedButton(
+                style: kButtonRoundedStyle,
+                onPressed: () {
+                  showDonatePopup(context, project.bigDonation);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: kPadding10),
+                  child: Row(
+                    children: [
+                      Text(
+                        project.bigDonation.toString(),
+                        style: kBoldARPDisplay12.copyWith(color: Colors.white),
+                      ),
+                      const SizedBox(
+                        width: kPadding5,
+                      ),
+                      SvgPicture.asset("assets/svg/gem.svg"),
+                    ],
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       ],
@@ -268,7 +283,7 @@ class ProjectPage extends StatelessWidget {
                           ? null
                           : () {
                               if (context.read<UserBloc>().user.gem < gem) {
-                                Alert.showSuccess(context, "Vous n'avez pas assez de gemmes.");
+                                Alert.showSuccess(context, "Vous n'avez pas assez de diamants.");
                               } else {
                                 context.read<ProjectBloc>().add(Donate(project: project, gem: gem));
                               }

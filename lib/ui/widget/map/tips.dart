@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/model/spot_model.dart';
-import 'package:hoora/ui/widget/page_indicator.dart';
+import 'package:hoora/ui/widget/rounded_page_indicator.dart';
 
 class Tips extends StatefulWidget {
   final Spot spot;
@@ -51,7 +51,7 @@ class _TipsState extends State<Tips> {
             padding: const EdgeInsets.only(bottom: kPadding20),
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: PageIndicator(
+              child: RoundedPageIndicator(
                 length: tips.length,
                 currentIndex: currentIndex,
                 selectedColor: Colors.white,

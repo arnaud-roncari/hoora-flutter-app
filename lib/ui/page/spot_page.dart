@@ -6,7 +6,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/common/extension/hour_extension.dart';
 import 'package:hoora/model/hours_model.dart';
-import 'package:hoora/model/open_hours_model.dart';
 import 'package:hoora/model/spot_model.dart';
 import 'package:hoora/model/tarification_model.dart';
 import 'package:hoora/ui/widget/map/gallery.dart';
@@ -35,7 +34,7 @@ class _SpotPageState extends State<SpotPage> {
     super.initState();
     hour = DateTime.now().getFormattedHour();
 
-    intensity = calculateIntensity();
+    intensity = getIntensity();
   }
 
   @override
@@ -93,9 +92,15 @@ class _SpotPageState extends State<SpotPage> {
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: kPadding10),
-                          child: Text(
-                            getVisitDuration(),
-                            style: kBoldNunito16.copyWith(color: Colors.white),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset("assets/svg/clock.svg"),
+                              const SizedBox(width: kPadding5),
+                              Text(
+                                getVisitDuration(),
+                                style: kBoldNunito16.copyWith(color: Colors.white),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -138,7 +143,7 @@ class _SpotPageState extends State<SpotPage> {
                 const SizedBox(height: kPadding20),
                 buildSuggestedDay(),
                 const SizedBox(height: kPadding40),
-                const Text("Quel moment privilégier ?", style: kBoldARPDisplay16, textAlign: TextAlign.center),
+                const Text("Quand visiter aujourd'hui ?", style: kBoldARPDisplay16, textAlign: TextAlign.center),
                 const SizedBox(height: kPadding20),
 
                 /// ISO
@@ -231,7 +236,7 @@ class _SpotPageState extends State<SpotPage> {
                   onChanged: (hour) {
                     setState(() {
                       this.hour = hour;
-                      intensity = calculateIntensity();
+                      intensity = getIntensity();
                     });
                   },
                 ),
@@ -255,7 +260,7 @@ class _SpotPageState extends State<SpotPage> {
                 Align(
                   alignment: Alignment.bottomLeft,
                   child: SizedBox(
-                    height: 37,
+                    height: 39,
                     width: 130,
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -285,7 +290,7 @@ class _SpotPageState extends State<SpotPage> {
                 ),
                 const SizedBox(height: kPadding20),
                 SizedBox(
-                  height: 50,
+                  height: 39,
                   width: double.infinity,
                   child: ElevatedButton(
                       style: kButtonRoundedStyle,
@@ -313,32 +318,13 @@ class _SpotPageState extends State<SpotPage> {
     );
   }
 
-  /// Return an intensity, based on the a calculated average, based on all popular times of the selected hour.
-  int calculateIntensity() {
-    double average = 0;
-    int total = 0;
+  int getIntensity() {
+    /// Get density
+    final int density = widget.spot.getDensityAt(DateTime.now().copyWith(hour: hour));
+    final int popularTime = widget.spot.getPopularTimeAt(DateTime.now().copyWith(hour: hour));
 
-    /// Average of all popular time, of the selected hours.
-    for (int i = 0; i < widget.spot.popularTimes.length; i++) {
-      Map<String, int> pt = widget.spot.popularTimes[i];
-
-      /// closed hours are not taken into account.
-      if (widget.spot.openHours[i].hours.isEmpty) {
-        continue;
-      }
-
-      int val = pt[hour.toString()]!;
-      if (val > 0) {
-        average += val;
-        total++;
-      }
-    }
-    average = average / total;
-
-    int density = widget.spot.getDensityNow();
-
-    /// Based on given documentation.
-    List<List<int>> matrice = [
+    /// Based on given documentation
+    const List<List<int>> intensities = [
       [1, 2, 3, 4, 5],
       [2, 3, 4, 5, 6],
       [3, 4, 5, 6, 7],
@@ -346,22 +332,17 @@ class _SpotPageState extends State<SpotPage> {
       [5, 6, 7, 8, 9],
     ];
 
-    if (average < 20) {
-      return matrice[density - 1][0];
+    if (popularTime <= 20) {
+      return intensities[density - 1][0];
+    } else if (popularTime <= 40) {
+      return intensities[density - 1][1];
+    } else if (popularTime <= 60) {
+      return intensities[density - 1][2];
+    } else if (popularTime <= 80) {
+      return intensities[density - 1][3];
+    } else {
+      return intensities[density - 1][4];
     }
-
-    if (average < 40) {
-      return matrice[density - 1][1];
-    }
-
-    if (average < 60) {
-      return matrice[density - 1][2];
-    }
-
-    if (average < 80) {
-      return matrice[density - 1][3];
-    }
-    return matrice[density - 1][4];
   }
 
   String getVisitDuration() {
@@ -450,14 +431,28 @@ class _SpotPageState extends State<SpotPage> {
   Widget buildOpenHours() {
     List<String> stringifiedHours = [];
 
-    for (int i = 0; i < widget.spot.openHours.length; i++) {
-      OpenHours oh = widget.spot.openHours[i];
-      String str = "";
-      for (int j = 0; j < oh.hours.length; j++) {
-        Hours hours = oh.hours[j];
+    for (int i = 0; i < 7; i++) {
+      List<Hours> hoursList = widget.spot.openHours[i].hours;
 
-        if (oh.hours.length > 1) {
-          if (j > 0 || j == oh.hours.length - 1) {
+      /// Define the date for the weekday, based on today
+      DateTime today = DateTime.now();
+      int currentWeekday = today.weekday;
+      int targetWeekday = i + 1;
+      int difference = targetWeekday - currentWeekday;
+      DateTime targetDate = today.add(Duration(days: difference));
+
+      /// Check if exceptional hours
+      List<Hours>? exceptionalOpenHours = widget.spot.getExceptionalOpenHoursAt(targetDate.copyWith(hour: hour));
+      if (exceptionalOpenHours != null) {
+        hoursList = exceptionalOpenHours;
+      }
+
+      String str = "";
+      for (int j = 0; j < hoursList.length; j++) {
+        Hours hours = hoursList[j];
+
+        if (hoursList.length > 1) {
+          if (j > 0 || j == hoursList.length - 1) {
             str += "  ";
           }
         }

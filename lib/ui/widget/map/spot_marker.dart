@@ -9,6 +9,28 @@ class SpotMarker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// If closed
+    if (spot.isClosedAt(DateTime.now(), onlyHour: false)) {
+      return Center(
+        child: Container(
+          height: 50,
+          width: 50,
+          decoration: BoxDecoration(
+            color: kPrimary,
+            border: Border.all(color: Colors.white, width: 3),
+            borderRadius: BorderRadius.circular(kRadius100),
+          ),
+          child: Center(
+            child: SvgPicture.asset(
+              "assets/svg/lock.svg",
+              height: 22,
+            ),
+          ),
+        ),
+      );
+    }
+
+    /// Not closed
     return Stack(
       children: [
         /// Main circle
@@ -17,10 +39,10 @@ class SpotMarker extends StatelessWidget {
             height: 50,
             width: 50,
             decoration: BoxDecoration(
-              color: spot.isSponsoredNow() && spot.getGemsNow() > 0 ? null : kPrimary,
+              color: spot.isSponsoredNow() && getGems() > 0 ? null : kPrimary,
               border: Border.all(color: Colors.white, width: 3),
               borderRadius: BorderRadius.circular(kRadius100),
-              gradient: spot.isSponsoredNow() && spot.getGemsNow() > 0
+              gradient: spot.isSponsoredNow() && getGems() > 0
                   ? const LinearGradient(
                       colors: [
                         Color.fromRGBO(187, 177, 123, 1),
@@ -42,16 +64,16 @@ class SpotMarker extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SvgPicture.asset(
-                  spot.getGemsNow() == 0 ? "assets/svg/grey_gem.svg" : "assets/svg/gem.svg",
-                  height: 17,
+                  getGems() == 0 ? "assets/svg/grey_gem.svg" : "assets/svg/gem.svg",
+                  height: 14,
                 ),
                 const SizedBox(height: 1),
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    spot.getGemsNow().toString(),
+                    getGems().toString(),
                     style: kBoldARPDisplay11.copyWith(
-                      color: spot.isSponsoredNow() && spot.getGemsNow() > 0 ? kPrimary : Colors.white,
+                      color: spot.isSponsoredNow() && getGems() > 0 ? kPrimary : Colors.white,
                     ),
                   ),
                 ),
@@ -97,5 +119,13 @@ class SpotMarker extends StatelessWidget {
           ),
       ],
     );
+  }
+
+  int getGems() {
+    DateTime date = DateTime.now();
+    if (date.hour > 21 || date.hour < 7) {
+      return 0;
+    }
+    return spot.getGemsNow();
   }
 }

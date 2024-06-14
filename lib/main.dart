@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hoora/bloc/auth/auth_bloc.dart';
 import 'package:hoora/bloc/challenge/challenge_bloc.dart';
 import 'package:hoora/bloc/create_crowd_report/create_crowd_report_bloc.dart';
@@ -50,6 +49,7 @@ import 'package:hoora/ui/page/user/settings/privacy_page.dart';
 import 'package:hoora/ui/page/user/settings/profile_page.dart';
 import 'package:hoora/ui/page/user/settings/settings_page.dart';
 import 'package:hoora/ui/page/user/settings/traffic_point_explanation_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -65,6 +65,8 @@ void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  /// Localhost
   // if (true) {
   //   FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
   //   FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: false, sslEnabled: false);
@@ -83,7 +85,7 @@ void main() async {
   };
 
   /// Null if first time lauching.
-  String? isFirstLaunch = await const FlutterSecureStorage().read(key: kSSKeyFirstLaunch);
+  String? isFirstLaunch = (await SharedPreferences.getInstance()).getString(kSSKeyFirstLaunch);
 
   User? user = FirebaseAuth.instance.currentUser;
 

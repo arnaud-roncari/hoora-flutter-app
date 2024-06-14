@@ -59,7 +59,7 @@ class _SpotSheetState extends State<SpotSheet> {
             padding: const EdgeInsets.all(kPadding20),
             child: Column(
               children: [
-                buildCircles(),
+                if (!widget.spot.isClosedAt(DateTime.now(), onlyHour: false)) buildCircles(),
                 buildIso(),
                 buildDiscoverButton(),
                 const SizedBox(height: kPadding10),
@@ -205,7 +205,7 @@ class _SpotSheetState extends State<SpotSheet> {
                 }),
               ),
             ),
-            if (!isInCircleRadius || widget.spot.getGemsNow() == 0 || widget.spot.isClosedAt(DateTime.now()))
+            if (!isInCircleRadius || getGems() == 0 || widget.spot.isClosedAt(DateTime.now(), onlyHour: false))
               Container(
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.4),
@@ -265,66 +265,78 @@ class _SpotSheetState extends State<SpotSheet> {
             ),
           ),
         const Spacer(),
-        Padding(
-          padding: EdgeInsets.only(top: widget.spot.hasCrowdReportNow() ? 40 : 0),
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(kRadius100),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 0,
-                    blurRadius: 3,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                  color: widget.spot.isSponsoredNow() && widget.spot.getGemsNow() > 0 ? null : kPrimary,
-                  border: Border.all(color: Colors.white, width: 3),
-                  borderRadius: BorderRadius.circular(kRadius100),
-                  gradient: widget.spot.isSponsoredNow() && widget.spot.getGemsNow() > 0
-                      ? const LinearGradient(
-                          colors: [
-                            Color.fromRGBO(187, 177, 123, 1),
-                            Color.fromRGBO(255, 244, 188, 1),
-                          ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          stops: [
-                            0,
-                            0.7,
-                          ],
-                        )
-                      : null,
+
+        Align(
+          alignment: Alignment.topCenter,
+          child: Column(
+            children: [
+              /// Text
+              SizedBox(
+                height: 30,
+                child: Text(
+                  getHourText(),
+                  style: kRegularNunito12.copyWith(color: isInCircleRadius ? kPrimary : Colors.white),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      widget.spot.getGemsNow() == 0 ? "assets/svg/grey_gem.svg" : "assets/svg/gem.svg",
-                      height: 17,
-                    ),
-                    const SizedBox(height: 1),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        widget.spot.getGemsNow().toString(),
-                        style: kBoldARPDisplay11.copyWith(
-                          color: widget.spot.isSponsoredNow() && widget.spot.getGemsNow() > 0 ? kPrimary : Colors.white,
-                        ),
-                      ),
+              ),
+
+              /// Gem
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(kRadius100),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 0,
+                      blurRadius: 3,
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: widget.spot.isSponsoredNow() && getGems() > 0 ? null : kPrimary,
+                    border: Border.all(color: Colors.white, width: 3),
+                    borderRadius: BorderRadius.circular(kRadius100),
+                    gradient: widget.spot.isSponsoredNow() && getGems() > 0
+                        ? const LinearGradient(
+                            colors: [
+                              Color.fromRGBO(187, 177, 123, 1),
+                              Color.fromRGBO(255, 244, 188, 1),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            stops: [
+                              0,
+                              0.7,
+                            ],
+                          )
+                        : null,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        getGems() == 0 ? "assets/svg/grey_gem.svg" : "assets/svg/gem.svg",
+                        height: 17,
+                      ),
+                      const SizedBox(height: 1),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          getGems().toString(),
+                          style: kBoldARPDisplay11.copyWith(
+                            color: widget.spot.isSponsoredNow() && getGems() > 0 ? kPrimary : Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ),
         const Spacer(),
@@ -403,7 +415,7 @@ class _SpotSheetState extends State<SpotSheet> {
                         ),
                         child: Stack(
                           children: [
-                            if (widget.spot.isClosedAt(DateTime.now()))
+                            if (widget.spot.isClosedAt(DateTime.now(), onlyHour: false))
                               Center(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -432,7 +444,9 @@ class _SpotSheetState extends State<SpotSheet> {
                                   ],
                                 ),
                               ),
-                            if (widget.spot.hasCrowdReportNow() && widget.spot.lastCrowdReport!.intensity > 1)
+                            if (!widget.spot.isClosedAt(DateTime.now(), onlyHour: false) &&
+                                widget.spot.hasCrowdReportNow() &&
+                                widget.spot.lastCrowdReport!.intensity > 1)
                               Image.asset(
                                 'assets/images/intensity_${widget.spot.lastCrowdReport!.intensity}.png',
                                 height: constraint.maxWidth,
@@ -512,5 +526,22 @@ class _SpotSheetState extends State<SpotSheet> {
     }
 
     return "${hour}h$minute d'attente";
+  }
+
+  int getGems() {
+    if (DateTime.now().hour > 21 || DateTime.now().hour < 7) {
+      return 0;
+    }
+    return widget.spot.getGemsNow();
+  }
+
+  String getHourText() {
+    if (DateTime.now().hour < 7 || DateTime.now().hour > 21) {
+      return "";
+    }
+    if (widget.spot.getGemsNow() == 0) {
+      return "heure pleine";
+    }
+    return "heure creuse";
   }
 }

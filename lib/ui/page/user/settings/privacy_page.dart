@@ -60,7 +60,7 @@ class PrivacyPage extends StatelessWidget {
                 ),
                 onPressed: () async {
                   Uri url = Uri.parse(
-                      'https://rain-appeal-1ed.notion.site/Conditions-G-n-rales-d-Utilisation-de-HOORA-60df8893f0654d2c95c728d212945d84');
+                      'https://rain-appeal-1ed.notion.site/Conditions-G-n-rales-d-Utilisation-de-QUEHORA-8fdde97d85c249f8aaa63d30e19ea247');
 
                   if (!await launchUrl(url)) {
                     throw Exception('Could not launch $url');
@@ -78,7 +78,7 @@ class PrivacyPage extends StatelessWidget {
                 ),
                 onPressed: () async {
                   Uri url = Uri.parse(
-                      'https://rain-appeal-1ed.notion.site/Politique-de-Confidentialit-de-HOORA-c0d152c43773428e8e350e08514e0a0e');
+                      'https://rain-appeal-1ed.notion.site/Politique-de-Confidentialit-de-QUEHORA-c0d152c43773428e8e350e08514e0a0e');
 
                   if (!await launchUrl(url)) {
                     throw Exception('Could not launch $url');

@@ -16,6 +16,7 @@ class SignUpGiftGemsPage extends StatelessWidget {
             padding: const EdgeInsets.all(kPadding20),
             child: Column(
               children: [
+                const SizedBox(height: kPadding40),
                 const Text(
                   "Bienvenue à bord !",
                   textAlign: TextAlign.center,

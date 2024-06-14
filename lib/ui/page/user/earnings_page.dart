@@ -81,7 +81,7 @@ class _EarningsPageState extends State<EarningsPage> {
                                   ),
                                   const SizedBox(height: kPadding5),
                                   Text(
-                                    "Visitez en Heures creuses & Gagnez des Récompenses !",
+                                    "Diamz sont actuellement dans votre cagnotte",
                                     style: kRegularNunito16.copyWith(color: Colors.white),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
@@ -89,6 +89,12 @@ class _EarningsPageState extends State<EarningsPage> {
                                 ],
                               ),
                             ),
+
+                            /// TODO replace with lottie
+                            // LottieBuilder.asset(
+                            //   "assets/animations/gem.json",
+                            //   height: 55,
+                            // ),
                             SvgPicture.asset(
                               "assets/svg/gem.svg",
                               height: 55,

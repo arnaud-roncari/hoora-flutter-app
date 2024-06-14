@@ -2,7 +2,7 @@ name: hoora
 description: "A new Flutter project."
 publish_to: 'none'
 
-version: 1.5.5+26
+version: 1.5.8+29
 
 environment:
   sdk: '>=3.3.3 <4.0.0'
@@ -13,7 +13,7 @@ dependencies:
   mapbox_maps_flutter: ^1.1.0
   cupertino_icons: ^1.0.6
   lottie: ^3.1.0
-  flutter_secure_storage: ^9.0.0
+  shared_preferences: ^2.2.3
   firebase_core: ^2.27.2
   firebase_auth: ^4.17.8
   cloud_firestore: ^4.15.8

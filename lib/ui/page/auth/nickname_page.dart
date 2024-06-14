@@ -47,9 +47,10 @@ class _NicknamePageState extends State<NicknamePage> {
                   child: Column(
                     children: [
                       SizedBox(height: MediaQuery.of(context).padding.top),
+                      const SizedBox(height: kPadding40),
                       const FractionallySizedBox(
                         child: Text(
-                          "Comment on vous appelle ?",
+                          "Comment on\nvous appelle ?",
                           textAlign: TextAlign.center,
                           style: kBoldARPDisplay25,
                         ),

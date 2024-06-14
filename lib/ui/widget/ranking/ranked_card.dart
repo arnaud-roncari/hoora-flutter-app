@@ -40,7 +40,7 @@ class RankedCard extends StatelessWidget {
             const SizedBox(width: kPadding10),
             Expanded(
               child: Text(
-                "@${user.nickname}",
+                user.nickname,
                 style: kBoldARPDisplay16.copyWith(color: isLightTheme ? kPrimary : Colors.white),
                 overflow: TextOverflow.clip,
               ),

@@ -49,7 +49,7 @@ class RequestGeolocationPage extends StatelessWidget {
                       const FractionallySizedBox(
                         widthFactor: 0.9,
                         child: Text(
-                          "Pour vous proposer les meilleurs sites autours de vous, Hoora a besoin d'accèder à votre position géographique.",
+                          "Pour vous proposer les meilleurs sites autours de vous, Quehora a besoin d'accèder à votre position géographique.",
                           style: kRegularNunito20,
                           textAlign: TextAlign.center,
                         ),

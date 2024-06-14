@@ -129,7 +129,18 @@ class Spot {
     return list;
   }
 
-  bool isClosedAt(DateTime date) {
+  List<Hours>? getExceptionalOpenHoursAt(DateTime date) {
+    for (ExceptionalOpenHours exceptionalOpenHours in exceptionalOpenHours) {
+      DateTime day = exceptionalOpenHours.date;
+
+      if (date.month == day.month && date.day == day.day) {
+        return exceptionalOpenHours.hours;
+      }
+    }
+    return null;
+  }
+
+  bool isClosedAt(DateTime date, {bool onlyHour = true}) {
     DateFormat format = DateFormat("HH:mm");
 
     for (ExceptionalOpenHours exceptionalOpenHours in exceptionalOpenHours) {
@@ -139,7 +150,11 @@ class Spot {
         for (Hours hours in exceptionalOpenHours.hours) {
           DateTime start = format.parse(hours.start);
           DateTime end = format.parse(hours.end);
-          DateTime selected = format.parse("${date.hour}:00");
+
+          DateTime selected = format.parse("${date.hour}:${date.minute}");
+          if (onlyHour) {
+            selected = format.parse("${date.hour}:00");
+          }
           if ((selected.isAtSameMomentAs(start) || selected.isAfter(start)) && selected.isBefore(end)) {
             return false;
           }
@@ -151,7 +166,10 @@ class Spot {
     for (Hours hours in openHours[date.weekday - 1].hours) {
       DateTime start = format.parse(hours.start);
       DateTime end = format.parse(hours.end);
-      DateTime selected = format.parse("${date.hour}:00");
+      DateTime selected = format.parse("${date.hour}:${date.minute}");
+      if (onlyHour) {
+        selected = format.parse("${date.hour}:00");
+      }
       if ((selected.isAtSameMomentAs(start) || selected.isAfter(start)) && selected.isBefore(end)) {
         return false;
       }

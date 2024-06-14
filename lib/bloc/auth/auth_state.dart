@@ -56,8 +56,12 @@ class SignOutSuccess extends AuthState {}
 
 class SignOutFailed extends AuthState {
   final AlertException exception;
-
   SignOutFailed({required this.exception});
+}
+
+class RequiresRecentLogin extends AuthState {
+  final AlertException exception;
+  RequiresRecentLogin({required this.exception});
 }
 
 class DeleteLoading extends AuthState {}

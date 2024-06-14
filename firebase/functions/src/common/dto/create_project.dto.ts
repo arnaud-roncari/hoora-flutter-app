@@ -4,9 +4,7 @@ export class CreateProjectDto {
   imagePath: string;
   title: string;
   subtitle: string;
-  organizationDescription: string;
-  description: string;
-  condition: string;
+  descriptions: Map<string, string>;
   from: Date;
   to: Date | null;
   collected: number;
@@ -15,14 +13,12 @@ export class CreateProjectDto {
   mediumDonation: number;
   bigDonation: number;
 
-  constructor({organizationId, imagePath, title, subtitle, organizationDescription, description, condition, from, to, collected, goal, smallDonation, mediumDonation, bigDonation} : {
+  constructor({organizationId, imagePath, title, subtitle, descriptions, from, to, collected, goal, smallDonation, mediumDonation, bigDonation} : {
     organizationId: string;
     imagePath: string;
     title: string;
     subtitle: string;
-    organizationDescription: string;
-    description: string;
-    condition: string;
+    descriptions:Map<string, string>;
     from: Date;
     to: Date | null;
     collected: number;
@@ -35,9 +31,7 @@ export class CreateProjectDto {
     this.imagePath = imagePath;
     this.title = title;
     this.subtitle = subtitle;
-    this.organizationDescription = organizationDescription;
-    this.description = description;
-    this.condition = condition;
+    this.descriptions = descriptions;
     this.from = from;
     this.to = to;
     this.collected = collected;
@@ -53,9 +47,7 @@ export class CreateProjectDto {
       imagePath: json.imagePath,
       title: json.title,
       subtitle: json.subtitle,
-      organizationDescription: json.organizationDescription,
-      description: json.description,
-      condition: json.condition,
+      descriptions: json.descriptions,
       collected: json.collected,
       goal: json.goal,
       smallDonation: json.smallDonation,
@@ -74,9 +66,7 @@ export class CreateProjectDto {
       "imagePath": this.imagePath,
       "title": this.title,
       "subtitle": this.subtitle,
-      "organizationDescription": this.organizationDescription,
-      "description": this.description,
-      "condition": this.condition,
+      "descriptions": this.descriptions,
       "collected": this.collected,
       "goal": this.goal,
       "smallDonation": this.smallDonation,

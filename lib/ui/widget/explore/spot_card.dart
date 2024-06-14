@@ -118,7 +118,7 @@ class SpotCard extends StatelessWidget {
                                           crowdReportSentences[spot.lastCrowdReport!.intensity - 1],
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 2,
-                                          style: kRegularNunito12.copyWith(
+                                          style: kRegularNunito11.copyWith(
                                             color: Colors.white,
                                           ),
                                         ),
@@ -138,7 +138,7 @@ class SpotCard extends StatelessWidget {
                                     const SizedBox(width: kPadding5),
                                     Text(
                                       getCrowdReportAwaitingTime(),
-                                      style: kRegularNunito12.copyWith(
+                                      style: kRegularNunito11.copyWith(
                                         color: Colors.white,
                                       ),
                                     ),
@@ -147,7 +147,6 @@ class SpotCard extends StatelessWidget {
                                 ),
                               Container(
                                 height: 30,
-                                width: 70,
                                 decoration: BoxDecoration(
                                   color: spot.isSponsoredAt(selectedDate) && spot.getGemsAt(selectedDate) > 0
                                       ? null
@@ -170,31 +169,17 @@ class SpotCard extends StatelessWidget {
                                 ),
                                 child: Row(
                                   children: [
-                                    SizedBox(
-                                      width: 35,
-                                      height: 30,
-                                      child: Center(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Text(
-                                            spot.getGemsAt(selectedDate).toString(),
-                                            style: kBoldARPDisplay13,
-                                          ),
-                                        ),
-                                      ),
+                                    const SizedBox(width: kPadding10),
+                                    Text(
+                                      spot.getGemsAt(selectedDate).toString(),
+                                      style: kBoldARPDisplay13,
                                     ),
-                                    SizedBox(
-                                      height: 30,
-                                      width: 35,
-                                      child: Center(
-                                          child: Padding(
-                                        padding: const EdgeInsets.only(right: kPadding5),
-                                        child: SvgPicture.asset(
-                                          "assets/svg/gem.svg",
-                                          height: 15,
-                                        ),
-                                      )),
+                                    const SizedBox(width: kPadding5),
+                                    SvgPicture.asset(
+                                      "assets/svg/gem.svg",
+                                      height: 15,
                                     ),
+                                    const SizedBox(width: kPadding10),
                                   ],
                                 ),
                               ),

@@ -70,6 +70,9 @@ class AlertException {
         case "too-many-requests":
           message = "Veuillez réessayer plus tard.";
           break;
+        case "requires-recent-login":
+          message = "Veuillez vous reconnecter pour effectuer cette action.";
+          break;
       }
     }
 

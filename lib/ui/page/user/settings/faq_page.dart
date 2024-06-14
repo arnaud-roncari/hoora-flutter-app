@@ -36,33 +36,48 @@ class FAQPage extends StatelessWidget {
                   style: kBoldARPDisplay14,
                 )),
                 buildSection(
-                  "1. Qu'est-ce que QUEHORA ?",
-                  "QUEHORA est une application innovante conçue pour encourager les gens à visiter des spots touristiques pendant les heures creuses. Elle propose une carte interactive affichant les sites touristiques avec des indications de couleur (vert, orange, rouge) pour représenter l'affluence prévue. En visitant ces sites aux moments idéaux, les utilisateurs peuvent gagner des points échangeables contre des avantages chez nos partenaires.",
+                  "Qu'est-ce que QUEHORA ?",
+                  "QUEHORA est une application de tourisme durable qui utilise des données d'affluence pour encourager les visites pendant les heures creuses. En optimisant les horaires de visite, QUEHORA aide à réduire la congestion sur les sites touristiques, améliorer l'expérience des visiteurs et contribuer à la préservation du patrimoine culturel et naturel.",
                 ),
-                buildSection("2. Comment puis-je créer un compte sur QUEHORA ?",
-                    "Pour accéder à QUEHORA, il est nécessaire de télécharger l'application et de créer un compte en utilisant une adresse e-mail valide et un mot de passe. Ce processus permet de sécuriser votre accès et de personnaliser votre expérience."),
-                buildSection("3. L'application est-elle gratuite ?",
+                buildSection("Comment puis-je créer un compte sur QUEHORA ?",
+                    "Pour accéder à QUEHORA, téléchargez l'application et créez un compte en utilisant une adresse e-mail valide et un mot de passe. Ce processus sécurise votre accès et personnalise votre expérience."),
+                buildSection("L'application est-elle gratuite ?",
                     "Oui, QUEHORA est totalement gratuite. Les utilisateurs peuvent gagner des points et les utiliser pour obtenir des avantages exclusifs chez nos partenaires sans frais supplémentaires."),
 
-                buildSection("4. J'ai oublié mon mot de passe. Comment puis-je le récupérer ?",
-                    "Si vous avez oublié votre mot de passe, cliquez sur le bouton \"J'ai oublié mon mot de passe\" lors de la connexion. Vous serez guidé à travers les étapes pour récupérer ou modifier votre mot de passe en toute sécurité."),
+                buildSection("J'ai oublié mon mot de passe. Comment puis-je le récupérer ?",
+                    "Si vous avez oublié votre mot de passe, cliquez sur le bouton \"J'ai oublié mon mot de passe\" lors de la connexion. Suivez les étapes pour récupérer ou modifier votre mot de passe en toute sécurité."),
 
-                buildSection("5. Comment fonctionne le système de points sur QUEHORA ?",
-                    "Les points sont attribués en fonction de la différence entre l'affluence actuelle d'un lieu et son affluence moyenne, divisée par le carré de l'affluence moyenne. Plus la visite contribue à réduire l'affluence par rapport à la moyenne, plus vous gagnez de points. Ces points peuvent ensuite être utilisés pour profiter d'offres spéciales de nos partenaires."),
+                buildSection("Comment fonctionne le système de points sur QUEHORA ?",
+                    "QUEHORA utilise un système de points pour récompenser les visites pendant les heures creuses. Plus vous visitez pendant ces périodes, plus vous gagnez de points, que vous pouvez ensuite échanger contre des récompenses et des avantages exclusifs."),
 
-                buildSection("6. Comment puis-je valider ma visite et gagner des points ?",
-                    "Pour valider une visite, sélectionnez l'option \"Je valide ma visite\" sur l'application. Vous devrez autoriser QUEHORA à accéder à votre géolocalisation pour confirmer votre présence sur le site touristique. Une fois la visite validée, les points seront ajoutés à votre profil."),
+                buildSection("Comment puis-je valider ma visite et gagner des points ?",
+                    "Pour valider une visite, sélectionnez le lieu sur la carte de l'application et assurez-vous d'être sur place pendant une heure creuse. Vous devrez autoriser QUEHORA à accéder à votre géolocalisation pour confirmer votre présence. Une fois la visite validée, les points seront ajoutés à votre profil."),
 
-                buildSection("7. Comment puis-je utiliser mes points ?",
-                    "Les points accumulés peuvent être dépensés pour profiter d'avantages exclusifs chez nos partenaires. Consultez la page des partenaires sur l'application pour découvrir les offres et promotions disponibles."),
-                buildSection("8. Comment puis-je contacter le support de QUEHORA ?",
-                    "Pour nous contacter, utilisez l'onglet de feedback dans l'application ou envoyez nous un e-mail directement. Nous sommes toujours à l'écoute de vos commentaires et prêts à vous aider."),
+                buildSection("Comment puis-je utiliser mes points ?",
+                    "Les points accumulés peuvent être dépensés pour profiter d'avantages exclusifs chez nos partenaires. Consultez la page des récompenses sur l'application pour découvrir les offres et promotions disponibles."),
+                buildSection("Comment puis-je contacter le support de QUEHORA ?",
+                    "Pour nous contacter, envoyez-nous un e-mail directement ou écrivez-nous sur notre compte Instagram support@quehora.app. Nous sommes toujours à l'écoute de vos commentaires et prêts à vous aider."),
 
-                buildSection("9. L'application est-elle disponible sur iOS et Android ?",
+                buildSection("L'application est-elle disponible sur iOS et Android ?",
                     "Oui, QUEHORA est disponible à la fois sur iOS et Android, vous permettant d'accéder à nos services peu importe votre appareil."),
 
-                buildSection("10. Comment QUEHORA garantit elle la sécurité et la confidentialité de mes données ?",
+                buildSection("Comment QUEHORA garantit-elle la sécurité et la confidentialité de mes données ?",
                     "Nous prenons la sécurité et la confidentialité des données très au sérieux. QUEHORA collecte des données personnelles conformément aux lois en vigueur, notamment la géolocalisation, à des fins d'analyse et d'amélioration de l'application. Nous avons mis en place des mesures rigoureuses pour garantir la protection de vos données."),
+
+                buildSection(
+                    "Que se passe-t-il si je ne suis pas en mesure de valider ma visite en raison d'un problème de géolocalisation ?",
+                    "Si vous rencontrez des problèmes de géolocalisation, assurez-vous que les services de localisation sont activés sur votre appareil et que QUEHORA a les permissions nécessaires. Si le problème persiste, contactez notre support pour obtenir de l'aide."),
+
+                buildSection("Que se passe-t-il si l'objectif de don est atteint pour une association ?",
+                    "Une fois l'objectif de don atteint, les utilisateurs ne peuvent plus faire de dons supplémentaires pour cette action spécifique. Vous serez informé lorsque l'objectif est atteint et invité à choisir une autre action à soutenir."),
+
+                buildSection(
+                    "Comment puis-je suggérer un nouveau site touristique ou une nouvelle action écologique à ajouter à QUEHORA ?",
+                    "Vous pouvez nous envoyer vos suggestions via notre formulaire de contact sur notre site quehora.app ou à support@quehora.app. Nous étudierons toutes les propositions et envisagerons leur ajout dans une future mise à jour."),
+
+                buildSection(
+                    "Comment puis-je mettre à jour mes informations personnelles ou mes préférences de compte ?",
+                    "Vous pouvez mettre à jour vos informations personnelles et vos préférences de compte dans les paramètres de l'application. Accédez à votre profil et modifiez les informations souhaitées."),
                 const SizedBox(height: kPadding20),
               ],
             ),

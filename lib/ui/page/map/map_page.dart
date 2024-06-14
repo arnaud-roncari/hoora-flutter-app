@@ -7,7 +7,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hoora/bloc/map/map_bloc.dart';
 import 'package:hoora/common/decoration.dart';
-import 'package:hoora/common/extension/hour_extension.dart';
 import 'package:hoora/common/globals.dart';
 import 'package:hoora/model/city_model.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -49,7 +48,7 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
 
     /// Update actual date
     Timer.periodic(const Duration(minutes: 1), (_) {
-      DateTime date = DateTime.now().copyWith(hour: DateTime.now().getFormattedHour());
+      DateTime date = DateTime.now();
       context.read<MapBloc>().add(UpdateDate(date: date));
     });
   }
@@ -115,22 +114,19 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
               padding: const EdgeInsets.only(bottom: 50),
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: FractionallySizedBox(
-                  widthFactor: 0.5,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: kPrimary.withOpacity(0.75),
-                      borderRadius: BorderRadius.circular(
-                        kRadius10,
-                      ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: kPrimary.withOpacity(0.75),
+                    borderRadius: BorderRadius.circular(
+                      kRadius10,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(kPadding10),
-                      child: Text(
-                        "Sélectionnez un site que vous souhaitez visiter",
-                        style: kRegularNunito16.copyWith(color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(kPadding10),
+                    child: Text(
+                      "Consultez les dernières affluences signalées\nChoisissez un site et validez votre visite !",
+                      style: kRegularNunito14.copyWith(color: Colors.white),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
@@ -413,6 +409,7 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
             child: Center(
               child: SvgPicture.asset(
                 "assets/svg/city.svg",
+                height: 26,
               ),
             ),
           ),

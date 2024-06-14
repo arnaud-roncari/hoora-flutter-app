@@ -86,6 +86,21 @@ export const onSpotCreated = v2.firestore.onDocumentCreated("spot/{docId}", asyn
 });
 
 /**
+ * Update traffic points
+ */
+export const onSpotUpdated = v2.firestore.onDocumentUpdated("spot/{docId}", async (event) => {
+  try {
+    const data = event.data!.after.data();
+    const popularTimes = data.popularTimes;
+    const density = data.density[new Date().getMonth()];
+    const trafficPoints = SpotService.generateTrafficPoints(popularTimes, density);
+    await SpotRepository.setTrafficPoints(event.data!.after.id, trafficPoints);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+/**
  * Update level
  */
 exports.onUserUpdated = v2.firestore.onDocumentUpdated("user/{docId}", async (event) => {
