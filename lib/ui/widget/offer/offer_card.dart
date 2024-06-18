@@ -7,6 +7,7 @@ import 'package:hoora/bloc/user/user_bloc.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/model/offer_model.dart';
 import 'package:hoora/ui/page/offer/offer_page.dart';
+import 'package:hoora/model/level_model.dart';
 
 class OfferCard extends StatelessWidget {
   final Offer offer;
@@ -114,10 +115,7 @@ class OfferCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(kRadius10),
                 ),
                 child: Center(
-                  child: SvgPicture.asset(
-                    "assets/svg/level_${offer.levelRequired}.svg",
-                    height: 60,
-                  ),
+                  child: getLevelSvg(),
                 ),
               ),
           ],
@@ -197,6 +195,22 @@ class OfferCard extends StatelessWidget {
               imageUrl: snapshot.data!,
               placeholder: (context, url) => const SizedBox(),
               errorWidget: (context, url, error) => const SizedBox(),
+            );
+          }
+          return const SizedBox();
+        });
+  }
+
+  Widget getLevelSvg() {
+    Level level = Level.getLevel(offer.levelRequired);
+
+    return FutureBuilder<String>(
+        future: FirebaseStorage.instance.ref().child("level/${level.imagePath}").getDownloadURL(),
+        builder: (_, snapshot) {
+          if (snapshot.hasData) {
+            return SvgPicture.network(
+              snapshot.data!,
+              height: 60,
             );
           }
           return const SizedBox();

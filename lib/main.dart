@@ -21,6 +21,7 @@ import 'package:hoora/common/globals.dart';
 import 'package:hoora/repository/challenge_repository.dart';
 import 'package:hoora/repository/company_repository.dart';
 import 'package:hoora/repository/crowd_report_repository.dart';
+import 'package:hoora/repository/level_repository.dart';
 import 'package:hoora/repository/offer_repository.dart';
 import 'package:hoora/repository/organization_repository.dart';
 import 'package:hoora/repository/project_repository.dart';
@@ -118,6 +119,7 @@ class HooraApp extends StatelessWidget {
         RepositoryProvider<ProjectRepository>(create: (context) => ProjectRepository()),
         RepositoryProvider<OrganizationRepository>(create: (context) => OrganizationRepository()),
         RepositoryProvider<TransactionRepository>(create: (context) => TransactionRepository()),
+        RepositoryProvider<LevelRepository>(create: (context) => LevelRepository()),
       ],
       child: Builder(builder: (context) {
         return MultiBlocProvider(
@@ -136,6 +138,7 @@ class HooraApp extends StatelessWidget {
                 userRepository: context.read<UserRepository>(),
                 companyRepository: context.read<CompanyRepository>(),
                 offerRepository: context.read<OfferRepository>(),
+                levelRepository: context.read<LevelRepository>(),
                 crashRepository: context.read<CrashRepository>(),
               ),
             ),
@@ -207,6 +210,7 @@ class HooraApp extends StatelessWidget {
             theme: kTheme,
             title: 'Hoora',
             // initialRoute: "/first_launch/welcome",
+
             // initialRoute: '/auth/sign_up',
             initialRoute: initialRoute,
             routes: {

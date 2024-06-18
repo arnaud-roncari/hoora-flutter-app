@@ -1,9 +1,11 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hoora/bloc/offer/offer_bloc.dart';
 import 'package:hoora/common/alert.dart';
 import 'package:hoora/common/decoration.dart';
+import 'package:hoora/model/level_model.dart';
 import 'package:hoora/model/offer_model.dart';
 import 'package:hoora/ui/widget/level_card.dart';
 import 'package:hoora/ui/widget/offer/offer_card.dart';
@@ -48,143 +50,88 @@ class _OffersPageState extends State<OffersPage> with AutomaticKeepAliveClientMi
                 child: LevelCard(height: 100),
               ),
               const SizedBox(height: kPadding20),
+              Builder(builder: (_) {
+                List<Widget> children = [];
 
-              /// Level 1 offers
-              Row(
-                children: [
-                  const SizedBox(width: kPadding20),
-                  SvgPicture.asset(
-                    "assets/svg/level_1_blank.svg",
-                    height: 30,
-                  ),
-                  const SizedBox(width: 5),
-                  const Text(
-                    'Niveau I',
-                    style: kRBoldNunito18,
-                  ),
-                ],
-              ),
-              const SizedBox(height: kPadding10),
+                for (int i = 0; i < offerBloc.categories.length; i++) {
+                  List<Offer> offers = offerBloc.categories[i];
+                  Level level = Level.getLevel(i + 1);
 
-              SizedBox(
-                /// 10 for the shadow to be displayed
-                height: 160 + 10,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: offerBloc.offersLevel1.length,
-                  itemBuilder: (_, index) {
-                    Offer offer = offerBloc.offersLevel1[index];
-                    EdgeInsetsGeometry padding = const EdgeInsets.only(right: 10);
+                  if (offers.isEmpty) {
+                    continue;
+                  }
+                  children.add(
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            const SizedBox(width: kPadding20),
+                            SizedBox(
+                              height: 30,
+                              width: 30,
+                              child: getBlankLevelSvg(level),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              'Niveau ${level.displayedLevel}',
+                              style: kRBoldNunito18,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: kPadding10),
+                        SizedBox(
+                          /// 10 for the shadow to be displayed
+                          height: 160 + 10,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: offers.length,
+                            itemBuilder: (_, index) {
+                              Offer offer = offers[index];
+                              EdgeInsetsGeometry padding = const EdgeInsets.only(right: 10);
 
-                    if (index == 0) {
-                      padding = const EdgeInsets.only(left: 20, right: 10);
-                    }
+                              if (index == 0) {
+                                padding = const EdgeInsets.only(left: 20, right: 10);
+                              }
 
-                    if (index == offerBloc.offersLevel1.length - 1 && offerBloc.offersLevel1.length > 1) {
-                      padding = const EdgeInsets.only(right: 20);
-                    }
+                              if (index == offers.length - 1 && offers.length > 1) {
+                                padding = const EdgeInsets.only(right: 20);
+                              }
 
-                    return Padding(
-                      padding: padding,
-                      child: Align(alignment: Alignment.topCenter, child: OfferCard(offer: offer)),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: kPadding20),
+                              return Padding(
+                                padding: padding,
+                                child: Align(alignment: Alignment.topCenter, child: OfferCard(offer: offer)),
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: kPadding20),
+                      ],
+                    ),
+                  );
+                }
 
-              /// Level 2 offers
-              Row(
-                children: [
-                  const SizedBox(width: kPadding20),
-                  SvgPicture.asset(
-                    "assets/svg/level_2_blank.svg",
-                    height: 30,
-                  ),
-                  const SizedBox(width: 5),
-                  const Text(
-                    'Niveau II',
-                    style: kRBoldNunito18,
-                  ),
-                ],
-              ),
-              const SizedBox(height: kPadding10),
-
-              SizedBox(
-                /// 10 for the shadow to be displayed
-                height: 160 + 10,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: offerBloc.offersLevel2.length,
-                  itemBuilder: (_, index) {
-                    Offer offer = offerBloc.offersLevel2[index];
-                    EdgeInsetsGeometry padding = const EdgeInsets.only(right: 10);
-
-                    if (index == 0) {
-                      padding = const EdgeInsets.only(left: 20, right: 10);
-                    }
-
-                    if (index == offerBloc.offersLevel2.length - 1 && offerBloc.offersLevel2.length > 1) {
-                      padding = const EdgeInsets.only(right: 20);
-                    }
-
-                    return Padding(
-                      padding: padding,
-                      child: Align(alignment: Alignment.topCenter, child: OfferCard(offer: offer)),
-                    );
-                  },
-                ),
-              ),
-
-              const SizedBox(height: kPadding20),
-
-              /// Level 3 offers
-              Row(
-                children: [
-                  const SizedBox(width: kPadding20),
-                  SvgPicture.asset(
-                    "assets/svg/level_3_blank.svg",
-                    height: 30,
-                  ),
-                  const SizedBox(width: 5),
-                  const Text(
-                    'Niveau III',
-                    style: kRBoldNunito18,
-                  ),
-                ],
-              ),
-              const SizedBox(height: kPadding10),
-
-              SizedBox(
-                /// 10 for the shadow to be displayed
-                height: 160 + 10,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: offerBloc.offersLevel3.length,
-                  itemBuilder: (_, index) {
-                    Offer offer = offerBloc.offersLevel3[index];
-                    EdgeInsetsGeometry padding = const EdgeInsets.only(right: 10);
-
-                    if (index == 0) {
-                      padding = const EdgeInsets.only(left: 20, right: 10);
-                    }
-
-                    if (index == offerBloc.offersLevel3.length - 1 && offerBloc.offersLevel3.length > 1) {
-                      padding = const EdgeInsets.only(right: 20);
-                    }
-
-                    return Padding(
-                      padding: padding,
-                      child: Align(alignment: Alignment.topCenter, child: OfferCard(offer: offer)),
-                    );
-                  },
-                ),
-              ),
+                return Column(
+                  children: children,
+                );
+              })
             ],
           ),
         );
       },
     );
+  }
+
+  Widget getBlankLevelSvg(Level level) {
+    return FutureBuilder<String>(
+        future: FirebaseStorage.instance.ref().child("level/${level.blankImagePath}").getDownloadURL(),
+        builder: (_, snapshot) {
+          if (snapshot.hasData) {
+            return SvgPicture.network(
+              snapshot.data!,
+            );
+          }
+          return const SizedBox();
+        });
   }
 
   @override

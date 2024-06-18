@@ -1,11 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoora/common/alert.dart';
 import 'package:hoora/model/company_model.dart';
+import 'package:hoora/model/level_model.dart';
 import 'package:hoora/model/offer_model.dart';
 import 'package:hoora/model/unlocked_offer_model.dart';
 import 'package:hoora/model/user_model.dart';
 import 'package:hoora/repository/company_repository.dart';
 import 'package:hoora/repository/crash_repository.dart';
+import 'package:hoora/repository/level_repository.dart';
 import 'package:hoora/repository/offer_repository.dart';
 import 'package:hoora/repository/user_repository.dart';
 
@@ -16,6 +18,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository userRepository;
   final OfferRepository offerRepository;
   final CompanyRepository companyRepository;
+  final LevelRepository levelRepository;
   final CrashRepository crashRepository;
 
   late User user;
@@ -26,6 +29,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     required this.companyRepository,
     required this.userRepository,
     required this.offerRepository,
+    required this.levelRepository,
     required this.crashRepository,
   }) : super(InitLoading()) {
     on<Init>(initialize);
@@ -41,15 +45,32 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     try {
       emit(InitLoading());
 
+      /// Fetch levels before others data
+      /// User model need to have levels initialized.
+      final List<Level> levels = await levelRepository.getAllLevels();
+
+      /// Sorting using the level var.
+      levels.sort((a, b) {
+        return a.level.compareTo(b.level);
+      });
+
+      /// Levels will be stored as a static var.
+      Level.levels = levels;
+
+      /// Retrieving email from the user object in auth firebase.
+      /// This is a sync method.
       email = userRepository.getEmail();
+
+      /// Fetching datas
       List futures = await Future.wait([
         userRepository.getUser(),
         offerRepository.getUnlockedOffers(),
         offerRepository.getAllOffers(),
         companyRepository.getAllCompanies(),
       ]);
-      user = futures[0];
 
+      /// Init datas
+      user = futures[0];
       List<UnlockedOffer> unlockedOffers = futures[1];
       List<Offer> offers = futures[2];
       List<Company> companies = futures[3];

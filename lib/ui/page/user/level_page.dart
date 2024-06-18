@@ -1,10 +1,11 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hoora/bloc/user/user_bloc.dart';
 import 'package:hoora/common/decoration.dart';
-import 'package:hoora/common/sentences.dart';
+import 'package:hoora/model/level_model.dart';
 import 'package:hoora/ui/widget/gem_progress_bar.dart';
 
 class LevelPage extends StatefulWidget {
@@ -16,11 +17,13 @@ class LevelPage extends StatefulWidget {
 
 class _LevelPageState extends State<LevelPage> {
   late UserBloc userBloc;
+  late Level level;
 
   @override
   void initState() {
     super.initState();
     userBloc = context.read<UserBloc>();
+    level = Level.getLevel(userBloc.user.level);
   }
 
   @override
@@ -51,10 +54,7 @@ class _LevelPageState extends State<LevelPage> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: kPadding40),
-            SvgPicture.asset(
-              "assets/svg/level_${userBloc.user.level}.svg",
-              height: 50,
-            ),
+            SizedBox(height: 50, child: getLevelSvg(level)),
             const SizedBox(height: kPadding5),
             const Text(
               "Mon niveau",
@@ -62,30 +62,30 @@ class _LevelPageState extends State<LevelPage> {
             ),
             const SizedBox(height: kPadding5),
             Text(
-              levelSentences[userBloc.user.level - 1].replaceAll(" ", "\n"),
+              level.title,
               style: kBoldARPDisplay11,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: kPadding40),
-            if (userBloc.user.level < 3)
+            if (userBloc.user.level < Level.levels.last.level)
               FractionallySizedBox(
                 widthFactor: 0.8,
                 child: Row(
                   children: [
                     Text(
-                      userBloc.user.level == 1 ? "I" : "II",
+                      level.displayedLevel,
                       style: kBoldARPDisplay11,
                     ),
                     const SizedBox(width: kPadding10),
                     Expanded(
                       child: GemProgressBar(
                         value: userBloc.user.experience,
-                        goal: userBloc.user.level == 1 ? 800 : 2000,
+                        goal: level.getNextLevel()!.experienceRequired,
                       ),
                     ),
                     const SizedBox(width: kPadding10),
                     Text(
-                      userBloc.user.level == 1 ? "II" : "III",
+                      level.getNextLevel()!.displayedLevel,
                       style: kBoldARPDisplay11,
                     ),
                   ],
@@ -110,71 +110,61 @@ class _LevelPageState extends State<LevelPage> {
               ),
             ),
             const SizedBox(height: kPadding40),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  children: [
-                    SvgPicture.asset(
-                      "assets/svg/level_1.svg",
-                      height: 50,
-                    ),
-                    const SizedBox(height: kPadding5),
-                    const Text(
-                      "Niveau 1",
-                      style: kBoldNunito14,
-                    ),
-                    const SizedBox(height: kPadding5),
-                    const Text(
-                      "Touriste\nResponsable",
-                      textAlign: TextAlign.center,
-                      style: kBoldNunito12,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    SvgPicture.asset(
-                      "assets/svg/level_2.svg",
-                      height: 50,
-                    ),
-                    const SizedBox(height: kPadding5),
-                    const Text(
-                      "Niveau 2",
-                      style: kBoldNunito14,
-                    ),
-                    const SizedBox(height: kPadding5),
-                    const Text(
-                      "Aventurier\nEngagé",
-                      textAlign: TextAlign.center,
-                      style: kBoldNunito12,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    SvgPicture.asset(
-                      "assets/svg/level_3.svg",
-                      height: 50,
-                    ),
-                    const SizedBox(height: kPadding5),
-                    const Text(
-                      "Niveau 3",
-                      style: kBoldNunito14,
-                    ),
-                    const SizedBox(height: kPadding5),
-                    const Text(
-                      "Explorateur\nElite",
-                      textAlign: TextAlign.center,
-                      style: kBoldNunito12,
-                    ),
-                  ],
-                ),
-              ],
-            ),
+            buildLevels(),
           ],
         ),
       ),
     );
+  }
+
+  Widget buildLevels() {
+    List<Widget> children = [];
+
+    for (Level level in Level.levels) {
+      children.add(
+        SizedBox(
+          width: 100,
+          height: 100,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 50,
+                child: getLevelSvg(level),
+              ),
+              const SizedBox(height: kPadding5),
+              Text(
+                "Niveau ${level.displayedLevel}",
+                style: kBoldNunito14,
+              ),
+              const SizedBox(height: kPadding5),
+              Text(
+                level.title,
+                textAlign: TextAlign.center,
+                style: kBoldNunito12,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Wrap(
+      alignment: WrapAlignment.spaceEvenly,
+      runSpacing: 20,
+      children: children,
+    );
+  }
+
+  Widget getLevelSvg(Level level) {
+    return FutureBuilder<String>(
+        future: FirebaseStorage.instance.ref().child("level/${level.imagePath}").getDownloadURL(),
+        builder: (_, snapshot) {
+          if (snapshot.hasData) {
+            return SvgPicture.network(
+              snapshot.data!,
+            );
+          }
+          return const SizedBox();
+        });
   }
 }

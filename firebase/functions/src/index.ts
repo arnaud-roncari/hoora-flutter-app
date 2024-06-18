@@ -14,8 +14,6 @@ import {CreateChallengeDto} from "./common/dto/create_challenge.dto";
 import {ChallengeService} from "./service/challenge_service";
 import {CreateUnlockedChallengeDto} from "./common/dto/create_unlocked_challenge.dto";
 import {ClaimUnlockedChallengeDto} from "./common/dto/claim_unlocked_challenge.dto";
-import {UserEntity} from "./common/entity/user.entity";
-import {UserService} from "./service/user.service";
 import {CreateCompanyDto} from "./common/dto/create_company.dto";
 import {CompanyService} from "./service/company.service";
 import {CreateOfferDto} from "./common/dto/create_offer.dto";
@@ -30,6 +28,8 @@ import {TransactionRepository} from "./repository/transaction.repository";
 import {TransactionType} from "./common/entity/transaction.entity";
 import {onSchedule} from "firebase-functions/v2/scheduler";
 import {SpotRepository} from "./repository/spot.repository";
+import {CreateLevelDto} from "./common/dto/create_level.dto";
+import {LevelService} from "./service/level.service";
 
 // TODO: Upgrade body validation
 // TODO: Catch crashes
@@ -43,7 +43,6 @@ export const onUserCreated = v1.auth.user().onCreate(async (user) => {
     userId: user.uid,
     gem: 15,
     experience: 15,
-    level: 1,
     firstname: "",
     lastname: "",
     nickname: "",
@@ -85,32 +84,21 @@ export const onSpotCreated = v2.firestore.onDocumentCreated("spot/{docId}", asyn
   }
 });
 
-/**
- * Update traffic points
- */
-export const onSpotUpdated = v2.firestore.onDocumentUpdated("spot/{docId}", async (event) => {
-  try {
-    const data = event.data!.after.data();
-    const popularTimes = data.popularTimes;
-    const density = data.density[new Date().getMonth()];
-    const trafficPoints = SpotService.generateTrafficPoints(popularTimes, density);
-    await SpotRepository.setTrafficPoints(event.data!.after.id, trafficPoints);
-  } catch (e) {
-    console.log(e);
-  }
-});
+// /**
+//  * Update traffic points
+//  */
+// export const onSpotUpdated = v2.firestore.onDocumentUpdated("spot/{docId}", async (event) => {
+//   try {
+//     const data = event.data!.after.data();
+//     const popularTimes = data.popularTimes;
+//     const density = data.density[new Date().getMonth()];
+//     const trafficPoints = SpotService.generateTrafficPoints(popularTimes, density);
+//     await SpotRepository.setTrafficPoints(event.data!.after.id, trafficPoints);
+//   } catch (e) {
+//     console.log(e);
+//   }
+// });
 
-/**
- * Update level
- */
-exports.onUserUpdated = v2.firestore.onDocumentUpdated("user/{docId}", async (event) => {
-  const user = UserEntity.fromSnapshot(event.data!.after);
-  if (user.level === 1 && user.experience > 800) {
-    await UserService.setLevel(user.id, 2);
-  } else if ( user.level === 2 && user.experience > 2000) {
-    await UserService.setLevel(user.id, 3);
-  }
-});
 
 /**
  * Increase spotQuantity
@@ -335,6 +323,22 @@ export const createOffers = v2.https.onRequest(async (request, response ) => {
     for (const offer of request.body) {
       const dto = CreateOfferDto.fromJson(offer);
       await OfferService.create(dto);
+    }
+
+    response.json({status: "OK"});
+  } catch (e) {
+    response.json({status: "KO", error: e});
+  }
+});
+
+/**
+ * Create levels
+ */
+export const createLevels = v2.https.onRequest(async (request, response ) => {
+  try {
+    for (const level of request.body) {
+      const dto = CreateLevelDto.fromJson(level);
+      await LevelService.create(dto);
     }
 
     response.json({status: "OK"});

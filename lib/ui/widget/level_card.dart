@@ -1,9 +1,10 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hoora/bloc/user/user_bloc.dart';
 import 'package:hoora/common/decoration.dart';
-import 'package:hoora/common/sentences.dart';
+import 'package:hoora/model/level_model.dart';
 
 class LevelCard extends StatelessWidget {
   final double height;
@@ -12,6 +13,7 @@ class LevelCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserBloc userBloc = context.read<UserBloc>();
+    Level level = Level.getLevel(userBloc.user.level);
 
     return BlocConsumer<UserBloc, UserState>(
       listener: (context, state) {},
@@ -49,7 +51,7 @@ class LevelCard extends StatelessWidget {
                         ),
                         const SizedBox(height: kPadding5),
                         Text(
-                          levelSentences[userBloc.user.level - 1],
+                          level.title,
                           style: kBoldARPDisplay16,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
@@ -57,10 +59,7 @@ class LevelCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SvgPicture.asset(
-                    "assets/svg/level_${userBloc.user.level}.svg",
-                    height: 55,
-                  ),
+                  getLevelSvg(level)
                 ],
               ),
             ),
@@ -68,5 +67,19 @@ class LevelCard extends StatelessWidget {
         );
       },
     );
+  }
+
+  Widget getLevelSvg(Level level) {
+    return FutureBuilder<String>(
+        future: FirebaseStorage.instance.ref().child("level/${level.imagePath}").getDownloadURL(),
+        builder: (_, snapshot) {
+          if (snapshot.hasData) {
+            return SvgPicture.network(
+              snapshot.data!,
+              height: 60,
+            );
+          }
+          return const SizedBox();
+        });
   }
 }

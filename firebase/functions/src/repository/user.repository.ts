@@ -2,10 +2,6 @@ import * as admin from "firebase-admin";
 import {UserEntity} from "../common/entity/user.entity";
 
 export class UserRepository {
-  static async setLevel(documentId: string, level: number) : Promise<void> {
-    await admin.firestore().collection("user").doc(documentId).update({level: level});
-  }
-
   static async getUser(userId: string): Promise<UserEntity> {
     const snapshot = await admin.firestore().collection("user").where("userId", "==", userId).get();
     const user = UserEntity.fromSnapshot(snapshot.docs[0]);

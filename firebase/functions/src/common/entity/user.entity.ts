@@ -5,7 +5,6 @@ export class UserEntity {
   userId: string;
   gem: number;
   experience: number;
-  level: number;
   firstname: string;
   lastname: string;
   nickname: string;
@@ -25,7 +24,6 @@ export class UserEntity {
     userId,
     gem,
     experience,
-    level,
     firstname,
     lastname,
     nickname,
@@ -44,7 +42,6 @@ export class UserEntity {
       userId: string,
       gem: number,
       experience: number,
-      level: number,
       firstname: string,
       lastname: string,
       nickname: string,
@@ -64,7 +61,6 @@ export class UserEntity {
     this.userId = userId;
     this.gem = gem;
     this.experience = experience;
-    this.level = level;
     this.firstname = firstname;
     this.lastname = lastname;
     this.nickname = nickname;
@@ -88,7 +84,6 @@ export class UserEntity {
       userId: json.userId,
       gem: json.gem,
       experience: json.experience,
-      level: json.level,
       firstname: json.firstname,
       lastname: json.lastname,
       nickname: json.nickname,

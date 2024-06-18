@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoora/common/alert.dart';
 import 'package:hoora/model/company_model.dart';
+import 'package:hoora/model/level_model.dart';
 import 'package:hoora/model/offer_model.dart';
 import 'package:hoora/model/unlocked_offer_model.dart';
 import 'package:hoora/repository/company_repository.dart';
@@ -15,9 +16,7 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
   final OfferRepository offerRepository;
   final CompanyRepository companyRepository;
 
-  List<Offer> offersLevel1 = [];
-  List<Offer> offersLevel2 = [];
-  List<Offer> offersLevel3 = [];
+  List<List<Offer>> categories = [];
 
   OfferBloc({
     required this.crashRepository,
@@ -43,6 +42,11 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
       List<Offer> offers = futures[1];
       List<UnlockedOffer> unlockedOffers = futures[2];
 
+      /// Init categories
+      for (Level _ in Level.levels) {
+        categories.add([]);
+      }
+
       for (Offer offer in offers) {
         /// Skip unlocked offer
         bool isUnlocked = false;
@@ -64,20 +68,14 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
           }
         }
 
-        /// Split into level list
-        if (offer.levelRequired == 1) {
-          offersLevel1.add(offer);
-        } else if (offer.levelRequired == 2) {
-          offersLevel2.add(offer);
-        } else {
-          offersLevel3.add(offer);
-        }
+        /// Split into categorie
+        categories[offer.levelRequired - 1].add(offer);
       }
 
       /// Sorting by priority
-      offersLevel1.sort((a, b) => a.priority.compareTo(b.priority));
-      offersLevel2.sort((a, b) => a.priority.compareTo(b.priority));
-      offersLevel3.sort((a, b) => a.priority.compareTo(b.priority));
+      for (List<Offer> offers in categories) {
+        offers.sort((a, b) => a.priority.compareTo(b.priority));
+      }
 
       emit(InitSuccess());
     } catch (exception, stack) {
@@ -98,17 +96,10 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
       await offerRepository.unlockOffer(event.offer.id);
 
       /// Split into level list
-      late List<Offer> toBeRemoved;
-      if (event.offer.levelRequired == 1) {
-        toBeRemoved = offersLevel1;
-      } else if (event.offer.levelRequired == 2) {
-        toBeRemoved = offersLevel1;
-      } else {
-        toBeRemoved = offersLevel1;
-      }
-      for (int i = 0; i < toBeRemoved.length; i++) {
-        if (event.offer.id == toBeRemoved[i].id) {
-          toBeRemoved.removeAt(i);
+      List<Offer> offers = categories[event.offer.levelRequired - 1];
+      for (int i = 0; i < offers.length; i++) {
+        if (event.offer.id == offers[i].id) {
+          offers.removeAt(i);
           break;
         }
       }

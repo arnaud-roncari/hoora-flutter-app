@@ -9,9 +9,3 @@ final List<String> crowdReportSentences = [
   "Bondé",
   "Saturé",
 ];
-
-final List<String> levelSentences = [
-  "Touriste Responsable",
-  "Aventurier Engagé",
-  "Explorateur Elite",
-];

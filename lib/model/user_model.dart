@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hoora/model/level_model.dart';
 
 enum Gender { male, female, other }
 
@@ -49,7 +50,7 @@ class User {
       userId: doc["userId"],
       gem: doc['gem'],
       experience: doc['experience'],
-      level: doc['level'],
+      level: Level.getLevelFromExperience(doc['experience'] as int),
       firstname: doc['firstname'],
       lastname: doc['lastname'],
       nickname: doc['nickname'],

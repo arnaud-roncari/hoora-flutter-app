@@ -90,8 +90,6 @@ class _EarningsPageState extends State<EarningsPage> {
                               ),
                             ),
 
-                            /// TODO replace with lottie
-                            // LottieBuilder.asset(
                             //   "assets/animations/gem.json",
                             //   height: 55,
                             // ),
