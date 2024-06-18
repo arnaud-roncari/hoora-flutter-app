@@ -70,7 +70,7 @@ export const onUserCreated = v1.auth.user().onCreate(async (user) => {
 
 
 /**
- * Set traffic points
+ * Set traffic points when spot is created
  */
 export const onSpotCreated = v2.firestore.onDocumentCreated("spot/{docId}", async (event) => {
   try {
@@ -84,21 +84,63 @@ export const onSpotCreated = v2.firestore.onDocumentCreated("spot/{docId}", asyn
   }
 });
 
-// /**
-//  * Update traffic points
-//  */
-// export const onSpotUpdated = v2.firestore.onDocumentUpdated("spot/{docId}", async (event) => {
-//   try {
-//     const data = event.data!.after.data();
-//     const popularTimes = data.popularTimes;
-//     const density = data.density[new Date().getMonth()];
-//     const trafficPoints = SpotService.generateTrafficPoints(popularTimes, density);
-//     await SpotRepository.setTrafficPoints(event.data!.after.id, trafficPoints);
-//   } catch (e) {
-//     console.log(e);
-//   }
-// });
 
+/**
+* Update traffic points when spot is updated if popularTimes or density have changed
+*/
+
+function areArraysEqual(arr1: any[], arr2: any[]): boolean {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+  for (let i = 0; i < arr1.length; i++) {
+    if (typeof arr1[i] === "object" && typeof arr2[i] === "object") {
+      if (!areObjectsEqual(arr1[i], arr2[i])) {
+        return false;
+      }
+    } else if (arr1[i] !== arr2[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function areObjectsEqual(obj1: Record<string, any>, obj2: Record<string, any>): boolean {
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+  for (const key of keys1) {
+    if (obj1[key] !== obj2[key]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+export const onSpotUpdated = v2.firestore.onDocumentUpdated("spot/{docId}", async (event) => {
+  try {
+    const oldPopularTimes: any[] = event.data!.before.data().popularTimes;
+    const newPopularTimes: any[] = event.data!.after.data().popularTimes;
+    const oldDensity: number[] = event.data!.before.data().density;
+    const newDensity: number[] = event.data!.after.data().density;
+
+    v2.logger.info("oldPopularTimes: ", oldPopularTimes, ", newPopularTimes: ", newPopularTimes, ", oldDensity: ", oldDensity, ", newDensity: ", newDensity);
+
+    const popularTimesChanged = !areArraysEqual(oldPopularTimes, newPopularTimes);
+    const densityChanged = !areArraysEqual(oldDensity, newDensity);
+
+    if (popularTimesChanged || densityChanged) {
+      const popularTimes = newPopularTimes;
+      const density = newDensity[new Date().getMonth()];
+      const trafficPoints = SpotService.generateTrafficPoints(popularTimes, density);
+      await SpotRepository.setTrafficPoints(event.data!.after.id, trafficPoints);
+    }
+  } catch (e) {
+    console.error(e);
+  }
+});
 
 /**
  * Increase spotQuantity
