@@ -166,7 +166,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(height: kPadding5),
                       TextFormField(
                         style: kRegularNunito18,
-                        decoration: kTextFieldStyle.copyWith(hintText: "Pseudo"),
+                        decoration: kTextFieldStyle.copyWith(hintText: ""),
                         controller: nicknameController,
                         validator: Validator.isNotEmpty,
                         maxLength: 10,
@@ -184,7 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(height: kPadding5),
                       TextFormField(
                         style: kRegularNunito18,
-                        decoration: kTextFieldStyle.copyWith(hintText: "Prénom"),
+                        decoration: kTextFieldStyle.copyWith(hintText: ""),
                         controller: firstnameController,
                       ),
                       const SizedBox(height: kPadding20),
@@ -200,7 +200,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(height: kPadding5),
                       TextFormField(
                         style: kRegularNunito18,
-                        decoration: kTextFieldStyle.copyWith(hintText: "Nom"),
+                        decoration: kTextFieldStyle.copyWith(hintText: ""),
                         controller: lastnameController,
                       ),
                       const SizedBox(height: kPadding20),
@@ -217,7 +217,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       TextFormField(
                         readOnly: true,
                         style: kRegularNunito18,
-                        decoration: kTextFieldStyle.copyWith(hintText: "Date de naissance"),
+                        decoration: kTextFieldStyle.copyWith(hintText: ""),
                         controller: birthdayController,
                         onTap: () async {
                           DateTime? date = await showDatePicker(
@@ -302,7 +302,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(height: kPadding5),
                       TextFormField(
                         style: kRegularNunito18,
-                        decoration: kTextFieldStyle.copyWith(hintText: "Ville"),
+                        decoration: kTextFieldStyle.copyWith(hintText: ""),
                         controller: cityController,
                       ),
                       const SizedBox(height: kPadding20),
@@ -318,7 +318,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(height: kPadding5),
                       TextFormField(
                         style: kRegularNunito18,
-                        decoration: kTextFieldStyle.copyWith(hintText: "Pays"),
+                        decoration: kTextFieldStyle.copyWith(hintText: ""),
                         controller: countryController,
                       ),
                       const SizedBox(height: kPadding20),

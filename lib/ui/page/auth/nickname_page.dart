@@ -98,7 +98,7 @@ class _NicknamePageState extends State<NicknamePage> {
                       TextFormField(
                         maxLength: 10,
                         style: kRegularNunito18,
-                        decoration: kTextFieldStyle.copyWith(hintText: "Pseudo"),
+                        decoration: kTextFieldStyle.copyWith(hintText: ""),
                         controller: nicknameController,
                         validator: Validator.isNotEmpty,
                       ),
