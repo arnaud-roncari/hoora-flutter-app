@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hoora/bloc/user/user_bloc.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/model/offer_model.dart';
 import 'package:hoora/ui/page/user/transaction_page.dart';
 import 'package:hoora/ui/widget/level_card.dart';
 import 'package:hoora/ui/widget/user/unlocked_offer_card.dart';
+import 'package:lottie/lottie.dart';
 
 class EarningsPage extends StatefulWidget {
   const EarningsPage({super.key});
@@ -89,14 +89,7 @@ class _EarningsPageState extends State<EarningsPage> {
                                 ],
                               ),
                             ),
-
-                            //   "assets/animations/gem.json",
-                            //   height: 55,
-                            // ),
-                            SvgPicture.asset(
-                              "assets/svg/gem.svg",
-                              height: 55,
-                            ),
+                            Lottie.asset("assets/animations/gem.json", fit: BoxFit.cover),
                           ],
                         ),
                       ),
