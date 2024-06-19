@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:hoora/bloc/first_launch/first_launch_bloc.dart';
 import 'package:hoora/bloc/map/map_bloc.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/common/globals.dart';
@@ -55,6 +56,7 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    RequestGeolocation();
     super.build(context);
     return BlocConsumer<MapBloc, MapState>(
       listener: (context, state) {
