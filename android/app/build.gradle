@@ -48,10 +48,6 @@ android {
         jvmTarget = '1.8'
     }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
-
     defaultConfig {
         applicationId "app.hoora.staging"
         minSdkVersion 32

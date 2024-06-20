@@ -74,6 +74,7 @@ flutter:
       - assets/animations/
       - assets/svg/
       - assets/images/
+      - assets/launcher_icon/
 
 flutter_native_splash:
   ios: false
@@ -83,12 +84,3 @@ flutter_native_splash:
   android_12:
     color: "#0E1626"
     image: "assets/images/android_splash.png"
-
-
-flutter_launcher_icons:
-  android: true
-  ios: false
-  image_path: "assets/images/android_app_icon.png"
-  # remove_alpha_ios: true
-  adaptive_icon_background: "#0E1626"
-  adaptive_icon_foreground: "assets/images/android_app_icon.png"
