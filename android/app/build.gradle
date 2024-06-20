@@ -78,7 +78,7 @@ android {
     productFlavors {
         production {
             dimension "app"
-            applicationId "app.hoora.production"
+            applicationId "app.hoora"
             resValue "string", "app_name", "Quehora"
         }
         staging {
