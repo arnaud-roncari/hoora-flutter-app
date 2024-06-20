@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1041066486499-sv8e5rgrggu2n0c8fvk3efs7jo41i0h6.apps.googleusercontent.com</string>
+	<string>272282529253-g8ih8lr94hd7de86fkgi98r4o9o6hk7i.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1041066486499-sv8e5rgrggu2n0c8fvk3efs7jo41i0h6</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>1041066486499-13v6pv5gpkcjbm711tjp0sd5r3mk0tkl.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.272282529253-g8ih8lr94hd7de86fkgi98r4o9o6hk7i</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAImNC-GQ9yYaOyy1qItbUgJIDbmDzAROY</string>
+	<string>AIzaSyDyUfapAyLBc7XQCiphZr1OxE1HFCJMnOw</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1041066486499</string>
+	<string>272282529253</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>app.hoora.production</string>
+	<string>app.hoora.staging</string>
 	<key>PROJECT_ID</key>
-	<string>hoora-fb944</string>
+	<string>hoora-staging</string>
 	<key>STORAGE_BUCKET</key>
-	<string>hoora-fb944.appspot.com</string>
+	<string>hoora-staging.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1041066486499:ios:727c1b2dc1053c893133d6</string>
+	<string>1:272282529253:ios:abc10b7d6feeae9291130c</string>
 </dict>
 </plist>

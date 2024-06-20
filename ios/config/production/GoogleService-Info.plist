@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1041066486499-sv8e5rgrggu2n0c8fvk3efs7jo41i0h6.apps.googleusercontent.com</string>
+	<string>1041066486499-f33db4fta01p2c8i36q9ohsiqtvkfsit.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1041066486499-sv8e5rgrggu2n0c8fvk3efs7jo41i0h6</string>
+	<string>com.googleusercontent.apps.1041066486499-f33db4fta01p2c8i36q9ohsiqtvkfsit</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>1041066486499-13v6pv5gpkcjbm711tjp0sd5r3mk0tkl.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>app.hoora.production</string>
+	<string>app.hoora</string>
 	<key>PROJECT_ID</key>
 	<string>hoora-fb944</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1041066486499:ios:727c1b2dc1053c893133d6</string>
+	<string>1:1041066486499:ios:4b69bc5f4f62a93b3133d6</string>
 </dict>
 </plist>
