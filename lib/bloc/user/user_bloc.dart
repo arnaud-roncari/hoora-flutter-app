@@ -128,6 +128,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       if (!isAvailable) {
         emit(NicknameNotAvailable(nickname: event.nickname));
       } else {
+        /// At this point levels are not initialized.
+        /// The fetch of levels (such as cities) should be reworked.
+        /// It could/should be fetch from the main, and stored as global.
+        final List<Level> levels = await levelRepository.getAllLevels();
+
+        /// Sorting using the level var.
+        levels.sort((a, b) {
+          return a.level.compareTo(b.level);
+        });
+
+        /// Levels will be stored as a static var.
+        Level.levels = levels;
         await userRepository.setNickname(event.nickname);
         emit(SetNicknameSuccess());
       }
