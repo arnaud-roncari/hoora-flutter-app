@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoora/model/city_model.dart';
 import 'package:hoora/common/alert.dart';
@@ -76,8 +75,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       actualDate = DateTime.now();
 
       /// Then fetch spots
-      spots = await spotRepository.getAllSpots();
-      _filterSpots();
+      await _fetchSpots(emit);
 
       emit(InitSuccess());
     } catch (exception, stack) {
@@ -87,6 +85,23 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);
       emit(InitFailed(exception: alertException));
+    }
+  }
+
+  Future<void> _fetchSpots(Emitter<MapState> emit) async {
+    try {
+      await for (List<Spot> spotList in spotRepository.getAllSpots()) {
+        spots = spotList;
+        print('Spots updated:');
+        for (Spot spot in spots) {
+          print(spot.name);
+        }
+        _filterSpots();
+        emit(GetSpotsSuccess());
+      }
+    } catch (error) {
+      AlertException alertException = AlertException.fromException(error);
+      emit(GetSpotsFailed(exception: alertException));
     }
   }
 
@@ -100,23 +115,12 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     selectedRegion = event.region;
     selectedCity = event.city;
     emit(CitySelectedUpdated());
-    add(GetSpots());
+    await _fetchSpots(emit);
   }
 
   void getSpots(GetSpots event, Emitter<MapState> emit) async {
-    try {
-      emit(GetSpotsLoading());
-      spots = await spotRepository.getAllSpots();
-      _filterSpots();
-      emit(GetSpotsSuccess());
-    } catch (exception, stack) {
-      /// Report crash to Crashlytics
-      crashRepository.report(exception, stack);
-
-      /// Format exception to be displayed.
-      AlertException alertException = AlertException.fromException(exception);
-      emit(GetSpotsFailed(exception: alertException));
-    }
+    emit(GetSpotsLoading());
+    await _fetchSpots(emit);
   }
 
   void updateDate(UpdateDate event, Emitter<MapState> emit) async {
@@ -125,10 +129,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   }
 
   /// Filter spots based on gems, closing times and playlist.
-  /// There is a unique case of filtering with the playlist "To" (10
+  /// There is a unique case of filtering with the playlist "Top" (10
   /// best spots, based on score).
   /// PS: This one is different from explore page.
-  void _filterSpots() async {
+  void _filterSpots() {
     List<Spot> filteredSpots = [];
 
     /// Unique filtering case for "Top" playlist.

@@ -21,8 +21,12 @@ class ValidateSpotBloc extends Bloc<ValidateSpotEvent, ValidateSpotState> {
   void validateSpot(ValidateSpot event, Emitter<ValidateSpotState> emit) async {
     try {
       emit(ValidateSpotLoading());
+     
+     bool alreadyValidated = false;
 
-      bool alreadyValidated = await spotRepository.spotAlreadyValidated(event.spot);
+      await for (bool validationState in spotRepository.spotAlreadyValidated(event.spot)) {
+        alreadyValidated = validationState;
+      }
 
       if (alreadyValidated) {
         emit(SpotAlreadyValidated());

@@ -1,15 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hoora/common/alert.dart';
 import 'package:hoora/common/extension/hour_extension.dart';
 import 'package:hoora/model/city_model.dart';
-import 'package:hoora/common/alert.dart';
 import 'package:hoora/model/playlist_model.dart';
 import 'package:hoora/model/region_model.dart';
 import 'package:hoora/model/spot_model.dart';
-import 'package:hoora/repository/crowd_report_repository.dart';
+import 'package:hoora/repository/spot_repository.dart';
+import 'package:hoora/repository/crash_repository.dart';
 import 'package:hoora/repository/playlist_repository.dart';
 import 'package:hoora/repository/region_repository.dart';
-import 'package:hoora/repository/crash_repository.dart';
-import 'package:hoora/repository/spot_repository.dart';
+import 'package:hoora/repository/crowd_report_repository.dart';
 part 'explore_event.dart';
 part 'explore_state.dart';
 
@@ -30,10 +30,10 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
   late DateTime selectedDate;
 
   /// All spots fetched from the db.
-  late List<Spot> spots;
+  List<Spot> spots = [];
 
   /// Filtered spots (displayed)
-  late List<Spot> filteredSpots;
+  List<Spot> filteredSpots = [];
 
   ExploreBloc({
     required this.playlistRepository,
@@ -83,9 +83,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       selectedDate = selectedDate.copyWith(hour: DateTime.now().getFormattedHour());
 
       /// Then fetch spots
-      spots = await spotRepository.getSpotsByRegion(selectedRegion, selectedCity);
-      _filterSpots();
-
+      await _fetchSpots(emit);
       emit(InitSuccess());
     } catch (exception, stack) {
       /// Report crash to Crashlytics
@@ -94,6 +92,21 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       /// Format exception to be displayed.
       AlertException alertException = AlertException.fromException(exception);
       emit(InitFailed(exception: alertException));
+    }
+  }
+
+  Future<void> _fetchSpots(Emitter<ExploreState> emit) async {
+    try {
+      await for (List<Spot> spotsList in spotRepository.getSpotsByRegion(selectedRegion, selectedCity)) {
+        spots = spotsList;
+        _filterSpots();
+        if (emit.isDone) return;
+        emit(GetSpotsSuccess());
+      }
+    } catch (error) {
+      AlertException alertException = AlertException.fromException(error);
+      if (emit.isDone) return;
+      emit(GetSpotsFailed(exception: alertException));
     }
   }
 
@@ -107,7 +120,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
     selectedRegion = event.region;
     selectedCity = event.city;
     emit(CitySelectedUpdated());
-    add(GetSpots());
+    await _fetchSpots(emit);
   }
 
   void dateSelected(DateSelected event, Emitter<ExploreState> emit) async {
@@ -122,26 +135,13 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
     emit(InitSuccess());
   }
 
-  //// Called when a new city is selected.
   void getSpots(GetSpots event, Emitter<ExploreState> emit) async {
-    try {
-      emit(GetSpotsLoading());
-      spots = await spotRepository.getSpotsByRegion(selectedRegion, selectedCity);
-      _filterSpots();
-      emit(GetSpotsSuccess());
-    } catch (exception, stack) {
-      /// Report crash to Crashlytics
-      crashRepository.report(exception, stack);
-
-      /// Format exception to be displayed.
-      AlertException alertException = AlertException.fromException(exception);
-      emit(GetSpotsFailed(exception: alertException));
-    }
+    await _fetchSpots(emit);
   }
 
   /// Filter spots based on gems, closing times and playlist.
-  /// There is a unique case of filtering with the playlist "To" (10 best spots, based on score).
-  void _filterSpots() async {
+  /// There is a unique case of filtering with the playlist "Top" (10 best spots, based on score).
+  void _filterSpots() {
     List<Spot> filteredSpots = [];
 
     /// Unique filtering case for "Top" playlist.
