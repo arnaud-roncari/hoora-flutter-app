@@ -92,10 +92,6 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     try {
       await for (List<Spot> spotList in spotRepository.getAllSpots()) {
         spots = spotList;
-        print('Spots updated:');
-        for (Spot spot in spots) {
-          print(spot.name);
-        }
         _filterSpots();
         emit(GetSpotsSuccess());
       }
