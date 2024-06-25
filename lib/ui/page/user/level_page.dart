@@ -30,88 +30,91 @@ class _LevelPageState extends State<LevelPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kSecondary,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kPadding20),
-        child: Column(
-          children: [
-            SizedBox(height: MediaQuery.of(context).padding.top + kPadding20),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  CupertinoIcons.arrow_left,
-                  size: 32,
-                  color: kPrimary,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kPadding20),
+          child: Column(
+            children: [
+              SizedBox(height: MediaQuery.of(context).padding.top + kPadding20),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    CupertinoIcons.arrow_left,
+                    size: 32,
+                    color: kPrimary,
+                  ),
                 ),
               ),
-            ),
-            const Text(
-              "Votre impact positif\nest récompensé !",
-              style: kBoldARPDisplay18,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: kPadding40),
-            SizedBox(height: 50, child: getLevelSvg(level)),
-            const SizedBox(height: kPadding5),
-            const Text(
-              "Mon niveau",
-              style: kRegularNunito14,
-            ),
-            const SizedBox(height: kPadding5),
-            Text(
-              level.title,
-              style: kBoldARPDisplay11,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: kPadding40),
-            if (userBloc.user.level < Level.levels.last.level)
-              FractionallySizedBox(
-                widthFactor: 0.8,
-                child: Row(
-                  children: [
-                    Text(
-                      level.displayedLevel,
-                      style: kBoldARPDisplay11,
-                    ),
-                    const SizedBox(width: kPadding10),
-                    Expanded(
-                      child: GemProgressBar(
-                        value: userBloc.user.experience,
-                        goal: level.getNextLevel()!.experienceRequired,
-                      ),
-                    ),
-                    const SizedBox(width: kPadding10),
-                    Text(
-                      level.getNextLevel()!.displayedLevel,
-                      style: kBoldARPDisplay11,
-                    ),
-                  ],
-                ),
-              ),
-            const SizedBox(height: kPadding40),
-            const FractionallySizedBox(
-              widthFactor: 0.8,
-              child: Text(
-                "Tous vos gains depuis votre inscription sont comptabilisés et vous permettent de monter en niveau. Cumulez encore plus de points pour débloquer des récompenses toujours plus alléchantes !",
+              const Text(
+                "Votre impact positif\nest récompensé !",
+                style: kBoldARPDisplay18,
                 textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: kPadding40),
+              SizedBox(height: 50, child: getLevelSvg(level)),
+              const SizedBox(height: kPadding5),
+              const Text(
+                "Mon niveau",
                 style: kRegularNunito14,
               ),
-            ),
-            const SizedBox(height: kPadding20),
-            const FractionallySizedBox(
-              widthFactor: 0.8,
-              child: Text(
-                "Plus vous visitez durablement, plus vous êtes récompensés !",
+              const SizedBox(height: kPadding5),
+              Text(
+                level.title,
+                style: kBoldARPDisplay11,
                 textAlign: TextAlign.center,
-                style: kBoldNunito14,
               ),
-            ),
-            const SizedBox(height: kPadding40),
-            buildLevels(),
-          ],
+              const SizedBox(height: kPadding40),
+              if (userBloc.user.level < Level.levels.last.level)
+                FractionallySizedBox(
+                  widthFactor: 0.8,
+                  child: Row(
+                    children: [
+                      Text(
+                        level.displayedLevel,
+                        style: kBoldARPDisplay11,
+                      ),
+                      const SizedBox(width: kPadding10),
+                      Expanded(
+                        child: GemProgressBar(
+                          value: userBloc.user.experience,
+                          goal: level.getNextLevel()!.experienceRequired,
+                        ),
+                      ),
+                      const SizedBox(width: kPadding10),
+                      Text(
+                        level.getNextLevel()!.displayedLevel,
+                        style: kBoldARPDisplay11,
+                      ),
+                    ],
+                  ),
+                ),
+              const SizedBox(height: kPadding40),
+              const FractionallySizedBox(
+                widthFactor: 0.8,
+                child: Text(
+                  "Tous vos gains depuis votre inscription sont comptabilisés et vous permettent de monter en niveau. Cumulez encore plus de points pour débloquer des récompenses toujours plus alléchantes !",
+                  textAlign: TextAlign.center,
+                  style: kRegularNunito14,
+                ),
+              ),
+              const SizedBox(height: kPadding20),
+              const FractionallySizedBox(
+                widthFactor: 0.8,
+                child: Text(
+                  "Plus vous visitez durablement, plus vous êtes récompensés !",
+                  textAlign: TextAlign.center,
+                  style: kBoldNunito14,
+                ),
+              ),
+              const SizedBox(height: kPadding40),
+              buildLevels(),
+              SizedBox(height: MediaQuery.of(context).padding.bottom + kPadding20),
+            ],
+          ),
         ),
       ),
     );

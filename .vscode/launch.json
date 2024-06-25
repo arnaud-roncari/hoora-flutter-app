@@ -5,9 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Quehora app",
+            "name": "Quehora Staging",
             "request": "launch",
             "type": "dart",
+            "args": ["--flavor", "staging" ]
+        },
+        {
+            "name": "Quehora Production",
+            "request": "launch",
+            "type": "dart",
+            "args": ["--flavor", "production" ]
         }
+
     ]
 }

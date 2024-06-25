@@ -51,7 +51,6 @@ import 'package:hoora/ui/page/user/settings/profile_page.dart';
 import 'package:hoora/ui/page/user/settings/settings_page.dart';
 import 'package:hoora/ui/page/user/settings/traffic_point_explanation_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,7 +64,7 @@ void main() async {
   /// Set status bar to dark.
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp();
 
   /// Localhost
   // if (true) {
