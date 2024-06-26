@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hoora/bloc/challenge/challenge_bloc.dart' as challenge_bloc;
 import 'package:hoora/bloc/explore/explore_bloc.dart' as explore_bloc;
 import 'package:hoora/bloc/map/map_bloc.dart' as map_bloc;
+import 'package:hoora/bloc/offer/offer_bloc.dart' as offer_bloc;
+import 'package:hoora/bloc/project/project_bloc.dart' as project_bloc;
+import 'package:hoora/bloc/ranking/ranking_bloc.dart' as ranking_bloc;
 import 'package:hoora/bloc/user/user_bloc.dart' as user_bloc;
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/ui/page/challenge_page.dart';
@@ -60,12 +64,13 @@ class _HomePageState extends State<HomePage> {
               child: Navigation(
                 onChanged: (page) {
                   setState(() {
+                    context.read<user_bloc.UserBloc>().add(user_bloc.Init());
+                    if (page == 1) context.read<offer_bloc.OfferBloc>().add(offer_bloc.Init());
+                    if (page == 1) context.read<project_bloc.ProjectBloc>().add(project_bloc.Init());
+                    if (page == 3) context.read<challenge_bloc.ChallengeBloc>().add(challenge_bloc.Init());
+                    if (page == 4) context.read<ranking_bloc.RankingBloc>().add(ranking_bloc.Init());
                     controller.jumpToPage(page);
-                    if (page == 2) {
-                      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-                    } else {
-                      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-                    }
+                    SystemChrome.setSystemUIOverlayStyle(page == 2 ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark);
                   });
                 },
               ),

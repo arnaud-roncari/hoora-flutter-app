@@ -24,7 +24,6 @@ class _OffersPageState extends State<OffersPage> with AutomaticKeepAliveClientMi
   void initState() {
     super.initState();
     offerBloc = context.read<OfferBloc>();
-    offerBloc.add(Init());
   }
 
   @override

@@ -188,6 +188,7 @@ class HooraApp extends StatelessWidget {
                 offerRepository: context.read<OfferRepository>(),
                 companyRepository: context.read<CompanyRepository>(),
                 crashRepository: context.read<CrashRepository>(),
+                levelRepository: context.read<LevelRepository>()
               ),
             ),
             BlocProvider(
