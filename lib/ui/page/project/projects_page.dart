@@ -20,7 +20,6 @@ class _ProjectsPageState extends State<ProjectsPage> with AutomaticKeepAliveClie
   void initState() {
     super.initState();
     projectBloc = context.read<ProjectBloc>();
-    projectBloc.add(Init());
   }
 
   @override

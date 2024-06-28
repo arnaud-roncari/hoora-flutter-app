@@ -70,7 +70,9 @@ class LevelCard extends StatelessWidget {
   }
 
   Widget getLevelSvg(Level level) {
-    return FutureBuilder<String>(
+    return SizedBox(
+      width: 60,
+      child: FutureBuilder<String>(
         future: FirebaseStorage.instance.ref().child("level/${level.imagePath}").getDownloadURL(),
         builder: (_, snapshot) {
           if (snapshot.hasData) {
@@ -80,6 +82,7 @@ class LevelCard extends StatelessWidget {
             );
           }
           return const SizedBox();
-        });
+          }),
+    );
   }
 }

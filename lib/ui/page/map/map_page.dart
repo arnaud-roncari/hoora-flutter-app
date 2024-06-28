@@ -5,10 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:hoora/bloc/first_launch/first_launch_bloc.dart';
 import 'package:hoora/bloc/map/map_bloc.dart';
 import 'package:hoora/common/decoration.dart';
-import 'package:hoora/common/globals.dart';
 import 'package:hoora/model/city_model.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:hoora/model/playlist_model.dart';
@@ -33,11 +31,10 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
   bool isCategoriesDisplayed = false;
   LatLng? userPosition;
   double zoom = 15;
-
+  
   @override
   void initState() {
     super.initState();
-
     /// Update user position
     Geolocator.getPositionStream().listen((Position? position) {
       if (position != null) {
@@ -56,8 +53,8 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
-    RequestGeolocation();
     super.build(context);
+
     return BlocConsumer<MapBloc, MapState>(
       listener: (context, state) {
         if (state is CitySelectedUpdated) {
@@ -87,7 +84,7 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
             ),
           ),
           children: [
-            TileLayer(urlTemplate: mapBoxUrl),
+          TileLayer(urlTemplate: context.read<MapBloc>().mapBoxUrl),
             MarkerLayer(
               markers: buildSpotMarkers(),
             ),
@@ -161,7 +158,8 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin {
             ))
           ],
         );
-      },
+    }
+    
     );
   }
 

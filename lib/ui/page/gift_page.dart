@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hoora/bloc/offer/offer_bloc.dart' as offer_bloc;
+import 'package:hoora/bloc/project/project_bloc.dart' as project_bloc;
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/ui/page/offer/offers_page.dart';
 import 'package:hoora/ui/page/project/projects_page.dart';
@@ -76,6 +79,7 @@ class _GiftPageState extends State<GiftPage> {
               highlightColor: Colors.transparent,
               onTap: () {
                 if (pageIndex != 0) {
+                  context.read<offer_bloc.OfferBloc>().add(offer_bloc.Init());
                   controller.jumpToPage(0);
                   setState(() {
                     pageIndex = 0;
@@ -111,6 +115,7 @@ class _GiftPageState extends State<GiftPage> {
               highlightColor: Colors.transparent,
               onTap: () {
                 if (pageIndex != 1) {
+                  context.read<project_bloc.ProjectBloc>().add(project_bloc.Init());
                   controller.jumpToPage(1);
                   setState(() {
                     pageIndex = 1;

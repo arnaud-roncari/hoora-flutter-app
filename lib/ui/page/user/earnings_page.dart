@@ -17,12 +17,11 @@ class EarningsPage extends StatefulWidget {
 }
 
 class _EarningsPageState extends State<EarningsPage> {
-  late UserBloc userBloc;
 
   @override
   void initState() {
     super.initState();
-    userBloc = context.read<UserBloc>();
+    context.read<UserBloc>().add(Init());
   }
 
   @override
@@ -76,7 +75,7 @@ class _EarningsPageState extends State<EarningsPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    userBloc.user.gem.toString(),
+                                    context.read<UserBloc>().user.gem.toString(),
                                     style: kBoldARPDisplay25.copyWith(color: Colors.white),
                                   ),
                                   const SizedBox(height: kPadding5),
@@ -120,8 +119,8 @@ class _EarningsPageState extends State<EarningsPage> {
   List<Widget> buildUnlockedOffers() {
     List<Widget> children = [];
 
-    for (int index = 0; index < userBloc.unlockedOffers.length; index++) {
-      Offer unlockedOffer = userBloc.unlockedOffers[index];
+    for (int index = 0; index < context.read<UserBloc>().unlockedOffers.length; index++) {
+      Offer unlockedOffer = context.read<UserBloc>().unlockedOffers[index];
       EdgeInsetsGeometry padding = const EdgeInsets.only(bottom: 10);
 
       children.add(Padding(

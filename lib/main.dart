@@ -85,7 +85,8 @@ void main() async {
   };
 
   /// Null if first time lauching.
-  String? isFirstLaunch = (await SharedPreferences.getInstance()).getString(kSSKeyFirstLaunch);
+  String? isFirstLaunch = (await SharedPreferences.getInstance())
+      .getString(AppConstants.kSSKeyFirstLaunch);
 
   User? user = FirebaseAuth.instance.currentUser;
 
@@ -188,6 +189,7 @@ class HooraApp extends StatelessWidget {
                 offerRepository: context.read<OfferRepository>(),
                 companyRepository: context.read<CompanyRepository>(),
                 crashRepository: context.read<CrashRepository>(),
+                levelRepository: context.read<LevelRepository>()
               ),
             ),
             BlocProvider(

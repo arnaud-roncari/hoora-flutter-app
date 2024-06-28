@@ -6,6 +6,7 @@ import 'package:hoora/model/offer_model.dart';
 import 'package:hoora/model/unlocked_offer_model.dart';
 import 'package:hoora/repository/company_repository.dart';
 import 'package:hoora/repository/crash_repository.dart';
+import 'package:hoora/repository/level_repository.dart';
 import 'package:hoora/repository/offer_repository.dart';
 
 part 'offer_event.dart';
@@ -15,6 +16,7 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
   final CrashRepository crashRepository;
   final OfferRepository offerRepository;
   final CompanyRepository companyRepository;
+  final LevelRepository levelRepository;
 
   List<List<Offer>> categories = [];
 
@@ -22,6 +24,7 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
     required this.crashRepository,
     required this.offerRepository,
     required this.companyRepository,
+    required this.levelRepository,
   }) : super(InitLoading()) {
     on<Init>(initialize);
     on<Unlock>(unlock);
@@ -36,11 +39,20 @@ class OfferBloc extends Bloc<OfferEvent, OfferState> {
         companyRepository.getAllCompanies(),
         offerRepository.getOffers(),
         offerRepository.getUnlockedOffers(),
+        levelRepository.getAllLevels()
       ]);
+
+      Level.levels = futures[3];
+
+      Level.levels.sort((a, b) {
+        return a.level.compareTo(b.level);
+      });
 
       List<Company> companies = futures[0];
       List<Offer> offers = futures[1];
       List<UnlockedOffer> unlockedOffers = futures[2];
+
+      categories = [];
 
       /// Init categories
       for (Level _ in Level.levels) {

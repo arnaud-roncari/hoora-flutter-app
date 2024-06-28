@@ -241,7 +241,7 @@ class OfferPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Text(
-                    'Êtes-vous sûr(e) de vouloir échanger vos Points contre cette prestation ? Veuillez noter que cette action est définitive et ne peut être annulée.',
+                    'Êtes-vous sûr(e) de vouloir échanger vos Diamz contre cette prestation ? Veuillez noter que cette action est définitive et ne peut être annulée.',
                     style: kRegularNunito14,
                     textAlign: TextAlign.center,
                   ),
@@ -325,8 +325,14 @@ class OfferPage extends StatelessWidget {
   Widget buildConditions() {
     List<Widget> children = [];
 
-    for (String key in offer.conditions.keys) {
-      String value = offer.conditions[key]!;
+    // Obtenez les entrées de la map et triez-les par clé
+    var sortedEntries = offer.conditions.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key));
+
+    // Parcourez les entrées triées pour construire les widgets
+    for (var entry in sortedEntries) {
+      String key = entry.key.substring(1);
+      String value = entry.value;
 
       children.add(
         Padding(
@@ -348,6 +354,7 @@ class OfferPage extends StatelessWidget {
         ),
       );
     }
+  
     return Column(
       children: children,
     );

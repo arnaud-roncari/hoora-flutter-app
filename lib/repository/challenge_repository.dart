@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hoora/common/active_flavor.dart';
+import 'package:hoora/common/flavors.dart';
 import 'package:hoora/model/challenge_model.dart';
 import 'package:hoora/model/unlocked_challenge_model.dart';
 import 'package:http/http.dart' as http;
@@ -36,7 +38,9 @@ class ChallengeRepository {
 
   Future<void> claimUnlockedChallenge(String unlockedChallengeId) async {
     // final url = Uri.parse('http://127.0.0.1:5001/hoora-fb944/us-central1/claimUnlockedChallenge');
-    final url = Uri.parse('https://claimunlockedchallenge-nmciz2db3a-uc.a.run.app');
+    final url = QuehoraActiveFlavor.activeFlavor == Flavor.production
+        ? Uri.parse('https://claimunlockedchallenge-nmciz2db3a-uc.a.run.app')
+        : Uri.parse('https://claimunlockedchallenge-5lgw4vxlaa-uc.a.run.app');
     await http.post(
       url,
       body: {

@@ -96,7 +96,7 @@ class _LevelPageState extends State<LevelPage> {
               const FractionallySizedBox(
                 widthFactor: 0.8,
                 child: Text(
-                  "Tous vos gains depuis votre inscription sont comptabilisés et vous permettent de monter en niveau. Cumulez encore plus de points pour débloquer des récompenses toujours plus alléchantes !",
+                  "Tous vos gains depuis votre inscription sont comptabilisés et vous permettent de monter en niveau. Cumulez encore plus de Diamz pour débloquer des récompenses toujours plus alléchantes !",
                   textAlign: TextAlign.center,
                   style: kRegularNunito14,
                 ),

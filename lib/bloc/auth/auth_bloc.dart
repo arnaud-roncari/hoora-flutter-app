@@ -158,7 +158,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await authRepository.delete();
 
       /// Reset first launch
-      (await SharedPreferences.getInstance()).setString(kSSKeyFirstLaunch, "");
+      (await SharedPreferences.getInstance())
+          .setString(AppConstants.kSSKeyFirstLaunch, "");
 
       emit(DeleteSuccess());
     } catch (exception) {

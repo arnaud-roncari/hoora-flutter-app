@@ -29,7 +29,7 @@ class OfferCard extends StatelessWidget {
             }
           : null,
       child: Container(
-        height: 160,
+        height: 170,
         width: getWidth(context),
         decoration: BoxDecoration(
           color: kBackground,
@@ -87,8 +87,8 @@ class OfferCard extends StatelessWidget {
                               Text(
                                 offer.company!.name,
                                 style: kBoldARPDisplay14,
-                                maxLines: 1,
-                                overflow: TextOverflow.clip,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
                               const SizedBox(height: kPadding5),
                               Text(

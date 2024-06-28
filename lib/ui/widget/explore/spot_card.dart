@@ -17,6 +17,8 @@ class SpotCard extends StatelessWidget {
   Widget build(BuildContext context) {
     DateTime selectedDate = context.read<ExploreBloc>().selectedDate;
 
+    print(selectedDate);
+
     return Container(
       height: 120,
       width: double.infinity,
@@ -82,9 +84,11 @@ class SpotCard extends StatelessWidget {
                     children: [
                       Text(
                         spot.name,
-                        style: kBoldARPDisplay12.copyWith(color: Colors.white),
+                        style: kBoldARPDisplay12.copyWith(
+                            color: Colors.white, height: 1.1),
                         overflow: TextOverflow.clip,
                         maxLines: 2,
+                        
                       ),
                       const SizedBox(height: kPadding5),
                       Text(
@@ -97,16 +101,18 @@ class SpotCard extends StatelessWidget {
 
                       /// ------
                       LayoutBuilder(builder: (context, constraint) {
+                        var parentSize = constraint.maxWidth;
                         return SizedBox(
                           height: 30,
                           width: constraint.maxWidth,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              /// ---
-                              if (spot.hasCrowdReportAt(selectedDate))
-                                Expanded(
-                                  child: Row(
+                              SizedBox(
+                                  width: parentSize * 0.36,
+                                  child: spot.hasCrowdReportAt(selectedDate)
+                                      ? Row(
                                     children: [
                                       SvgPicture.asset(
                                         "assets/svg/smiley_${spot.lastCrowdReport!.intensity}.svg",
@@ -125,11 +131,14 @@ class SpotCard extends StatelessWidget {
                                       ),
                                       const SizedBox(width: kPadding5),
                                     ],
-                                  ),
+                                        )
+                                      : Container()
                                 ),
-
-                              if (spot.hasCrowdReportAt(selectedDate) && spot.isAwaitingTimeAt(selectedDate))
-                                Row(
+                              SizedBox(
+                                  width: parentSize * 0.23,
+                                  child: spot.hasCrowdReportAt(selectedDate) &&
+                                          spot.isAwaitingTimeAt(selectedDate)
+                                      ? Row(
                                   children: [
                                     SvgPicture.asset(
                                       "assets/svg/hour_glass.svg",
@@ -143,7 +152,9 @@ class SpotCard extends StatelessWidget {
                                       ),
                                     ),
                                     const SizedBox(width: kPadding5),
-                                  ],
+                                          ],
+                                        )
+                                      : Container()
                                 ),
                               Container(
                                 height: 30,
@@ -182,6 +193,7 @@ class SpotCard extends StatelessWidget {
                                     const SizedBox(width: kPadding10),
                                   ],
                                 ),
+                                
                               ),
                             ],
                           ),

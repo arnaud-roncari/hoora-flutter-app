@@ -12,6 +12,128 @@ import 'package:hoora/model/tarification_model.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 
+var fallback = [
+      {
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0,
+        "13": 0,
+        "14": 0,
+        "15": 0,
+        "16": 0,
+        "17": 0,
+        "18": 0,
+        "19": 0,
+        "20": 0,
+        "21": 0
+      },
+      {
+          "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0,
+        "13": 0,
+        "14": 0,
+        "15": 0,
+        "16": 0,
+        "17": 0,
+        "18": 0,
+        "19": 0,
+        "20": 0,
+        "21": 0
+      },
+      {
+          "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0,
+        "13": 0,
+        "14": 0,
+        "15": 0,
+        "16": 0,
+        "17": 0,
+        "18": 0,
+        "19": 0,
+        "20": 0,
+        "21": 0
+      },
+      {
+          "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0,
+        "13": 0,
+        "14": 0,
+        "15": 0,
+        "16": 0,
+        "17": 0,
+        "18": 0,
+        "19": 0,
+        "20": 0,
+        "21": 0
+      },
+      {
+          "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0,
+        "13": 0,
+        "14": 0,
+        "15": 0,
+        "16": 0,
+        "17": 0,
+        "18": 0,
+        "19": 0,
+        "20": 0,
+        "21": 0
+      },
+      {
+          "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0,
+        "13": 0,
+        "14": 0,
+        "15": 0,
+        "16": 0,
+        "17": 0,
+        "18": 0,
+        "19": 0,
+        "20": 0,
+        "21": 0
+      },
+      {
+          "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0,
+        "13": 0,
+        "14": 0,
+        "15": 0,
+        "16": 0,
+        "17": 0,
+        "18": 0,
+        "19": 0,
+        "20": 0,
+        "21": 0
+      }
+    ];
+
 class Spot {
   final String id;
   final String name;
@@ -103,10 +225,10 @@ class Spot {
       regionName: Region.getRegionNameFromId(doc["regionId"]),
       playlistIds: List<String>.from(doc['playlistIds']),
       density: List<int>.from(doc['density']),
-      trafficPoints: List<Map<String, int>>.from(doc["trafficPoints"].map((from) {
+      trafficPoints: doc.data().toString().contains('trafficPoints') ? List<Map<String, int>>.from(doc["trafficPoints"].map((from) {
         Map<String, int> to = Map<String, int>.from(from);
         return to;
-      })),
+      })) : fallback,
       popularTimes: List<Map<String, int>>.from(doc["popularTimes"].map((from) {
         Map<String, int> to = Map<String, int>.from(from);
         return to;

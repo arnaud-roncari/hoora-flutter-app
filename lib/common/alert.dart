@@ -47,6 +47,8 @@ class AlertException {
   factory AlertException.fromException(Object exception) {
     String message = "Oups... Une erreur est survenue.";
 
+    print(exception);
+
     if (exception is FirebaseAuthException) {
       switch (exception.code) {
         case "email-already-exists":

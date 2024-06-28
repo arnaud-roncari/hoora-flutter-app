@@ -66,7 +66,8 @@ class _SpotValidationPageState extends State<SpotValidationPage> {
                         ),
                       ),
                       const Spacer(),
-                      Lottie.asset("assets/animations/spot_already_validated.json", fit: BoxFit.cover),
+                      Lottie.asset("assets/animations/chest.json",
+                          fit: BoxFit.cover),
                       const SizedBox(height: kPadding20),
                       const Text(
                         "Vous avez déjà visité ce site, revenez demain !",

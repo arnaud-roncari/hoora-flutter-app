@@ -27,7 +27,6 @@ class _ChallengePageState extends State<ChallengePage>
   void initState() {
     super.initState();
     challengeBloc = context.read<ChallengeBloc>();
-    challengeBloc.add(Init());
     controller = AnimationController(vsync: this);
     controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {

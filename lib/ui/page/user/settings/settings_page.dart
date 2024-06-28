@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hoora/bloc/auth/auth_bloc.dart';
-import 'package:hoora/bloc/user/user_bloc.dart';
+import 'package:hoora/bloc/user/user_bloc.dart' as user_bloc;
 import 'package:hoora/common/alert.dart';
 import 'package:hoora/common/decoration.dart';
 import 'package:hoora/ui/page/auth/sign_up.dart';
@@ -17,6 +17,14 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<user_bloc.UserBloc>().add(user_bloc.Init());
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +62,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
                   child: const Text(
-                    "Comment sont calculés mes points ?",
+                    "Comment sont calculés mes Diamz ?",
                     style: kRegularNunito16,
                   ),
                 ),
@@ -177,7 +185,7 @@ class _SettingsPageState extends State<SettingsPage> {
             const Text("Bravo !", style: kBoldARPDisplay25),
             const SizedBox(height: kPadding10),
             Text(
-              "Grâce à vos visites hors pic, vous avez allégé la fréquentation de ${context.read<UserBloc>().user.amountSpotValidated} sites.",
+              "Grâce à vos visites hors pic, vous avez allégé la fréquentation de ${context.read<user_bloc.UserBloc>().user.amountSpotValidated} sites.",
               style: kRegularNunito14,
             ),
             const SizedBox(height: kPadding10),
@@ -346,7 +354,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   const SizedBox(height: kPadding10),
                   const Text(
-                    'En supprimant votre compte, vous perdrez l\'ensemble de votre progression, vos points, vos avantages et tous vos achats en cours seront annulés.',
+                    'En supprimant votre compte, vous perdrez l\'ensemble de votre progression, vos Diamz, vos avantages et tous vos achats en cours seront annulés.',
                     style: kRegularNunito12,
                     textAlign: TextAlign.center,
                   ),

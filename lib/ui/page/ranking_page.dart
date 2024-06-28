@@ -22,7 +22,6 @@ class _RankingPageState extends State<RankingPage> with AutomaticKeepAliveClient
   void initState() {
     super.initState();
     rankingBloc = context.read<RankingBloc>();
-    rankingBloc.add(Init());
   }
 
   @override
