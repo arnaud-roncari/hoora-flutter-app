@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hoora/common/active_flavor.dart';
+import 'package:hoora/common/flavors.dart';
 import 'package:hoora/model/city_model.dart';
 import 'package:hoora/model/region_model.dart';
 import 'package:hoora/model/spot_model.dart';
@@ -30,28 +32,29 @@ class SpotRepository {
     return instance.collection("spot").snapshots().map((snapshot) => Spot.fromSnapshots(snapshot.docs));
   }
 
-  Stream<bool> spotAlreadyValidated(Spot spot) {
-    return instance
+  Future<bool> spotAlreadyValidated(Spot spot) async {
+    QuerySnapshot snapshot = await instance
         .collection("spotValidation")
         .where("spotId", isEqualTo: spot.id)
         .where("userId", isEqualTo: authInstance.currentUser!.uid)
         .orderBy("createdAt", descending: true)
         .limit(1)
-        .snapshots()
-        .map((snapshot) {
-      if (snapshot.docs.isEmpty) {
-        return false;
-      }
+        .get();
 
-      DateTime createdAt = (snapshot.docs[0]["createdAt"] as Timestamp).toDate();
-      DateTime end = DateTime.now();
+    if (snapshot.docs.isEmpty) {
+      return false;
+    }
 
-      return createdAt.day == end.day;
-    });
+    DateTime createdAt = (snapshot.docs[0]["createdAt"] as Timestamp).toDate();
+    DateTime end = DateTime.now();
+
+    return createdAt.day == end.day;
   }
 
   Future<void> validateSpot(Spot spot) async {
-    final url = Uri.parse('https://validatespot-nmciz2db3a-uc.a.run.app');
+    final url = QuehoraActiveFlavor.activeFlavor == Flavor.production
+        ? Uri.parse('https://validatespot-nmciz2db3a-uc.a.run.app')
+        : Uri.parse('https://validatespot-5lgw4vxlaa-uc.a.run.app');
     await http.post(
       url,
       body: {'spotId': spot.id},

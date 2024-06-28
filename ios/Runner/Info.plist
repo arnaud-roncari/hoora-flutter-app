@@ -73,6 +73,6 @@
 		<key>UIStatusBarHidden</key>
 		<false/>
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string>Quehora need to access to the phone position, to display spots around users.</string>
+		<string>Quehora a besoin de votre position pour valider votre visite.</string>
 	</dict>
 </plist>

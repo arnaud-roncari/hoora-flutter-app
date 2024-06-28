@@ -1,20 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hoora/common/active_flavor.dart';
+import 'package:hoora/common/flavors.dart';
 import 'package:http/http.dart' as http;
 
 class CrowdReportRepository {
   FirebaseFirestore instance = FirebaseFirestore.instance;
   final FirebaseAuth authInstance = FirebaseAuth.instance;
 
-  Future<void> createCrowdReport(String spotId, int intensity, String duration) async {
+  Future<void> createCrowdReport(String spotId, int intensity, String duration,
+      GeoPoint coordinates) async {
     // final url = Uri.parse('http://127.0.0.1:5001/hoora-fb944/us-central1/createCrowdReport');
-    final url = Uri.parse('https://createcrowdreport-nmciz2db3a-uc.a.run.app');
+    final url = QuehoraActiveFlavor.activeFlavor == Flavor.production
+        ? Uri.parse('https://createcrowdreport-nmciz2db3a-uc.a.run.app')
+        : Uri.parse('https://createcrowdreport-5lgw4vxlaa-uc.a.run.app');
     await http.post(
       url,
       body: {
         'spotId': spotId,
         'intensity': intensity.toString(),
         'duration': duration,
+        'coordinates': coordinates.toString(),
       },
       headers: {
         "authorization": "Bearer ${await authInstance.currentUser!.getIdToken()}",

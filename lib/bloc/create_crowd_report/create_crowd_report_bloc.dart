@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoora/common/alert.dart';
 import 'package:hoora/repository/crowd_report_repository.dart';
@@ -21,7 +22,8 @@ class CreateCrowdReportBloc extends Bloc<CreateCrowdReportEvent, CreateCrowdRepo
   void createCrowdReport(CreateCrowdReport event, Emitter<CreateCrowdReportState> emit) async {
     try {
       emit(CreateCrowdReportLoading());
-      await crowdReportRepository.createCrowdReport(event.spotId, event.intensity, event.duration);
+      await crowdReportRepository.createCrowdReport(
+          event.spotId, event.intensity, event.duration, event.coordinates);
 
       emit(CreateCrowdReportSuccess());
     } catch (exception, stack) {

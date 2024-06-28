@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hoora/common/globals.dart';
 import 'package:hoora/model/city_model.dart';
 import 'package:hoora/common/alert.dart';
 import 'package:hoora/model/playlist_model.dart';
@@ -36,6 +37,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   /// Filtered spots (displayed)
   late List<Spot> filteredSpots;
 
+  late String mapBoxUrl =
+      "https://api.mapbox.com/styles/v1/devhoora/clulcc0x700le01nt1509c14f/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZGV2aG9vcmEiLCJhIjoiY2x1bGMwcXQxMGpxNTJrbHcwMHlsb2FkMiJ9.QeSomxVwnjxWJBmmJA__FA";
+
+
   MapBloc({
     required this.playlistRepository,
     required this.spotRepository,
@@ -53,6 +58,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   void initialize(Init event, Emitter<MapState> emit) async {
     try {
       emit(InitLoading());
+      await getActiveMapBoxUrl();
+
       List future = await Future.wait([
         playlistRepository.getPlaylists(),
         areaRepository.getAllRegions(),
@@ -151,5 +158,14 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     }
 
     this.filteredSpots = filteredSpots;
+  }
+
+  Future<void> getActiveMapBoxUrl() async {
+    try {
+      final url = await AppConstants.getMapBoxUrl();
+      mapBoxUrl = url;
+    } catch (error) {
+      print(error);
+    }
   }
 }

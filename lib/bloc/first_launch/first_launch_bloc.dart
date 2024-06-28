@@ -13,7 +13,8 @@ class FirstLaunchBloc extends Bloc<FirstLaunchEvent, FirstLaunchState> {
   }
 
   void setFirstLaunch(SetFirstLaunch event, Emitter<FirstLaunchState> emit) async {
-    (await SharedPreferences.getInstance()).setString(kSSKeyFirstLaunch, "false");
+    (await SharedPreferences.getInstance())
+        .setString(AppConstants.kSSKeyFirstLaunch, "false");
     emit(FirstLaunchSet());
   }
 

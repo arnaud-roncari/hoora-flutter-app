@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hoora/common/active_flavor.dart';
+import 'package:hoora/common/flavors.dart';
 import 'package:hoora/model/offer_model.dart';
 import 'package:hoora/model/unlocked_offer_model.dart';
 import 'package:http/http.dart' as http;
@@ -64,7 +66,9 @@ class OfferRepository {
 
   Future<void> unlockOffer(String offerId) async {
     // final url = Uri.parse('http://127.0.0.1:5001/hoora-fb944/us-central1/unlockOffer');
-    final url = Uri.parse('https://unlockoffer-nmciz2db3a-uc.a.run.app');
+    final url = QuehoraActiveFlavor.activeFlavor == Flavor.production
+        ? Uri.parse('https://unlockoffer-nmciz2db3a-uc.a.run.app')
+        : Uri.parse('https://unlockoffer-5lgw4vxlaa-uc.a.run.app');
     await http.post(
       url,
       body: {

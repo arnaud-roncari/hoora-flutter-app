@@ -80,7 +80,7 @@ class _OffersPageState extends State<OffersPage> with AutomaticKeepAliveClientMi
                         const SizedBox(height: kPadding10),
                         SizedBox(
                           /// 10 for the shadow to be displayed
-                          height: 160 + 10,
+                          height: 170 + 10,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: offers.length,

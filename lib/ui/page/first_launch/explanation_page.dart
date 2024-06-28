@@ -134,7 +134,7 @@ class _ExplanationPageState extends State<ExplanationPage> {
                               const FractionallySizedBox(
                                 widthFactor: 0.9,
                                 child: Text(
-                                  "Validez votre visite en heure creuse ou signalez une affluence et gagnez des points !",
+                                  "Validez votre visite en heure creuse ou signalez une affluence et gagnez des Diamz !",
                                   style: kRegularNunito20,
                                   textAlign: TextAlign.center,
                                 ),
@@ -153,7 +153,9 @@ class _ExplanationPageState extends State<ExplanationPage> {
                               SizedBox(
                                 height: constraints.maxHeight * 0.40,
                                 child: FractionallySizedBox(
-                                    widthFactor: 0.5, child: Lottie.asset("assets/animations/chest.json")),
+                                    widthFactor: 0.5,
+                                    child: Lottie.asset(
+                                        "assets/animations/treasure.json")),
                               ),
                               SizedBox(height: constraints.maxHeight * 0.15),
                               const Text(
@@ -164,7 +166,7 @@ class _ExplanationPageState extends State<ExplanationPage> {
                               const FractionallySizedBox(
                                 widthFactor: 0.9,
                                 child: Text(
-                                  "Échangez vos points contre des avantages exclusifs ! Votre contribution à un tourisme responsable est récompensée !",
+                                  "Échangez vos Diamz contre des avantages exclusifs ! Votre contribution à un tourisme responsable est récompensée !",
                                   style: kRegularNunito20,
                                   textAlign: TextAlign.center,
                                 ),

@@ -62,7 +62,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
                   child: const Text(
-                    "Comment sont calculés mes points ?",
+                    "Comment sont calculés mes Diamz ?",
                     style: kRegularNunito16,
                   ),
                 ),
@@ -354,7 +354,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   const SizedBox(height: kPadding10),
                   const Text(
-                    'En supprimant votre compte, vous perdrez l\'ensemble de votre progression, vos points, vos avantages et tous vos achats en cours seront annulés.',
+                    'En supprimant votre compte, vous perdrez l\'ensemble de votre progression, vos Diamz, vos avantages et tous vos achats en cours seront annulés.',
                     style: kRegularNunito12,
                     textAlign: TextAlign.center,
                   ),

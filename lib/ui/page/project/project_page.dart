@@ -117,7 +117,9 @@ class ProjectPage extends StatelessWidget {
                     ),
 
                     const SizedBox(height: kPadding5),
-                    const Center(child: Text("Points récoltés / Objectif", style: kRegularNunito12)),
+                    const Center(
+                        child: Text("Diamz récoltés / Objectif",
+                            style: kRegularNunito12)),
                     const SizedBox(height: kPadding20),
 
                     buildDescriptions(),
@@ -137,19 +139,26 @@ class ProjectPage extends StatelessWidget {
   Widget buildDescriptions() {
     List<Widget> children = [];
 
-    for (String key in project.descriptions.keys) {
-      String value = project.descriptions[key]!;
+    // Obtenez les entrées de la map et triez-les par clé
+    var sortedEntries = project.descriptions.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key));
+
+    // Parcourez les entrées triées pour construire les widgets
+    for (var entry in sortedEntries) {
+      String key = entry.key;
+      String value = entry.value;
 
       children.add(Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(key, style: kBoldNunito12),
+          Text(key.substring(1), style: kBoldNunito12),
           const SizedBox(height: kPadding10),
           Text(value, style: kRegularNunito12),
           const SizedBox(height: kPadding20),
         ],
       ));
     }
+  
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: children,
@@ -270,7 +279,7 @@ class ProjectPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Text(
-                    'Êtes-vous sûr(e) de vouloir échanger vos Points contre cette prestation ? Veuillez noter que cette action est définitive et ne peut être annulée.',
+                    'Êtes-vous sûr(e) de vouloir échanger vos Diamz contre cette prestation ? Veuillez noter que cette action est définitive et ne peut être annulée.',
                     style: kRegularNunito14,
                     textAlign: TextAlign.center,
                   ),

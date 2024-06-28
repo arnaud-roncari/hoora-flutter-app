@@ -85,7 +85,8 @@ void main() async {
   };
 
   /// Null if first time lauching.
-  String? isFirstLaunch = (await SharedPreferences.getInstance()).getString(kSSKeyFirstLaunch);
+  String? isFirstLaunch = (await SharedPreferences.getInstance())
+      .getString(AppConstants.kSSKeyFirstLaunch);
 
   User? user = FirebaseAuth.instance.currentUser;
 

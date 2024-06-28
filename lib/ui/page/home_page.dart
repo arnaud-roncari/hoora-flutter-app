@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hoora/bloc/challenge/challenge_bloc.dart' as challenge_bloc;
 import 'package:hoora/bloc/explore/explore_bloc.dart' as explore_bloc;
+import 'package:hoora/bloc/first_launch/first_launch_bloc.dart'
+    as first_launch_bloc;
 import 'package:hoora/bloc/map/map_bloc.dart' as map_bloc;
 import 'package:hoora/bloc/offer/offer_bloc.dart' as offer_bloc;
 import 'package:hoora/bloc/project/project_bloc.dart' as project_bloc;
@@ -31,7 +33,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     context.read<user_bloc.UserBloc>().add(user_bloc.Init());
     context.read<explore_bloc.ExploreBloc>().add(explore_bloc.Init());
-    context.read<map_bloc.MapBloc>().add(map_bloc.Init());
   }
 
   @override
@@ -67,6 +68,14 @@ class _HomePageState extends State<HomePage> {
                     context.read<user_bloc.UserBloc>().add(user_bloc.Init());
                     if (page == 1) context.read<offer_bloc.OfferBloc>().add(offer_bloc.Init());
                     if (page == 1) context.read<project_bloc.ProjectBloc>().add(project_bloc.Init());
+                    if (page == 2) {
+                      context.read<map_bloc.MapBloc>().add(map_bloc.Init());
+                    }
+                    if (page == 2) {
+                      context
+                          .read<first_launch_bloc.FirstLaunchBloc>()
+                          .add(first_launch_bloc.RequestGeolocation());
+                    }
                     if (page == 3) context.read<challenge_bloc.ChallengeBloc>().add(challenge_bloc.Init());
                     if (page == 4) context.read<ranking_bloc.RankingBloc>().add(ranking_bloc.Init());
                     controller.jumpToPage(page);

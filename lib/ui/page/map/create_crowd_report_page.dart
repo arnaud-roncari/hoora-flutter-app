@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hoora/bloc/create_crowd_report/create_crowd_report_bloc.dart';
 import 'package:hoora/bloc/user/user_bloc.dart';
 import 'package:hoora/common/sentences.dart';
@@ -13,6 +15,7 @@ import 'package:hoora/model/spot_model.dart';
 import 'package:hoora/ui/page/map/crowd_report_validation.dart';
 import 'package:hoora/ui/widget/map/intensity_slider.dart';
 import 'package:hoora/ui/widget/map/duration_button.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:lottie/lottie.dart';
 
 class CreateCrowdReportPage extends StatefulWidget {
@@ -27,10 +30,23 @@ class _CreateCrowdReportPageState extends State<CreateCrowdReportPage> {
   int hour = 0;
   int minute = 0;
   int intensity = 1;
+  GeoPoint coordinates = GeoPoint(0, 0);
+  LatLng? userPosition;
 
   @override
   void initState() {
     super.initState();
+
+    /// Update user position
+    Geolocator.getPositionStream().listen((Position? position) {
+      if (position != null) {
+        setState(() {
+          userPosition = LatLng(position.latitude, position.longitude);
+          coordinates =
+              GeoPoint(userPosition!.latitude, userPosition!.longitude);
+        });
+      }
+    });
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     context.read<CreateCrowdReportBloc>().add(IsAlreadyReported(spotId: widget.spot.id));
   }
@@ -86,7 +102,8 @@ class _CreateCrowdReportPageState extends State<CreateCrowdReportPage> {
                         ),
                       ),
                       const Spacer(),
-                      Lottie.asset("assets/animations/spot_already_validated.json", fit: BoxFit.cover),
+                      Lottie.asset("assets/animations/chest.json",
+                          fit: BoxFit.cover),
                       const SizedBox(height: kPadding20),
                       const Text(
                         "Vous avez déjà partagé l'affluence de ce site, revenez demain !",
@@ -225,6 +242,7 @@ class _CreateCrowdReportPageState extends State<CreateCrowdReportPage> {
                                     duration: "$hour:$minute",
                                     spotId: widget.spot.id,
                                     intensity: intensity,
+                                    coordinates: coordinates,
                                   ),
                                 );
                           },
