@@ -46,3 +46,5 @@ app.*.map.json
 /lib/ios/Runner/GoogleService-Info.plist
 /lib/android/key.properties
 /lib/android/app/upload-keystore.jks
+
+/lib/common/active_flavor.dart
