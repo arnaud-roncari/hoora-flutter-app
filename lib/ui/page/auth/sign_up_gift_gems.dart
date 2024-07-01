@@ -26,7 +26,7 @@ class SignUpGiftGemsPage extends StatelessWidget {
                 const FractionallySizedBox(
                   widthFactor: 0.45,
                   child: Text(
-                    "Votre cadeau de bienvenue",
+                    "On vous offre 15 Diamz pour\nbien commencer votre\naventure avec nous !",
                     style: kBoldARPDisplay14,
                     textAlign: TextAlign.center,
                   ),
